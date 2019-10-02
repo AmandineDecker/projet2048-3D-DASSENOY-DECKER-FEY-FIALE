@@ -24,7 +24,6 @@ public class Grille implements Parametres{
     // Constructeur
     public Grille() {
         this.grille = new HashSet<>();
-        this.deplacement = true;
     }
     
     // Setter
