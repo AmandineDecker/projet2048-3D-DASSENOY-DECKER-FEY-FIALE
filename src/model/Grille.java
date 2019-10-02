@@ -144,8 +144,139 @@ public class Grille implements Parametres{
         return true;
     }
 
+    
+    
+     /*
+    * Si direction = HAUT : retourne les 3 cases qui sont le plus en haut (une pour chaque colonne) pour chaque sous-grille (9 cases au total, chaque ligne correspond à 1 sous-grille)
+    * Si direction = DROITE : retourne les 3 cases qui sont le plus à droite (une pour chaque ligne) pour chaque sous-grille (9 cases au total, chaque ligne correspond à 1 sous-grille)
+    * Si direction = BAS : retourne les 3 cases qui sont le plus en bas (une pour chaque colonne) pour chaque sous-grille (9 cases au total, chaque ligne correspond à 1 sous-grille)
+    * Si direction = GAUCHE : retourne les 3 cases qui sont le plus à gauche (une pour chaque ligne) pour chaque sous-grille (9 cases au total, chaque ligne correspond à 1 sous-grille)
+    * Si direction = SUPERIEUR : retourne les 9 cases qui sont le plus supérieures 
+    * Si direction = INFERIEUR : retourne les 9 cases qui sont le plus inférieures 
+    * Attention : le tableau retourné peut contenir des null si les lignes/colonnes/tours sont vides
+     */
+    public Case[][] getCasesExtremites(int direction) {
+        Case[][] result = new Case[TAILLE][TAILLE];
+        for (int k = 0; k < TAILLE; k++){
+            for (Case c : this.grille) {
+                switch (direction) {
+                    case HAUT:
+                        if ((result[k][c.getX()] == null) || (result[k][c.getX()].getY() > c.getY())) { // si on n'avait pas encore de case pour cette rangée ou si on a trouvé un meilleur candidat
+                            result[k][c.getX()] = c;
+                        }
+                    break;
+                    case BAS:
+                        if ((result[k][c.getX()] == null) || (result[k][c.getX()].getY() < c.getY())) {
+                            result[k][c.getX()] = c;
+                        }
+                    break;
+                case GAUCHE:
+                    if ((result[k][c.getY()] == null) || (result[k][c.getY()].getX() > c.getX())) {
+                        result[k][c.getY()] = c;
+                    }
+                    break;
+                case DROITE:
+                    if ((result[k][c.getY()] == null) || (result[k][c.getY()].getX() < c.getX())) {
+                        result[k][c.getY()] = c;
+                    }
+                    break;
+                case SUPERIEUR:
+                    if ((result[k][c.getX()] == null) || (result[k][c.getX()].getZ() > c.getZ())) {
+                        result[k][c.getX()] = c;
+                    }
+                    break;
+                default: // case INFERIEUR
+                    if ((result[k][c.getX()] == null) || (result[k][c.getX()].getZ() < c.getZ())) {
+                        result[k][c.getX()] = c;
+                    }
+                    break;
+                }
+            }
+        }
+        return result;
+    }
 
     
+    
+    
 
+    public boolean initialiserDeplacement(int direction) {
+        Case[][] extremites = this.getCasesExtremites(direction);
+        deplacement = false; // pour vérifier si on a bougé au moins une case après le déplacement, avant d'en rajouter une nouvelle
+        for (int j = 0; j < TAILLE; j++) {
+            for (int i = 0; i < TAILLE; i++) {
+                switch (direction) {
+                    case HAUT:
+                        this.deplacerRecursif(extremites, i, j, direction, 0);
+                        break;
+                    case BAS:
+                        this.deplacerRecursif(extremites, i, j, direction, 0);
+                        break;
+                    case GAUCHE:
+                        this.deplacerRecursif(extremites, i, j, direction, 0);
+                        break;
+                    case DROITE:
+                        this.deplacerRecursif(extremites, i, j, direction, 0);
+                        break;
+                    case SUPERIEUR:
+                        this.deplacerRecursif(extremites, i, j, direction, 0);
+                        break;
+                    default: // case INFERIEUR
+                        this.deplacerRecursif(extremites, i, j, direction, 0);
+                        break;
+                }
+            }
+        }
+        return deplacement;
+    }
+    
+    private void deplacerRecursif(Case[][] extremites, int rangee, int sousGrille, int direction, int compteur) {
+        if (extremites[sousGrille][rangee] != null) {
+            if ((direction == HAUT && extremites[sousGrille][rangee].getY() != compteur)
+                    || (direction == BAS && extremites[sousGrille][rangee].getY() != TAILLE - 1 - compteur)
+                    || (direction == GAUCHE && extremites[sousGrille][rangee].getX() != compteur)
+                    || (direction == DROITE && extremites[sousGrille][rangee].getX() != TAILLE - 1 - compteur)
+                    || (direction == SUPERIEUR && extremites[sousGrille][rangee].getZ() != compteur)
+                    || (direction == INFERIEUR && extremites[sousGrille][rangee].getZ() != TAILLE - 1 - compteur)) {
+                this.grille.remove(extremites[sousGrille][rangee]);
+                switch (direction) {
+                    case HAUT:
+                        extremites[sousGrille][rangee].setY(compteur);
+                        break;
+                    case BAS:
+                        extremites[sousGrille][rangee].setY(TAILLE - 1 - compteur);
+                        break;
+                    case GAUCHE:
+                        extremites[sousGrille][rangee].setX(compteur);
+                        break;
+                    case DROITE:
+                        extremites[sousGrille][rangee].setX(TAILLE - 1 - compteur);
+                        break;
+                    case SUPERIEUR:
+                        extremites[sousGrille][rangee].setZ(compteur);
+                        break;
+                    default: // case INFERIEUR
+                        extremites[sousGrille][rangee].setZ(TAILLE - 1 - compteur);
+                        break;
+                }
+                this.grille.add(extremites[sousGrille][rangee]);
+                deplacement = true;
+            }
+            Case voisin = extremites[sousGrille][rangee].getVoisinDirect(-direction);
+            if (voisin != null) {
+                if (extremites[sousGrille][rangee].valeurEgale(voisin)) {
+                    this.fusion(extremites[sousGrille][rangee]);
+                    extremites[sousGrille][rangee] = voisin.getVoisinDirect(-direction);
+                    this.grille.remove(voisin);
+                    this.deplacerRecursif(extremites, rangee, sousGrille, direction, compteur + 1);
+                } else {
+                    extremites[sousGrille][rangee] = voisin;
+                    this.deplacerRecursif(extremites, rangee, sousGrille, direction, compteur + 1);
+                }
+            }
+        }
+    }
+    
+   
     
 }
