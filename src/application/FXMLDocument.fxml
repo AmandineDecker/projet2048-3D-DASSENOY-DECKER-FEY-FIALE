@@ -7,17 +7,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane layoutX="-2.0" layoutY="-1.0" prefHeight="650.0" prefWidth="600.0">
+      <Pane layoutX="-2.0" layoutY="-1.0" prefHeight="650.0" prefWidth="900.0">
          <children>
-            <HBox layoutX="12.0" layoutY="330.0" prefHeight="300.0" prefWidth="576.0">
+            <HBox layoutX="12.0" layoutY="330.0" prefHeight="300.0" prefWidth="876.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <children>
-                  <GridPane id="Gr1" gridLinesVisible="true" prefWidth="192.0">
+                  <GridPane id="grille3" gridLinesVisible="true" prefWidth="292.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -29,7 +28,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                   </GridPane>
-                  <GridPane id="Gr2" gridLinesVisible="true" prefWidth="192.0">
+                  <GridPane id="grille2" gridLinesVisible="true" prefWidth="292.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -41,7 +40,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                   </GridPane>
-                  <GridPane id="Gr3" gridLinesVisible="true" prefWidth="192.0">
+                  <GridPane id="grille3" gridLinesVisible="true" prefWidth="292.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
