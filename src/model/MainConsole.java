@@ -38,23 +38,23 @@ public class MainConsole implements Parametres {
             String s = sc.nextLine();
             s.toLowerCase();
             if (!(s.equals("d") || s.equals("droite")
-                    || s.equals("g") || s.equals("gauche")
-                    || s.equals("h") || s.equals("haut")
-                    || s.equals("b") || s.equals("bas")
-                    || s.equals("q") || s.equals("supérieur")
-                    || s.equals("e") || s.equals("inférieur"))) {
-                System.out.println("Vous devez écrire d pour Droite, g pour Gauche, h pour Haut, b pour Bas, q pour Supérieur ou e pour Inférieur");
+                    || s.equals("q") || s.equals("gauche")
+                    || s.equals("z") || s.equals("haut")
+                    || s.equals("s") || s.equals("bas")
+                    || s.equals("r") || s.equals("supérieur")
+                    || s.equals("f") || s.equals("inférieur"))) {
+                System.out.println("Vous devez écrire d pour Droite, q pour Gauche, z pour Haut, s pour Bas, r pour Supérieur ou f pour Inférieur");
             } else {
                 int direction;
                 if (s.equals("d") || s.equals("droite")) {
                     direction = DROITE;
-                } else if (s.equals("g") || s.equals("gauche")) {
+                } else if (s.equals("q") || s.equals("gauche")) {
                     direction = GAUCHE;
-                } else if (s.equals("h") || s.equals("haut")) {
+                } else if (s.equals("z") || s.equals("haut")) {
                     direction = HAUT;
-                } else if (s.equals("b") || s.equals("bas")) {
+                } else if (s.equals("s") || s.equals("bas")) {
                     direction = BAS;
-                } else if (s.equals("q") || s.equals("supérieur")) {
+                } else if (s.equals("r") || s.equals("supérieur")) {
                     direction = SUPERIEUR;
                 } else {
                     direction = INFERIEUR;
