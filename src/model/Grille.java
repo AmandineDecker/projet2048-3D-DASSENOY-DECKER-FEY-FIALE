@@ -161,35 +161,35 @@ public class Grille implements Parametres{
             for (Case c : this.grille) {
                 switch (direction) {
                     case HAUT:
-                        if ((result[k][c.getX()] == null) || (result[k][c.getX()].getY() > c.getY())) { // si on n'avait pas encore de case pour cette rangée ou si on a trouvé un meilleur candidat
+                        if (c.getZ() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getY() > c.getY()))) { // si on n'avait pas encore de case pour cette rangée ou si on a trouvé un meilleur candidat
                             result[k][c.getX()] = c;
                         }
-                    break;
+                        break;
                     case BAS:
-                        if ((result[k][c.getX()] == null) || (result[k][c.getX()].getY() < c.getY())) {
+                        if (c.getZ() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getY() < c.getY()))) {
                             result[k][c.getX()] = c;
                         }
-                    break;
-                case GAUCHE:
-                    if ((result[k][c.getY()] == null) || (result[k][c.getY()].getX() > c.getX())) {
-                        result[k][c.getY()] = c;
-                    }
-                    break;
-                case DROITE:
-                    if ((result[k][c.getY()] == null) || (result[k][c.getY()].getX() < c.getX())) {
-                        result[k][c.getY()] = c;
-                    }
-                    break;
-                case SUPERIEUR:
-                    if ((result[k][c.getX()] == null) || (result[k][c.getX()].getZ() > c.getZ())) {
-                        result[k][c.getX()] = c;
-                    }
-                    break;
-                default: // case INFERIEUR
-                    if ((result[k][c.getX()] == null) || (result[k][c.getX()].getZ() < c.getZ())) {
-                        result[k][c.getX()] = c;
-                    }
-                    break;
+                        break;
+                    case GAUCHE:
+                        if (c.getZ() == k && ((result[k][c.getY()] == null) || (result[k][c.getY()].getX() > c.getX()))) {
+                            result[k][c.getY()] = c;
+                        }
+                        break;
+                    case DROITE:
+                        if (c.getZ() == k && ((result[k][c.getY()] == null) || (result[k][c.getY()].getX() < c.getX()))) {
+                            result[k][c.getY()] = c;
+                        }
+                        break;
+                    case SUPERIEUR:
+                        if (c.getY() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getZ() > c.getZ()))) {
+                            result[k][c.getX()] = c;
+                        }
+                        break;
+                    default: // case INFERIEUR
+                        if (c.getY() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getZ() < c.getZ()))) {
+                            result[k][c.getX()] = c;
+                        }
+                        break;
                 }
             }
         }

@@ -34,7 +34,7 @@ public class MainConsole implements Parametres {
         System.out.println(g);*/
         
         while (!g.partieFinie()) {
-            System.out.println("Déplacer vers la Droite (d), Gauche (g), Haut (h), Bas (b), Supérieur (q) ou Inférieur (e)?");
+            System.out.println("Déplacer vers la Droite (d), Gauche (q), Haut (z), Bas (s), Supérieur (r) ou Inférieur (f)?");
             String s = sc.nextLine();
             s.toLowerCase();
             if (!(s.equals("d") || s.equals("droite")
