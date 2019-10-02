@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projet2048_decker_fey_fiale_dassenoy;
+package application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,7 @@ import javafx.stage.Stage;
  *
  * @author Valou
  */
-public class Projet2048_DECKER_FEY_FIALE_DASSENOY extends Application {
+public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {

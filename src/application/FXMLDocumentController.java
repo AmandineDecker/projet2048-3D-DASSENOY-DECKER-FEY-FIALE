@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projet2048_decker_fey_fiale_dassenoy;
+package application;
 
 import java.net.URL;
 import java.util.ResourceBundle;
