@@ -46,6 +46,39 @@ public class Grille implements Parametres{
     
     // Methodes
     
+    public String arraysToString(int[] tab){
+        String resu = "[";
+        for (int i = 0; i < tab.length - 1; i++){
+            int k = tab[i];
+            if (k < 10){
+                resu += "  " + k + "  ,";
+            }
+            else if (k < 100){
+                resu += "  " + k + " ,";
+            }
+            else if (k < 1000){
+                resu += " " + k + " ,";
+            }
+            else {
+                resu += " " + k + ",";
+            }
+        }
+        int k = tab[tab.length - 1];
+        if (k < 10){
+            resu += "  " + k + "  ]";
+        }
+        else if (k < 100){
+            resu += "  " + k + " ]";
+        }
+        else if (k < 1000){
+            resu += " " + k + " ]";
+        }
+        else {
+            resu += " " + k + "]";
+        }
+        return resu;
+    }
+    
     @Override
     public String toString() {
         int[][][] tableau = new int[TAILLE][TAILLE][TAILLE];
@@ -55,7 +88,7 @@ public class Grille implements Parametres{
         String result = "";
         for (int i = 0; i < tableau.length; i++){
             for (int k = 0; k < TAILLE; k++) {
-                result += Arrays.toString(tableau[k][i]) + "   ";
+                result += arraysToString(tableau[k][i]) + "   ";
             }
             result += "\n";
         }
