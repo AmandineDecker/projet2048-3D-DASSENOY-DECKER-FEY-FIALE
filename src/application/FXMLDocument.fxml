@@ -7,11 +7,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane layoutX="-2.0" layoutY="-1.0" prefHeight="650.0" prefWidth="900.0">
+      <Pane prefHeight="650.0" prefWidth="930.0">
          <children>
-            <HBox layoutX="12.0" layoutY="330.0" prefHeight="300.0" prefWidth="876.0">
+            <HBox layoutX="12.0" layoutY="330.0" prefHeight="300.0" prefWidth="906.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -31,7 +31,7 @@
                         <Insets />
                      </opaqueInsets>
                   </GridPane>
-                  <GridPane id="gr2" gridLinesVisible="true" prefWidth="292.0">
+                  <GridPane id="gr2" gridLinesVisible="true" prefWidth="292.0" translateX="15.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -46,7 +46,7 @@
                         <Insets />
                      </opaqueInsets>
                   </GridPane>
-                  <GridPane id="gr3" gridLinesVisible="true" prefWidth="292.0">
+                  <GridPane id="gr3" gridLinesVisible="true" prefWidth="292.0" translateX="30.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -60,6 +60,26 @@
                   </GridPane>
                </children>
             </HBox>
+            <MenuBar prefHeight="29.0" prefWidth="179.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Fichier">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Quitter" />
+                        <MenuItem mnemonicParsing="false" text="Nouvelle partie" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Editer">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Modifier le style" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Aide">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="A propos" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
          </children>
       </Pane>
    </children>
