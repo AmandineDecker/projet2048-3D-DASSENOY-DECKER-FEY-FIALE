@@ -8,11 +8,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXMLDocumentController">
    <children>
-      <Pane prefHeight="650.0" prefWidth="930.0">
+      <Pane fx:id="fond" prefHeight="650.0" prefWidth="930.0">
          <children>
-            <HBox layoutX="12.0" layoutY="330.0" prefHeight="300.0" prefWidth="906.0">
+            <HBox fx:id="hbox" onKeyPressed="#toucheClavier" layoutX="12.0" layoutY="330.0" prefHeight="300.0" prefWidth="906.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
