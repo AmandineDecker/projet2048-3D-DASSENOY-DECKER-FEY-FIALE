@@ -7,11 +7,13 @@ package application;
 
 import java.net.URL;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -53,6 +55,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
     private Label txtScore, score, logo, resultat;
     @FXML
     private TextArea commandes;
+    @FXML
+    private Button automatique;
     
     
     // Les événements
@@ -69,42 +73,53 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     @FXML
     public void toucheClavier(KeyEvent ke) {
-        int direction = 0;
-        switch(ke.getText()){
-            case "z" :
-                System.out.println("Vous vous déplacez vers le haut");
-                direction = HAUT;
-                break;
-            case "q":
-                System.out.println("Vous vous déplacez vers la gauche");
-                direction = GAUCHE;
-                break;
-             case "s":
-                System.out.println("Vous vous déplacez vers le bas");
-                direction = BAS;
-                break;
-             case "d":
-                System.out.println("Vous vous déplacez vers la droite");
-                direction = DROITE;
-                break; 
-             case "r":
-                System.out.println("Vous vous déplacez sur la grille supérieure");
-                direction = SUPERIEUR;
-                break;
-            case "f":
-                System.out.println("Vous vous déplacez sur la grille inférieur");
-                direction = INFERIEUR;
-                break;
-        }
-        if (direction != 0) {
-            boolean b2 = modelGrille.initialiserDeplacement(direction);
-            if (b2) {
-                boolean b = modelGrille.nouvelleCase();
-                if (!b) modelGrille.defaite();
+        if (!modelGrille.partieFinie()){
+            int direction = 0;
+            switch(ke.getText()){
+                case "z" :
+                    System.out.println("Vous vous déplacez vers le haut");
+                    direction = HAUT;
+                    break;
+                case "q":
+                    System.out.println("Vous vous déplacez vers la gauche");
+                    direction = GAUCHE;
+                    break;
+                case "s":
+                    System.out.println("Vous vous déplacez vers le bas");
+                    direction = BAS;
+                    break;
+                case "d":
+                    System.out.println("Vous vous déplacez vers la droite");
+                    direction = DROITE;
+                    break; 
+                case "r":
+                    System.out.println("Vous vous déplacez sur la grille supérieure");
+                    direction = SUPERIEUR;
+                    break;
+                case "f":
+                    System.out.println("Vous vous déplacez sur la grille inférieur");
+                    direction = INFERIEUR;
+                    break;
             }
-            afficheGrille(modelGrille);
-            System.out.println(modelGrille);
-            if (modelGrille.getValeurMax()>=OBJECTIF) modelGrille.victoire();
+            if (direction != 0) {
+                boolean b2 = modelGrille.initialiserDeplacement(direction);
+                if (b2) {
+                    boolean b = modelGrille.nouvelleCase();
+                    if (!b) {
+                        modelGrille.defaite();
+                        resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore());
+                    }
+                }
+                afficheGrille(modelGrille);
+                System.out.println(modelGrille);
+                if (modelGrille.getValeurMax()>=OBJECTIF){
+                    modelGrille.victoire();
+                    resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getScore());
+                }
+            }
+        }
+        else {
+            resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore());
         }
     }
     
@@ -115,41 +130,42 @@ public class FXMLDocumentController implements Parametres, Initializable {
     // Place la case sur la fenêtre graphique
     public void placeCase(Case c){
         StackPane p = new StackPane();
-        switch (c.getVal()){
-            case 2:
-             p.getStyleClass().add("tuile2");
-             break;
-            case 4:
-             p.getStyleClass().add("tuile4");
-             break;
-            case 8:
-             p.getStyleClass().add("tuile8");
-             break;
-            case 16:
-             p.getStyleClass().add("tuile16");
-             break;
-            case 32:
-             p.getStyleClass().add("tuile32");
-             break;
-            case 64:
-             p.getStyleClass().add("tuile64");
-             break;
-            case 128:
-             p.getStyleClass().add("tuile128");
-             break;
-            case 256:
-             p.getStyleClass().add("tuile256");
-             break;
-            case 512:
-             p.getStyleClass().add("tuile512");
-             break;
-            case 1024:
-             p.getStyleClass().add("tuile1024");
-             break;
-            case 2048:
-             p.getStyleClass().add("tuile2048");
-             break;
-        }
+        p.getStyleClass().add("tuile" + c.getVal());
+//        switch (c.getVal()){
+//            case 2:
+//             p.getStyleClass().add("tuile2");
+//             break;
+//            case 4:
+//             p.getStyleClass().add("tuile4");
+//             break;
+//            case 8:
+//             p.getStyleClass().add("tuile8");
+//             break;
+//            case 16:
+//             p.getStyleClass().add("tuile16");
+//             break;
+//            case 32:
+//             p.getStyleClass().add("tuile32");
+//             break;
+//            case 64:
+//             p.getStyleClass().add("tuile64");
+//             break;
+//            case 128:
+//             p.getStyleClass().add("tuile128");
+//             break;
+//            case 256:
+//             p.getStyleClass().add("tuile256");
+//             break;
+//            case 512:
+//             p.getStyleClass().add("tuile512");
+//             break;
+//            case 1024:
+//             p.getStyleClass().add("tuile1024");
+//             break;
+//            case 2048:
+//             p.getStyleClass().add("tuile2048");
+//             break;
+//        }
         Label l = new Label(String.valueOf(c.getVal()));
         l.getStyleClass().add("valeurTuile");
         p.getChildren().add(l);

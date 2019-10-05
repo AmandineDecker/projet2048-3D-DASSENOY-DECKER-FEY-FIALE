@@ -156,12 +156,12 @@ public class Grille implements Parametres{
     
     public void victoire() {
         System.out.println("Bravo ! Vous avez atteint " + this.valeurMax);
-        System.exit(0);
+//        System.exit(0);
     }
 
     public void defaite() {
         System.out.println("La partie est finie. Votre score est " + this.valeurMax);
-        System.exit(1);
+//        System.exit(1);
     }
     
     
@@ -314,9 +314,5 @@ public class Grille implements Parametres{
             }
         }
     }
-    
-    
-    
-   
     
 }

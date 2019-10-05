@@ -10,7 +10,7 @@
 
 <AnchorPane id="fond" fx:id="fond" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#toucheClavier" prefHeight="650.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXMLDocumentController">
    <children>
-      <Label id="resultat" fx:id="resultat" alignment="CENTER" graphicTextGap="5.0" layoutX="363.0" layoutY="233.0" text="Résultat" textFill="#f22e2e" AnchorPane.bottomAnchor="367.0" AnchorPane.leftAnchor="363.0" AnchorPane.rightAnchor="367.0" AnchorPane.topAnchor="233.0">
+      <Label id="resultat" fx:id="resultat" alignment="CENTER" graphicTextGap="5.0" layoutX="357.0" layoutY="139.0" text="Résultat" textAlignment="CENTER" textFill="#f22e2e" wrapText="true" AnchorPane.bottomAnchor="386.0" AnchorPane.leftAnchor="357.0" AnchorPane.rightAnchor="357.0" AnchorPane.topAnchor="139.0">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
          </font>
@@ -109,7 +109,7 @@
             <Font name="Comic Sans MS" size="18.0" />
          </font>
       </Label>
-      <TextArea editable="false" focusTraversable="false" layoutX="41.0" layoutY="101.0" text="Commandes:&#10;Droite (d)&#10;Gauche (q)&#10;Haut (z)&#10;Bas (s)&#10;Supérieur (r)&#10;Inférieur (f)" AnchorPane.bottomAnchor="348.0" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="664.0" AnchorPane.topAnchor="101.0">
+      <TextArea editable="false" focusTraversable="false" layoutX="41.0" layoutY="101.0" mouseTransparent="true" text="Commandes:&#10;Droite (d)&#10;Gauche (q)&#10;Haut (z)&#10;Bas (s)&#10;Supérieur (r)&#10;Inférieur (f)" AnchorPane.bottomAnchor="348.0" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="664.0" AnchorPane.topAnchor="101.0">
          <font>
             <Font name="Comic Sans MS" size="18.0" />
          </font>
