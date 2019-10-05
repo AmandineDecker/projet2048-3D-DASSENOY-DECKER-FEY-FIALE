@@ -7,7 +7,7 @@ and open the template in the editor.
     Created on : 4 oct. 2019, 18:24:57
     Author     : Valou
 */
-
+/* -fx-padding: 26 40 26 40; */
 
 .pane {
     -fx-background-color: #FBEFF2 ;
@@ -15,21 +15,24 @@ and open the template in the editor.
 }
 
 .gridpane {
-     -fx-border-color: black;
-     -fx-grid-lines-visible: true;
-     /*-fx-border: 2px solid;*/
-     -fx-halignment: center;
-     -fx-alignment: CENTER;  
+    -fx-border-color: black;
+    -fx-grid-lines-visible: true;
+    /*-fx-border: 2px solid;*/
+    -fx-halignment: center;
+    -fx-valignment: center;
+    -fx-alignment: CENTER;  
      
 }
 
  .tuile {
-      -fx-background-color: orange;
+    -fx-background-color: orange;
+    -fx-border-color: black;
 
      }
  .valeurTuile {
-     -fx-font-size: 32;
-    -fx-padding: 26 40 26 40;
+    -fx-font-size: 32;
+    -fx-background-color: orange;
+    -fx-alignment: CENTER;
      }
      
 

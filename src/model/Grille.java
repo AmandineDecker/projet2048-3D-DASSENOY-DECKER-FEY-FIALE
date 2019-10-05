@@ -18,6 +18,7 @@ public class Grille implements Parametres{
     // Atributs
     private final HashSet<Case> grille;
     private int valeurMax = 0;
+    private int score = 0;
     private boolean deplacement;
     
     // Constructeur
@@ -41,6 +42,10 @@ public class Grille implements Parametres{
 
     public int getValeurMax() {
         return valeurMax;
+    }
+    
+    public int getScore(){
+        return score;
     }
     
     // Methodes
@@ -116,6 +121,7 @@ public class Grille implements Parametres{
             this.valeurMax = c.getVal();
         }
         deplacement = true;
+        this.score += c.getVal();
     }
     
     public boolean nouvelleCase() {
@@ -308,6 +314,8 @@ public class Grille implements Parametres{
             }
         }
     }
+    
+    
     
    
     
