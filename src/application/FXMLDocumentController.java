@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -114,7 +115,41 @@ public class FXMLDocumentController implements Parametres, Initializable {
     // Place la case sur la fenêtre graphique
     public void placeCase(Case c){
         StackPane p = new StackPane();
-        p.getStyleClass().add("tuile");
+        switch (c.getVal()){
+            case 2:
+             p.getStyleClass().add("tuile2");
+             break;
+            case 4:
+             p.getStyleClass().add("tuile4");
+             break;
+            case 8:
+             p.getStyleClass().add("tuile8");
+             break;
+            case 16:
+             p.getStyleClass().add("tuile16");
+             break;
+            case 32:
+             p.getStyleClass().add("tuile32");
+             break;
+            case 64:
+             p.getStyleClass().add("tuile64");
+             break;
+            case 128:
+             p.getStyleClass().add("tuile128");
+             break;
+            case 256:
+             p.getStyleClass().add("tuile256");
+             break;
+            case 512:
+             p.getStyleClass().add("tuile512");
+             break;
+            case 1024:
+             p.getStyleClass().add("tuile1024");
+             break;
+            case 2048:
+             p.getStyleClass().add("tuile2048");
+             break;
+        }
         Label l = new Label(String.valueOf(c.getVal()));
         l.getStyleClass().add("valeurTuile");
         p.getChildren().add(l);
@@ -135,16 +170,24 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     // Affiche la grille de jeu (les 3 sous-grilles)
     public void afficheGrille(Grille gr){
+        Node node = gr1.getChildren().get(0);
+        Node node2 = gr2.getChildren().get(0);
+        Node node3 = gr3.getChildren().get(0);
+
         gr1.getChildren().clear();
+        gr1.getChildren().add(0,node);
         gr2.getChildren().clear();
+        gr2.getChildren().add(0,node2);
         gr3.getChildren().clear();
+        gr3.getChildren().add(0,node3);
+
         for (Case c : gr.getGr()){
             placeCase(c);
         }
         score.setText(String.valueOf(gr.getScore()));
-        gr1.getStyleClass().add("gridpane");
-        gr2.getStyleClass().add("gridpane");
-        gr3.getStyleClass().add("gridpane");
+        //gr1.getStyleClass().add("gridpane");
+        //gr2.getStyleClass().add("gridpane");
+        //gr3.getStyleClass().add("gridpane");
     }
 
     
