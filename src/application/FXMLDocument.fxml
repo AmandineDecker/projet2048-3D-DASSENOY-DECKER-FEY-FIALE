@@ -61,7 +61,7 @@
                   </GridPane>
                </children>
             </HBox>
-            <MenuBar id="barreMenu" fx:id="barreMenu">
+            <MenuBar id="barreMenu" fx:id="barreMenu" prefHeight="32.0" prefWidth="930.0">
               <menus>
                 <Menu id="menuFic" fx:id="menuFic" mnemonicParsing="false" text="Fichier">
                   <items>

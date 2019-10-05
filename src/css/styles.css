@@ -10,7 +10,7 @@ and open the template in the editor.
 
 
 .pane {
-    -fx-background-color: #FBEFF2;
+    -fx-background-color: #FBEFF2 ;
     -fx-border-color: black;
 }
 
@@ -20,4 +20,16 @@ and open the template in the editor.
      /*-fx-border: 2px solid;*/
      -fx-halignment: center;
      -fx-alignment: CENTER;  
+     
 }
+
+ .tuile {
+      -fx-background-color: orange;
+
+     }
+ .valeurTuile {
+     -fx-font-size: 32;
+    -fx-padding: 26 40 26 40;
+     }
+     
+
