@@ -7,3 +7,17 @@ and open the template in the editor.
     Created on : 4 oct. 2019, 18:24:57
     Author     : Valou
 */
+
+
+.pane {
+    -fx-background-color: #FBEFF2;
+    -fx-border-color: black;
+}
+
+.gridpane {
+     -fx-border-color: black;
+     -fx-grid-lines-visible: true;
+     /*-fx-border: 2px solid;*/
+     -fx-halignment: center;
+     -fx-alignment: CENTER;  
+}
