@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
@@ -24,8 +25,14 @@
         <menus>
           <Menu id="menuFic" fx:id="menuFic" mnemonicParsing="false" text="Fichier">
             <items>
-              <MenuItem id="quitter" fx:id="quitter" mnemonicParsing="false" onAction="#quitter" text="Quitter" />
-                  <MenuItem id="nouveauJeu" fx:id="nouveauJeu" mnemonicParsing="false" onAction="#nouveauJeu" text="Nouvelle partie" />
+              <MenuItem id="quitter" fx:id="quitter" mnemonicParsing="false" onAction="#quitter" text="Quitter">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Q" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                     </accelerator></MenuItem>
+                  <MenuItem id="nouveauJeu" fx:id="nouveauJeu" mnemonicParsing="false" onAction="#nouveauJeu" text="Nouvelle partie">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
           <Menu id="menuEdit" fx:id="menuEdit" mnemonicParsing="false" text="Editer">

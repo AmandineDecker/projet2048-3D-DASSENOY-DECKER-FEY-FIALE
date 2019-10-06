@@ -63,12 +63,14 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     @FXML
     public void quitter(ActionEvent event) {
+        System.out.println("Au revoir!");
         System.exit(0);
     }
 
     @FXML
     private void nouveauJeu(ActionEvent event) {
-        System.out.println("You clicked me!");
+        System.out.println("\n\n\nNouvelle partie!");
+        nouvellePartie();
     }
     
     @FXML
@@ -107,19 +109,19 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     boolean b = modelGrille.nouvelleCase();
                     if (!b) {
                         modelGrille.defaite();
-                        resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore());
+                        resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
                     }
                 }
                 afficheGrille(modelGrille);
                 System.out.println(modelGrille);
                 if (modelGrille.getValeurMax()>=OBJECTIF){
                     modelGrille.victoire();
-                    resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getScore());
+                    resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".");
                 }
             }
         }
         else {
-            resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore());
+            resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
         }
     }
     
@@ -186,12 +188,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     // Affiche la grille de jeu (les 3 sous-grilles)
     public void afficheGrille(Grille gr){
-        Node node = gr1.getChildren().get(0);
+        Node node1 = gr1.getChildren().get(0);
         Node node2 = gr2.getChildren().get(0);
         Node node3 = gr3.getChildren().get(0);
 
         gr1.getChildren().clear();
-        gr1.getChildren().add(0,node);
+        gr1.getChildren().add(0,node1);
         gr2.getChildren().clear();
         gr2.getChildren().add(0,node2);
         gr3.getChildren().clear();
@@ -205,12 +207,36 @@ public class FXMLDocumentController implements Parametres, Initializable {
         //gr2.getStyleClass().add("gridpane");
         //gr3.getStyleClass().add("gridpane");
     }
+    
+    // Commence une nouvelle partie
+    public void nouvellePartie(){
+        // On efface les grilles
+        Node node1 = gr1.getChildren().get(0);
+        Node node2 = gr2.getChildren().get(0);
+        Node node3 = gr3.getChildren().get(0);
+
+        gr1.getChildren().clear();
+        gr1.getChildren().add(0,node1);
+        gr2.getChildren().clear();
+        gr2.getChildren().add(0,node2);
+        gr3.getChildren().clear();
+        gr3.getChildren().add(0,node3);
+        
+        //
+        modelGrille = new Grille();
+        
+        //Initialisation de la partie avec les deux premières cases aux hasard
+        boolean b = modelGrille.nouvelleCase();
+        b = modelGrille.nouvelleCase();
+        System.out.println(modelGrille);
+        afficheGrille(modelGrille);
+    }
 
     
     //////////////////////////////////////////////////////////////////////
     
     private Grille modelGrille = new Grille();
-    private HashSet<Case> grille;
+//    private HashSet<Case> grille;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -224,7 +250,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         //Initialisation de la partie avec les deux premières cases aux hasard 
         boolean b = modelGrille.nouvelleCase();
         b = modelGrille.nouvelleCase();
-        grille = modelGrille.getGr();
+//        grille = modelGrille.getGr();
         System.out.println(modelGrille);
 //        for (Case c : grille){
 //            StackPane p = new StackPane();
