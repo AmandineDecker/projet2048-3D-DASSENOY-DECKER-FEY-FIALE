@@ -24,56 +24,56 @@ and open the template in the editor.
      
 }
 
- .tuile2 {
+.tuile2 {
     -fx-background-color: #F8ECE0;
     -fx-border-color: black;
-     }
+}
 .tuile4 {
     -fx-background-color: #F5D0A9;
     -fx-border-color: black;
-     }
+}
 .tuile8 {
     -fx-background-color: #FAAC58;
     -fx-border-color: black;
-     }
- .tuile16 {
+}
+.tuile16 {
     -fx-background-color: #FF8000;
     -fx-border-color: black;
-     }
- .tuile32 {
+}
+.tuile32 {
     -fx-background-color: #FF4000;
     -fx-border-color: black;
-     }
+}
 .tuile64 {
     -fx-background-color: #DF0101;
     -fx-border-color: black;
-     }
- .tuile128 {
+}
+.tuile128 {
     -fx-background-color: #F4FA58;
     -fx-border-color: black;
-     }
-  .tuile256 {
+}
+.tuile256 {
     -fx-background-color: #F7D358;
     -fx-border-color: black;
-     }   
-  .tuile512 {
+}   
+.tuile512 {
     -fx-background-color: DBA901;
     -fx-border-color: black;
-     }
-   .tuile1024 {
+}
+.tuile1024 {
     -fx-background-color: #8A4B08;
     -fx-border-color: black;
-     }
-   .tuile2048 {
+}
+.tuile2048 {
     -fx-background-color: orange;
     -fx-border-color: black;
-     }
+}
      
- .valeurTuile {
+.valeurTuile {
     -fx-font-size: 32;
    -fx-text-fill: black;
    -fx-font-weight: 800;
     -fx-alignment: CENTER;
-     }
+}
      
 

@@ -27,6 +27,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import model.Case;
 import model.Grille;
 import model.Parametres;
@@ -54,7 +55,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private Label txtScore, score, logo, resultat;
     @FXML
-    private TextArea commandes;
+    private VBox commandes;
     @FXML
     private Button automatique;
     
