@@ -14,6 +14,8 @@ public class Case implements Parametres {
     // Attributs
     private int x, y, z; // Coordonnees (x,y,z) dans la grille (de 0 à 2)
     private int valeur; // valeur de la case (puissance de 2)
+    private int glisseX0 = -1; // Pour savoir si la case doit glisser ou juste apparaitre
+    private int glisseY0 = -1; // Pour savoir si la case doit glisser ou juste apparaitre
     private Grille grille; // La grille à laquelle appartient la case
     
     // Constructeur
@@ -44,6 +46,14 @@ public class Case implements Parametres {
         this.grille = gr;
     }
     
+    public void setGlisseX0(int k){
+        this.glisseX0 = k;
+    }
+    
+    public void setGlisseY0(int k){
+        this.glisseY0 = k;
+    }
+    
     // Getter
     
     public int getX(){
@@ -63,6 +73,15 @@ public class Case implements Parametres {
     public Grille getGr(){
         return this.grille;
     }
+    
+    public int getGlisseX0(){
+        return this.glisseX0;
+    }
+    
+    public int getGlisseY0(){
+        return this.glisseY0;
+    }
+    
     
     
     // Methodes

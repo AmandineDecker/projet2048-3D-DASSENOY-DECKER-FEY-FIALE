@@ -29,6 +29,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import model.Case;
+import model.Glissement;
 import model.Grille;
 import model.Parametres;
 
@@ -41,7 +42,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     // Les objets graphiques
     @FXML
-    private AnchorPane fond;
+    private AnchorPane fond, ap1, ap2, ap3;
     @FXML
     private HBox hbox;
     @FXML
@@ -56,8 +57,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     private Label txtScore, score, logo, resultat;
     @FXML
     private VBox commandes;
-    @FXML
-    private Button automatique;
     
     
     // Les événements
@@ -172,17 +171,48 @@ public class FXMLDocumentController implements Parametres, Initializable {
         Label l = new Label(String.valueOf(c.getVal()));
         l.getStyleClass().add("valeurTuile");
         p.getChildren().add(l);
-        switch (c.getZ()){
-            case 0:
-                gr1.add(p, c.getX(), c.getY());
-                break;
-            case 1:
-                gr2.add(p, c.getX(), c.getY());
-                break;
-            case 2:
-                gr3.add(p, c.getX(), c.getY());
-                break;
+        if (c.getGlisseX0() == -1 && c.getGlisseY0() == -1){
+            switch (c.getZ()){
+                case 0:
+                    gr1.add(p, c.getX(), c.getY());
+                    break;
+                case 1:
+                    gr2.add(p, c.getX(), c.getY());
+                    break;
+                case 2:
+                    gr3.add(p, c.getX(), c.getY());
+                    break;
+            }
         }
+        else {
+            Thread th;
+            Glissement gl;
+            switch (c.getZ()){
+                case 0:
+                    // Ajouter le glissement ici
+                    gl = new Glissement(ap1, gr1, p, c.getGlisseX0(), c.getGlisseY0(), c.getX(), c.getY());
+                    th = new Thread(gl);
+                    th.setDaemon(true);
+                    th.start();
+                    break;
+                case 1:
+                    // Ajouter le glissement ici
+                    gl = new Glissement(ap2, gr2, p, c.getGlisseX0(), c.getGlisseY0(), c.getX(), c.getY());
+                    th = new Thread(gl);
+                    th.setDaemon(true);
+                    th.start();
+                    break;
+                case 2:
+                    // Ajouter le glissement ici
+                    gl = new Glissement(ap3, gr3, p, c.getGlisseX0(), c.getGlisseY0(), c.getX(), c.getY());
+                    th = new Thread(gl);
+                    th.setDaemon(true);
+                    th.start();
+                    break;
+            }
+        }
+        c.setGlisseX0(-1);
+        c.setGlisseY0(-1);
         p.setVisible(true);
         l.setVisible(true);
     }

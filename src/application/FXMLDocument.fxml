@@ -12,7 +12,7 @@
 
 <AnchorPane id="fond" fx:id="fond" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#toucheClavier" prefHeight="650.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXMLDocumentController">
    <children>
-      <MenuBar id="barreMenu" fx:id="barreMenu" layoutX="1.0" layoutY="1.0" prefHeight="30.0" prefWidth="930.0">
+      <MenuBar id="barreMenu" fx:id="barreMenu" layoutX="1.0" layoutY="1.0" prefHeight="30.0" prefWidth="930.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
         <menus>
           <Menu id="menuFic" fx:id="menuFic" mnemonicParsing="false" text="Fichier">
             <items>
@@ -124,7 +124,7 @@
                   <Insets />
                </opaqueInsets>
                <children>
-                  <AnchorPane focusTraversable="true" HBox.hgrow="ALWAYS">
+                  <AnchorPane fx:id="ap1" focusTraversable="true" HBox.hgrow="ALWAYS">
                      <children>
                         <GridPane id="gr1" fx:id="gr1" alignment="CENTER" focusTraversable="true" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
@@ -143,7 +143,7 @@
                         </GridPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane HBox.hgrow="ALWAYS">
+                  <AnchorPane fx:id="ap2" HBox.hgrow="ALWAYS">
                      <children>
                         <GridPane id="gr2" fx:id="gr2" alignment="CENTER" focusTraversable="true" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
@@ -162,7 +162,7 @@
                         </GridPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane HBox.hgrow="ALWAYS">
+                  <AnchorPane fx:id="ap3" HBox.hgrow="ALWAYS">
                      <children>
                         <GridPane id="gr3" fx:id="gr3" alignment="CENTER" focusTraversable="true" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>

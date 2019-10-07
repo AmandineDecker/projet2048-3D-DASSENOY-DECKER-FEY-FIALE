@@ -279,15 +279,31 @@ public class Grille implements Parametres{
                 this.grille.remove(extremites[sousGrille][rangee]);
                 switch (direction) {
                     case HAUT:
+                        if (extremites[sousGrille][rangee].getGlisseY0() == -1){
+                            extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
+                            extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
+                        }
                         extremites[sousGrille][rangee].setY(compteur);
                         break;
                     case BAS:
+                        if (extremites[sousGrille][rangee].getGlisseY0() == -1){
+                            extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
+                            extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
+                        }
                         extremites[sousGrille][rangee].setY(TAILLE - 1 - compteur);
                         break;
                     case GAUCHE:
+                        if (extremites[sousGrille][rangee].getGlisseX0() == -1){
+                            extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
+                            extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
+                        }
                         extremites[sousGrille][rangee].setX(compteur);
                         break;
                     case DROITE:
+                        if (extremites[sousGrille][rangee].getGlisseX0() == -1){
+                            extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
+                            extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
+                        }
                         extremites[sousGrille][rangee].setX(TAILLE - 1 - compteur);
                         break;
                     case SUPERIEUR:
