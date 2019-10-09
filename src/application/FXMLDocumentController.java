@@ -140,9 +140,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                         modelGrille.defaite();
                         resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
                        
-                        //Ceci est un test il faut faire un 2048 pour voir si ça fonctionne
-                        File file = new File("../../model.ser");
-                        file.delete();
+                     
                     }
                 }
                 afficheGrille(modelGrille);
@@ -150,11 +148,13 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 if (modelGrille.getValeurMax()>=OBJECTIF){
                     modelGrille.victoire();
                     resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".");
+                  
                 }
             }
         }
         else {
             resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                 
         }
     }
     
