@@ -75,7 +75,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         ObjectOutputStream oos = null;
         
         try{
-        final FileOutputStream fichier = new FileOutputStream("model.ser");
+        final FileOutputStream fichier = new FileOutputStream("../../model.ser");
         oos = new ObjectOutputStream(fichier);
         oos.writeObject(modelGrille);
         oos.flush();
@@ -309,7 +309,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         ObjectInputStream ois = null;
         Grille gr = null;
         try{
-            final FileInputStream fichierln = new FileInputStream("model.ser");
+            final FileInputStream fichierln = new FileInputStream("../../model.ser");
             ois = new ObjectInputStream(fichierln);
             gr = (Grille)ois.readObject();
         } catch (final IOException e) {
@@ -327,6 +327,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         
         if(gr == null){
+       
         //Initialisation de la partie avec les deux premières cases aux hasard 
         boolean b = modelGrille.nouvelleCase();
         b = modelGrille.nouvelleCase();
