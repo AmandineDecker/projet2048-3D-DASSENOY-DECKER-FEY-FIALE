@@ -5,6 +5,9 @@
  */
 package application;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Random;
@@ -32,6 +35,10 @@ import model.Case;
 import model.Glissement;
 import model.Grille;
 import model.Parametres;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -58,12 +65,33 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private VBox commandes;
     
+    private Grille modelGrille = new Grille();
     
     // Les événements
     
     @FXML
     public void quitter(ActionEvent event) {
         System.out.println("Au revoir!");
+        ObjectOutputStream oos = null;
+        
+        try{
+        final FileOutputStream fichier = new FileOutputStream("model.ser");
+        oos = new ObjectOutputStream(fichier);
+        oos.writeObject(modelGrille);
+        oos.flush();
+        }catch (final IOException e){
+                e.printStackTrace();
+        }finally{
+        try{
+            if(oos != null){
+                oos.flush();
+                oos.close();
+            }
+        }catch(final IOException ex){
+            ex.printStackTrace();
+        }
+        }
+        
         System.exit(0);
     }
 
@@ -266,8 +294,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     //////////////////////////////////////////////////////////////////////
     
-    private Grille modelGrille = new Grille();
-//    private HashSet<Case> grille;
+
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -278,9 +305,35 @@ public class FXMLDocumentController implements Parametres, Initializable {
         gr2.getStyleClass().add("gridpane");
         gr3.getStyleClass().add("gridpane");
         
+        ObjectOutputStream oos = null;
+        ObjectInputStream ois = null;
+        Grille gr = null;
+        try{
+            final FileInputStream fichierln = new FileInputStream("model.ser");
+            ois = new ObjectInputStream(fichierln);
+            gr = (Grille)ois.readObject();
+        } catch (final IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } finally{
+            try{
+                if(ois != null){
+                    ois.close();
+                }
+            }catch (final IOException exc){
+                exc.printStackTrace();
+            }
+        }
+        
+        if(gr == null){
         //Initialisation de la partie avec les deux premières cases aux hasard 
         boolean b = modelGrille.nouvelleCase();
         b = modelGrille.nouvelleCase();
+        }else{
+            modelGrille = gr;
+        }
+        
 //        grille = modelGrille.getGr();
         System.out.println(modelGrille);
 //        for (Case c : grille){
@@ -304,13 +357,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
 //          p.setVisible(true);
 //          l.setVisible(true);
 //      }
-        afficheGrille(modelGrille);
-        
-        
-          
-        
-        
-        
+        afficheGrille(modelGrille);     
     }
     
 }

@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Amandine
  */
-public class Case implements Parametres {
+public class Case implements Parametres, Serializable {
     
     // Attributs
     private int x, y, z; // Coordonnees (x,y,z) dans la grille (de 0 à 2)

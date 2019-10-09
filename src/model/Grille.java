@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -13,13 +14,13 @@ import java.util.Random;
  *
  * @author Amandine
  */
-public class Grille implements Parametres{
+public class Grille implements Parametres,Serializable{
     
     // Atributs
     private final HashSet<Case> grille;
-    private int valeurMax = 0;
+    private transient int valeurMax = 0;
     private int score = 0;
-    private boolean deplacement;
+    private transient boolean deplacement;
     
     // Constructeur
     public Grille() {
