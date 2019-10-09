@@ -5,6 +5,7 @@
  */
 package application;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
@@ -138,6 +139,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     if (!b) {
                         modelGrille.defaite();
                         resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                       
+                        //Ceci est un test il faut faire un 2048 pour voir si ça fonctionne
+                        File file = new File("../../model.ser");
+                        file.delete();
                     }
                 }
                 afficheGrille(modelGrille);
