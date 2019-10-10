@@ -75,22 +75,25 @@ public class FXMLDocumentController implements Parametres, Initializable {
         System.out.println("Au revoir!");
         ObjectOutputStream oos = null;
         
-        try{
-        final FileOutputStream fichier = new FileOutputStream("../../model.ser");
-        oos = new ObjectOutputStream(fichier);
-        oos.writeObject(modelGrille);
-        oos.flush();
-        }catch (final IOException e){
-                e.printStackTrace();
-        }finally{
-        try{
-            if(oos != null){
-                oos.flush();
-                oos.close();
-            }
-        }catch(final IOException ex){
-            ex.printStackTrace();
+        if (modelGrille.partieFinie()){
+            nouvellePartie();
         }
+        try{
+            final FileOutputStream fichier = new FileOutputStream("../../model.ser");
+            oos = new ObjectOutputStream(fichier);
+            oos.writeObject(modelGrille);
+            oos.flush();
+        }catch (final IOException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(oos != null){
+                    oos.flush();
+                    oos.close();
+            }
+            }catch(final IOException ex){
+                ex.printStackTrace();
+            }
         }
         
         System.exit(0);

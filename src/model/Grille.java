@@ -14,7 +14,7 @@ import java.util.Random;
  *
  * @author Amandine
  */
-public class Grille implements Parametres,Serializable{
+public class Grille implements Parametres, Serializable {
     
     // Atributs
     private final HashSet<Case> grille;
