@@ -284,6 +284,7 @@ public class Grille implements Parametres, Serializable {
                             extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
                             extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
                         }
+                        extremites[sousGrille][rangee].setGrimpe(false);
                         extremites[sousGrille][rangee].setY(compteur);
                         break;
                     case BAS:
@@ -291,6 +292,7 @@ public class Grille implements Parametres, Serializable {
                             extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
                             extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
                         }
+                        extremites[sousGrille][rangee].setGrimpe(false);
                         extremites[sousGrille][rangee].setY(TAILLE - 1 - compteur);
                         break;
                     case GAUCHE:
@@ -298,6 +300,7 @@ public class Grille implements Parametres, Serializable {
                             extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
                             extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
                         }
+                        extremites[sousGrille][rangee].setGrimpe(false);
                         extremites[sousGrille][rangee].setX(compteur);
                         break;
                     case DROITE:
@@ -305,13 +308,20 @@ public class Grille implements Parametres, Serializable {
                             extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
                             extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
                         }
+                        extremites[sousGrille][rangee].setGrimpe(false);
                         extremites[sousGrille][rangee].setX(TAILLE - 1 - compteur);
                         break;
                     case SUPERIEUR:
-                        extremites[sousGrille][rangee].setZ(compteur);
+                        if (compteur != extremites[sousGrille][rangee].getZ()){
+                            extremites[sousGrille][rangee].setZ(compteur);
+                            extremites[sousGrille][rangee].setGrimpe(true);
+                        }
                         break;
                     default: // case INFERIEUR
-                        extremites[sousGrille][rangee].setZ(TAILLE - 1 - compteur);
+                        if (compteur != extremites[sousGrille][rangee].getZ()){
+                            extremites[sousGrille][rangee].setZ(TAILLE - 1 - compteur);
+                            extremites[sousGrille][rangee].setGrimpe(true);
+                        }
                         break;
                 }
                 this.grille.add(extremites[sousGrille][rangee]);
@@ -320,7 +330,12 @@ public class Grille implements Parametres, Serializable {
             Case voisin = extremites[sousGrille][rangee].getVoisinDirect(-direction);
             if (voisin != null) {
                 if (extremites[sousGrille][rangee].valeurEgale(voisin)) {
+                    // Voisin est celui qui bouge, extremites[sousGrille][rangee] qui est augmenté
                     this.fusion(extremites[sousGrille][rangee]);
+                    if (direction != SUPERIEUR && direction != INFERIEUR){
+                        extremites[sousGrille][rangee].setFusionneX0(voisin.getX());
+                        extremites[sousGrille][rangee].setFusionneY0(voisin.getY());
+                    }
                     extremites[sousGrille][rangee] = voisin.getVoisinDirect(-direction);
                     this.grille.remove(voisin);
                     this.deplacerRecursif(extremites, rangee, sousGrille, direction, compteur + 1);

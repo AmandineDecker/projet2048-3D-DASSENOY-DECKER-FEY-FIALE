@@ -25,47 +25,47 @@ and open the template in the editor.
 }
 
 .tuile2 {
-    -fx-background-color: #F8ECE0;
+    -fx-background-color: #81BEF7;
     -fx-border-color: black;
 }
 .tuile4 {
-    -fx-background-color: #F5D0A9;
+    -fx-background-color: #2ECCFA;
     -fx-border-color: black;
 }
 .tuile8 {
-    -fx-background-color: #FAAC58;
+    -fx-background-color: #01A9DB;
     -fx-border-color: black;
 }
 .tuile16 {
-    -fx-background-color: #FF8000;
+    -fx-background-color: #5882FA;
     -fx-border-color: black;
 }
 .tuile32 {
-    -fx-background-color: #FF4000;
+    -fx-background-color: #642EFE;
     -fx-border-color: black;
 }
 .tuile64 {
-    -fx-background-color: #DF0101;
+    -fx-background-color: #0000FF;
     -fx-border-color: black;
 }
 .tuile128 {
-    -fx-background-color: #F4FA58;
+    -fx-background-color: #1D4BCA;
     -fx-border-color: black;
-}
+}  
 .tuile256 {
-    -fx-background-color: #F7D358;
+    -fx-background-color: #08298A;
     -fx-border-color: black;
 }
 .tuile512 {
-    -fx-background-color: DBA901;
+    -fx-background-color: #A9A9F5;
     -fx-border-color: black;
 }
 .tuile1024 {
-    -fx-background-color: #8A4B08;
+    -fx-background-color: #A9BCF5;
     -fx-border-color: black;
 }
 .tuile2048 {
-    -fx-background-color: orange;
+    -fx-background-color: #2EFEF7;
     -fx-border-color: black;
 }
      
