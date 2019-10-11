@@ -33,13 +33,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import model.Case;
-import model.Glissement;
 import model.Grille;
 import model.Parametres;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Fusion;
+import model.Glissement;
 
 /**
  *
@@ -169,89 +170,92 @@ public class FXMLDocumentController implements Parametres, Initializable {
     public void placeCase(Case c){
         StackPane p = new StackPane();
         p.getStyleClass().add("tuile" + c.getVal());
-//        switch (c.getVal()){
-//            case 2:
-//             p.getStyleClass().add("tuile2");
-//             break;
-//            case 4:
-//             p.getStyleClass().add("tuile4");
-//             break;
-//            case 8:
-//             p.getStyleClass().add("tuile8");
-//             break;
-//            case 16:
-//             p.getStyleClass().add("tuile16");
-//             break;
-//            case 32:
-//             p.getStyleClass().add("tuile32");
-//             break;
-//            case 64:
-//             p.getStyleClass().add("tuile64");
-//             break;
-//            case 128:
-//             p.getStyleClass().add("tuile128");
-//             break;
-//            case 256:
-//             p.getStyleClass().add("tuile256");
-//             break;
-//            case 512:
-//             p.getStyleClass().add("tuile512");
-//             break;
-//            case 1024:
-//             p.getStyleClass().add("tuile1024");
-//             break;
-//            case 2048:
-//             p.getStyleClass().add("tuile2048");
-//             break;
-//        }
         Label l = new Label(String.valueOf(c.getVal()));
         l.getStyleClass().add("valeurTuile");
         p.getChildren().add(l);
-        if (c.getGlisseX0() == -1 && c.getGlisseY0() == -1){
-            switch (c.getZ()){
-                case 0:
-                    gr1.add(p, c.getX(), c.getY());
-                    break;
-                case 1:
-                    gr2.add(p, c.getX(), c.getY());
-                    break;
-                case 2:
-                    gr3.add(p, c.getX(), c.getY());
-                    break;
-            }
-        }
-        else {
-            Thread th;
-            Glissement gl;
-            switch (c.getZ()){
-                case 0:
-                    // Ajouter le glissement ici
-                    gl = new Glissement(ap1, gr1, p, c.getGlisseX0(), c.getGlisseY0(), c.getX(), c.getY());
-                    th = new Thread(gl);
-                    th.setDaemon(true);
-                    th.start();
-                    break;
-                case 1:
-                    // Ajouter le glissement ici
-                    gl = new Glissement(ap2, gr2, p, c.getGlisseX0(), c.getGlisseY0(), c.getX(), c.getY());
-                    th = new Thread(gl);
-                    th.setDaemon(true);
-                    th.start();
-                    break;
-                case 2:
-                    // Ajouter le glissement ici
-                    gl = new Glissement(ap3, gr3, p, c.getGlisseX0(), c.getGlisseY0(), c.getX(), c.getY());
-                    th = new Thread(gl);
-                    th.setDaemon(true);
-                    th.start();
-                    break;
-            }
+        switch (c.getZ()){
+            case 0:
+                gr1.add(p, c.getX(), c.getY());
+                break;
+            case 1:
+                gr2.add(p, c.getX(), c.getY());
+                break;
+            case 2:
+                gr3.add(p, c.getX(), c.getY());
+                break;
         }
         c.setGlisseX0(-1);
         c.setGlisseY0(-1);
+        c.setGrimpe(false);
         p.setVisible(true);
         l.setVisible(true);
     }
+
+    
+    public Thread glisseCase(Case c){
+        StackPane p = new StackPane();
+        p.getStyleClass().add("tuile" + c.getVal());
+        Label l = new Label(String.valueOf(c.getVal()));
+        l.getStyleClass().add("valeurTuile");
+        p.getChildren().add(l);
+        
+        Thread th;
+        Glissement gl;
+        Fusion fus;
+        
+        Case cCopy = (Case) c.clone();
+        switch (c.getZ()){
+            case 0:
+                // Ajouter le glissement ici
+                if (c.getFusionneX0() != -1 && c.getFusionneY0() != -1){
+                    fus = new Fusion(ap1, gr1, cCopy);
+                    th = new Thread(fus);
+                }
+                else {
+                    gl = new Glissement(ap1, gr1, cCopy, false);
+                    th = new Thread(gl);
+                }
+                th.setDaemon(true);
+                th.start();
+                break;
+            case 1:
+                // Ajouter le glissement ici
+                if (c.getFusionneX0() != -1 && c.getFusionneY0() != -1){
+                    fus = new Fusion(ap2, gr2, cCopy);
+                    th = new Thread(fus);
+                }
+                else {
+                    gl = new Glissement(ap2, gr2, cCopy, false);
+                    th = new Thread(gl);
+                }
+                th.setDaemon(true);
+                th.start();
+                break;
+            default:
+                // Ajouter le glissement ici
+                if (c.getFusionneX0() != -1 && c.getFusionneY0() != -1){
+                    fus = new Fusion(ap3, gr3, cCopy);
+                    th = new Thread(fus);
+                }
+                else {
+                    gl = new Glissement(ap3, gr3, cCopy, false);
+                    th = new Thread(gl);
+                }
+                th.setDaemon(true);
+                th.start();
+                break;
+        }
+        c.setGlisseX0(-1);
+        c.setGlisseY0(-1);
+        c.setFusionneX0(-1);
+        c.setFusionneY0(-1);
+        c.setGrimpe(false);
+        p.setVisible(true);
+        l.setVisible(true);
+        
+        return th;
+    }
+
     
     // Affiche la grille de jeu (les 3 sous-grilles)
     public void afficheGrille(Grille gr){
@@ -265,16 +269,55 @@ public class FXMLDocumentController implements Parametres, Initializable {
         gr2.getChildren().add(0,node2);
         gr3.getChildren().clear();
         gr3.getChildren().add(0,node3);
-
+        
+        HashSet<Case> glisse = new HashSet();
+        HashSet<Case> apparait = new HashSet();
+        HashSet<Case> immobile = new HashSet();
+        
         for (Case c : gr.getGr()){
+            if (c.getGrimpe()){
+                apparait.add(c);
+            }
+            else if ((c.getGlisseX0() != -1 && c.getGlisseY0() != -1) || (c.getFusionneX0() != -1 && c.getFusionneY0() != -1)){
+                glisse.add(c);
+            }
+            else {
+                immobile.add(c);
+            }
+            //placeCase(c);
+        }
+        
+        for (Case c : immobile){
             placeCase(c);
         }
+        
+        Thread fin = null;
+        //HashSet<Thread> threads = new HashSet();
+        
+        for (Case c : glisse){
+            if (fin != null){
+                glisseCase(c);
+            }
+            else {fin = glisseCase(c);}
+        }
+        if (fin != null){
+            try { // Pour éviter que la nouvelle case n'apparaisse sous un glissement
+                fin.join(TPSSLEEP*60);
+            } catch (Exception ex) {
+                System.out.println("Join killed");
+            }
+        }
+        
+        for (Case c : apparait){
+            placeCase(c);
+        }
+        
         score.setText(String.valueOf(gr.getScore()));
         //gr1.getStyleClass().add("gridpane");
         //gr2.getStyleClass().add("gridpane");
         //gr3.getStyleClass().add("gridpane");
     }
-    
+
     // Commence une nouvelle partie
     public void nouvellePartie(){
         // On efface les grilles
@@ -343,29 +386,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
             modelGrille = gr;
         }
         
-//        grille = modelGrille.getGr();
         System.out.println(modelGrille);
-//        for (Case c : grille){
-//            StackPane p = new StackPane();
-//            p.getStyleClass().add("tuile");
-//            Label l = new Label(String.valueOf(c.getVal()));
-//            l.getStyleClass().add("valeurTuile");
-//            p.getChildren().add(l);    
-//            switch (c.getZ()){
-//                case 0:
-//                    gr1.add(p, c.getX(), c.getY());
-//                    break;
-//                case 1:
-//                    gr2.add(p, c.getX(), c.getY());
-//                    break;
-//                case 2:
-//                    gr3.add(p, c.getX(), c.getY());
-//                    break;
-//                  
-//          }
-//          p.setVisible(true);
-//          l.setVisible(true);
-//      }
         afficheGrille(modelGrille);     
     }
     

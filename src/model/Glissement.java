@@ -7,9 +7,11 @@ package model;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import static model.Parametres.TPSSLEEP;
 
 /**
  *
@@ -17,26 +19,18 @@ import javafx.scene.layout.StackPane;
  */
 public class Glissement extends Task<Void> {
     
-    // Attributs
     AnchorPane anchor;
     GridPane grille;
-    final StackPane pane;
-    int x0, y0; // Les coordonnées initiales
-    int x1, y1; // Les coordonnées finales
+    Case tuile;
+    boolean doubleValeurFinale;
     
-    // Constructeur
-    public Glissement(AnchorPane ap, GridPane gr, StackPane p, int x0, int y0, int x1, int y1){
+    public Glissement(AnchorPane ap, GridPane gr, Case c, boolean b){
         this.anchor = ap;
         this.grille = gr;
-        this.pane = p;
-        this.x0 = x0;
-        this.x1 = x1;
-        this.y0 = y0;
-        this.y1 = y1;
+        this.tuile = c;
+        this.doubleValeurFinale = b;
     }
     
-    
-                    
     
     public double getPaneWidth(GridPane gr){
         double w = gr.getWidth();
@@ -55,23 +49,30 @@ public class Glissement extends Task<Void> {
             double w = getPaneWidth(this.grille);
             double h = getPaneHeigth(this.grille);
             
-            double x = w * this.x0;
-            double y = h * this.y0;
-            double x2 = w * this.x1;
-            double y2 = h * this.y1;
+            StackPane p = new StackPane();
+            p.getStyleClass().add("tuile" + tuile.getVal());
+            Label l = new Label(String.valueOf(tuile.getVal()));
+            l.getStyleClass().add("valeurTuile");
+            p.getChildren().add(l);
             
-            this.pane.setPrefSize(w, h);
+            double x = w * tuile.getGlisseX0();
+            double y = h * tuile.getGlisseY0();
+            double x2 = w * tuile.getX();
+            double y2 = h * tuile.getY();
+            
+            
+            p.setPrefSize(w, h);
             
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    anchor.getChildren().add(pane);
-                    pane.relocate(w * x0, h * y0);
-                    pane.setVisible(true);
+                    anchor.getChildren().add(p);
+                    p.relocate(w * tuile.getGlisseX0(), h * tuile.getGlisseY0());
+                    p.setVisible(true);
                 }
             });
             
-            if (this.x0 > this.x1){ // Glissement vers la gauche
+            if (tuile.getGlisseX0() > tuile.getX()){ // Glissement vers la gauche
                 while ((int) x != (int) x2){
                     x -= 1;
                     double posX = x;
@@ -79,14 +80,14 @@ public class Glissement extends Task<Void> {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            pane.relocate(posX, posY);
-                            pane.setVisible(true);
+                            p.relocate(posX, posY);
+                            p.setVisible(true);
                         }
                     });
-                    Thread.sleep(1);
+                    Thread.sleep(TPSSLEEP);
                 }
             }
-            else if (this.x0 < this.x1){ // Glissement vers la droite
+            else if (tuile.getGlisseX0() < tuile.getX()){ // Glissement vers la droite
                 while ((int) x != (int) x2){
                     x += 1;
                     double posX = x;
@@ -94,14 +95,14 @@ public class Glissement extends Task<Void> {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            pane.relocate(posX, posY);
-                            pane.setVisible(true);
+                            p.relocate(posX, posY);
+                            p.setVisible(true);
                         }
                     });
-                    Thread.sleep(1);
+                    Thread.sleep(TPSSLEEP);
                 }
             }
-            else if (this.y0 > this.y1){ // Glissement vers le haut
+            else if (tuile.getGlisseY0() > tuile.getY()){ // Glissement vers le haut
                 while ((int)y != (int)y2){
                     y -= 1;
                     double posX = x;
@@ -109,14 +110,14 @@ public class Glissement extends Task<Void> {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            pane.relocate(posX, posY);
-                            pane.setVisible(true);
+                            p.relocate(posX, posY);
+                            p.setVisible(true);
                         }
                     });
-                    Thread.sleep(1);
+                    Thread.sleep(TPSSLEEP);
                 }
             }
-            else if (this.y0 < this.y1){ // Glissement vers le bas
+            else if (tuile.getGlisseY0() < tuile.getY()){ // Glissement vers le bas
                 while ((int)y != (int)y2){
                     y += 1;
                     double posX = x;
@@ -124,21 +125,25 @@ public class Glissement extends Task<Void> {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            pane.relocate(posX, posY);
-                            pane.setVisible(true);
+                            p.relocate(posX, posY);
+                            p.setVisible(true);
                         }
                     });
-                    Thread.sleep(1);
+                    Thread.sleep(TPSSLEEP);
                 }
             }
             else {}
             
+            if (this.doubleValeurFinale){
+                l.setText(String.valueOf(tuile.getVal()*2));
+                p.getStyleClass().add("tuile" + tuile.getVal()*2);
+            }
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    anchor.getChildren().remove(pane);
-                    grille.add(pane, x1, y1);
-                    pane.setVisible(true);
+                    anchor.getChildren().remove(p);
+                    grille.add(p, tuile.getX(), tuile.getY());
+                    p.setVisible(true);
                 }
             });
 

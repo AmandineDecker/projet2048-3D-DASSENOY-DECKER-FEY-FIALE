@@ -11,14 +11,21 @@ import java.io.Serializable;
  *
  * @author Amandine
  */
-public class Case implements Parametres, Serializable {
+public class Case implements Parametres, Serializable, Cloneable {
     
     // Attributs
     private int x, y, z; // Coordonnees (x,y,z) dans la grille (de 0 à 2)
     private int valeur; // valeur de la case (puissance de 2)
+    private Grille grille; // La grille à laquelle appartient la case
+    
+    private boolean grimpe = false; // Pour savoir si la case doit bouger
+    
     private int glisseX0 = -1; // Pour savoir si la case doit glisser ou juste apparaitre
     private int glisseY0 = -1; // Pour savoir si la case doit glisser ou juste apparaitre
-    private Grille grille; // La grille à laquelle appartient la case
+    
+    private int fusionneX0 = -1; // Pour savoir si une fusion a lieu et depuis ou
+    private int fusionneY0 = -1; // Pour savoir si une fusion a lieu et depuis ou
+    
     
     // Constructeur
     public Case(int x, int y, int z, int val){
@@ -56,6 +63,18 @@ public class Case implements Parametres, Serializable {
         this.glisseY0 = k;
     }
     
+    public void setGrimpe(boolean b){
+        this.grimpe = b;
+    }
+    
+    public void setFusionneX0(int k){
+        this.fusionneX0 = k;
+    }
+    
+    public void setFusionneY0(int k){
+        this.fusionneY0 = k;
+    }
+    
     // Getter
     
     public int getX(){
@@ -84,6 +103,19 @@ public class Case implements Parametres, Serializable {
         return this.glisseY0;
     }
     
+    public boolean getGrimpe(){
+        return this.grimpe;
+    }
+    
+    public int getFusionneX0(){
+        return this.fusionneX0;
+    }
+    
+    public int getFusionneY0(){
+        return this.fusionneY0;
+    }
+    
+    
     
     
     // Methodes
@@ -106,6 +138,18 @@ public class Case implements Parametres, Serializable {
         } else {
             return false;
         }
+    }
+    
+    @Override
+    public Case clone(){
+        Case c = null;
+        try {
+            c = (Case) super.clone();
+        }
+        catch (CloneNotSupportedException e){
+            System.out.println("Clone fail");
+        }
+        return c;
     }
     
     public boolean valeurEgale(Case c) {
