@@ -26,7 +26,7 @@ public class Main extends Application {
         
         Scene scene = new Scene(root);
         
-        // On relie la feuille de styles
+        // On relie la feuille de styles (Style par défaut de JavaFX -> https://gist.github.com/maxd/63691840fc372f22f470)
         boolean add = scene.getStylesheets().add("css/styles.css");
         
         stage.setScene(scene);

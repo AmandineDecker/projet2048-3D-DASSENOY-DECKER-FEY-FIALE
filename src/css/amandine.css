@@ -1,0 +1,95 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 4 oct. 2019, 18:24:57
+    Author     : Valou
+*/
+/* -fx-padding: 26 40 26 40; */
+
+.pane {
+    -fx-background-color: #BAF3F5 ;
+    -fx-border-color: whitesmoke;
+}
+
+.gridpane {
+    -fx-border-color: whitesmoke;
+    -fx-grid-lines-visible: true;
+    /*-fx-border: 2px solid;*/
+    -fx-halignment: center;
+    -fx-valignment: center;
+    -fx-alignment: CENTER;  
+     
+}
+
+.menu-bar {
+    /*La barre de menu*/
+  -fx-background-color: #BAF3F5;
+  -fx-border-color:  #81BEF7;
+}
+
+.menu-bar .label {
+    /*Les éléments de la barre de menu*/
+    -fx-text-fill: black;
+}
+
+.menu:hover {
+    -fx-background-color: #0661A5;
+}
+
+
+.tuile2 {
+    -fx-background-color: #FF0082;
+    -fx-border-color: whitesmoke;
+}
+.tuile4 {
+    -fx-background-color: #FF0000;
+    -fx-border-color: whitesmoke;
+}
+.tuile8 {
+    -fx-background-color: #FF7300;
+    -fx-border-color: whitesmoke;
+}
+.tuile16 {
+    -fx-background-color: #FBF700;
+    -fx-border-color: whitesmoke;
+}
+.tuile32 {
+    -fx-background-color: #6ED61F;
+    -fx-border-color: whitesmoke;
+}
+.tuile64 {
+    -fx-background-color: #00B44B;
+    -fx-border-color: whitesmoke;
+}
+.tuile128 {
+    -fx-background-color: #00ADB2;
+    -fx-border-color: whitesmoke;
+}  
+.tuile256 {
+    -fx-background-color: #00AAFC;
+    -fx-border-color: whitesmoke;
+}
+.tuile512 {
+    -fx-background-color: #0055C1;
+    -fx-border-color: whitesmoke;
+}
+.tuile1024 {
+    -fx-background-color: #23029E;
+    -fx-border-color: whitesmoke;
+}
+.tuile2048 {
+    -fx-background-color: #780095;
+    -fx-border-color: whitesmoke;
+}
+     
+.valeurTuile {
+    -fx-font-size: 32;
+   -fx-text-fill: black;
+   -fx-font-weight: 800;
+    -fx-alignment: CENTER;
+}
+     
+

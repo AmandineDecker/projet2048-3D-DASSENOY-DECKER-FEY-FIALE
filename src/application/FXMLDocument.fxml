@@ -118,9 +118,6 @@
                      </children>
                   </HBox>
                </right>
-               <bottom>
-                  <Button fx:id="bt" mnemonicParsing="false" onMouseClicked="#bouton" text="Button" BorderPane.alignment="CENTER" />
-               </bottom>
             </BorderPane>
             <HBox id="hbox" fx:id="hbox" focusTraversable="true" prefHeight="335.0" prefWidth="930.0" spacing="10.0">
                <opaqueInsets>

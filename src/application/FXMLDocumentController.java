@@ -302,7 +302,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         if (fin != null){
             try { // Pour éviter que la nouvelle case n'apparaisse sous un glissement
-                fin.join(TPSSLEEP*60);
+                fin.join(TPSSLEEP*150);
             } catch (Exception ex) {
                 System.out.println("Join killed");
             }
