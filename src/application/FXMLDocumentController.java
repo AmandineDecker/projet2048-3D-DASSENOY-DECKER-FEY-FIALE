@@ -212,7 +212,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     th = new Thread(fus);
                 }
                 else {
-                    gl = new Glissement(ap1, gr1, cCopy, false);
+                    gl = new Glissement(ap1, gr1, cCopy);
                     th = new Thread(gl);
                 }
                 th.setDaemon(true);
@@ -225,7 +225,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     th = new Thread(fus);
                 }
                 else {
-                    gl = new Glissement(ap2, gr2, cCopy, false);
+                    gl = new Glissement(ap2, gr2, cCopy);
                     th = new Thread(gl);
                 }
                 th.setDaemon(true);
@@ -238,7 +238,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     th = new Thread(fus);
                 }
                 else {
-                    gl = new Glissement(ap3, gr3, cCopy, false);
+                    gl = new Glissement(ap3, gr3, cCopy);
                     th = new Thread(gl);
                 }
                 th.setDaemon(true);
@@ -313,9 +313,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         
         score.setText(String.valueOf(gr.getScore()));
-        //gr1.getStyleClass().add("gridpane");
-        //gr2.getStyleClass().add("gridpane");
-        //gr3.getStyleClass().add("gridpane");
     }
 
     // Commence une nouvelle partie

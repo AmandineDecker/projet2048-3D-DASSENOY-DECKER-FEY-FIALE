@@ -22,13 +22,11 @@ public class Glissement extends Task<Void> {
     AnchorPane anchor;
     GridPane grille;
     Case tuile;
-    boolean doubleValeurFinale;
     
-    public Glissement(AnchorPane ap, GridPane gr, Case c, boolean b){
+    public Glissement(AnchorPane ap, GridPane gr, Case c){
         this.anchor = ap;
         this.grille = gr;
         this.tuile = c;
-        this.doubleValeurFinale = b;
     }
     
     
@@ -134,10 +132,6 @@ public class Glissement extends Task<Void> {
             }
             else {}
             
-            if (this.doubleValeurFinale){
-                l.setText(String.valueOf(tuile.getVal()*2));
-                p.getStyleClass().add("tuile" + tuile.getVal()*2);
-            }
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
