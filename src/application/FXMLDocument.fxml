@@ -42,7 +42,7 @@
          <children>
             <BorderPane VBox.vgrow="ALWAYS">
                <top>
-                  <Label id="logo" fx:id="logo" alignment="CENTER" graphicTextGap="5.0" text="2048-3D" textFill="#64bf76" wrapText="true" BorderPane.alignment="TOP_LEFT">
+                  <Label id="logo" fx:id="logo" alignment="CENTER" graphicTextGap="5.0" text="2048-3D" textAlignment="CENTER" textFill="#64bf76" wrapText="true" BorderPane.alignment="TOP_LEFT">
                      <font>
                         <Font name="Comic Sans MS Bold Italic" size="24.0" />
                      </font>
@@ -51,50 +51,6 @@
                      </BorderPane.margin>
                   </Label>
                </top>
-               <left>
-                  <VBox fx:id="commandes" alignment="CENTER" BorderPane.alignment="CENTER">
-                     <children>
-                        <Label text="Commandes:" textOverrun="CLIP" wrapText="true">
-                           <font>
-                              <Font name="Comic Sans MS" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label text="Droite (d)" textOverrun="CLIP" wrapText="true">
-                           <font>
-                              <Font name="Comic Sans MS" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label text="Gauche (q)" textOverrun="CLIP" wrapText="true">
-                           <font>
-                              <Font name="Comic Sans MS" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label text="Haut (z)" textOverrun="CLIP" wrapText="true">
-                           <font>
-                              <Font name="Comic Sans MS" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label text="Bas (s)" textOverrun="CLIP" wrapText="true">
-                           <font>
-                              <Font name="Comic Sans MS" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label text="Supérieur (r)" textOverrun="CLIP" wrapText="true">
-                           <font>
-                              <Font name="Comic Sans MS" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label text="Inférieur (f)" textOverrun="CLIP" wrapText="true">
-                           <font>
-                              <Font name="Comic Sans MS" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <BorderPane.margin>
-                        <Insets left="15.0" />
-                     </BorderPane.margin>
-                  </VBox>
-               </left>
                <center>
                   <Label id="resultat" fx:id="resultat" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" text="Résultat" textAlignment="CENTER" textFill="#f22e2e" textOverrun="CLIP" wrapText="true" BorderPane.alignment="CENTER">
                      <font>
@@ -118,6 +74,97 @@
                      </children>
                   </HBox>
                </right>
+               <left>
+                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                    <tabs>
+                      <Tab text="Clavier">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox fx:id="commandes" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label fx:id="commande0" text="Commandes:" textOverrun="CLIP" wrapText="true">
+                                             <font>
+                                                <Font name="Comic Sans MS" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="commande1" text="Droite (d)" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                             <font>
+                                                <Font name="Comic Sans MS" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="commande2" text="Gauche (q)" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                             <font>
+                                                <Font name="Comic Sans MS" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="commande3" text="Haut (z)" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                             <font>
+                                                <Font name="Comic Sans MS" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="commande4" text="Bas (s)" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                             <font>
+                                                <Font name="Comic Sans MS" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="commande5" text="Supérieur (r)" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                             <font>
+                                                <Font name="Comic Sans MS" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="commande6" text="Inférieur (f)" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                             <font>
+                                                <Font name="Comic Sans MS" size="18.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab text="Souris">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="bHaut" layoutX="71.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#clicHaut" text="Haut" AnchorPane.topAnchor="15.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="bGauche" layoutX="20.0" layoutY="57.0" mnemonicParsing="false" onMouseClicked="#clicGauche" text="Gauche" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="bDroite" layoutX="121.0" layoutY="57.0" mnemonicParsing="false" onMouseClicked="#clicDroite" text="Droite" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="bBas" layoutX="71.0" layoutY="96.0" mnemonicParsing="false" onMouseClicked="#clicBas" text="Bas" AnchorPane.topAnchor="85.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="bSup" layoutX="11.0" layoutY="148.0" mnemonicParsing="false" onMouseClicked="#clicSup" text="Supérieur" AnchorPane.leftAnchor="5.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="bInf" layoutX="120.0" layoutY="148.0" mnemonicParsing="false" onMouseClicked="#clicInf" text="Inférieur" AnchorPane.rightAnchor="5.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </left>
             </BorderPane>
             <HBox id="hbox" fx:id="hbox" focusTraversable="true" prefHeight="335.0" prefWidth="930.0" spacing="10.0">
                <opaqueInsets>

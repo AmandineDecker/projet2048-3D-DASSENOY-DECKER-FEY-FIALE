@@ -49,30 +49,25 @@ public class Fusion extends Task<Void> {
             double h = getPaneHeigth(this.grille);
             double x2 = w * tuile.getX();
             double y2 = h * tuile.getY();
-//            // La case qui va potentiellement bouger avant de recevoir l'autre case pour fusionner
-//            Case cFin = new Case(this.tuile.getX(), this.tuile.getY(), this.tuile.getZ(), this.tuile.getVal()/2);; 
-//            
-//            // La case qui va bouger avant de disparaître
-//            Case cTemp = new Case(this.tuile.getX(), this.tuile.getY(), this.tuile.getZ(), this.tuile.getVal()/2);
-//            cTemp.setGlisseX0(this.tuile.getFusionneX0());
-//            cTemp.setGlisseY0(this.tuile.getFusionneY0());
             
             if ((tuile.getGlisseX0() != -1 && tuile.getGlisseY0() != -1) && (tuile.getGlisseX0() != tuile.getX() || tuile.getGlisseY0() != tuile.getY())){ // Les deux tuiles doivent glisser avant de fusionner
                 
                 
                 
                 // On ajoute les deux Pane
-                Label l = new Label(String.valueOf(tuile.getVal()/2));
-                l.getStyleClass().add("valeurTuile");
+                Label lProche = new Label(String.valueOf(tuile.getVal()/2));
+                lProche.getStyleClass().add("valeurTuile");
+                Label lLoin = new Label(String.valueOf(tuile.getVal()/2));
+                lLoin.getStyleClass().add("valeurTuile");
                 // Le plus proche de la case d'arrivée
                 StackPane pProche = new StackPane();
                 pProche.getStyleClass().add("tuile" + tuile.getVal()/2);
-                pProche.getChildren().add(l);
+                pProche.getChildren().add(lProche);
                 pProche.setPrefSize(w, h);
                 // Le plus éloigné de la case d'arrivée
                 StackPane pLoin = new StackPane();
                 pLoin.getStyleClass().add("tuile" + tuile.getVal()/2);
-                pLoin.getChildren().add(l);
+                pLoin.getChildren().add(lLoin);
                 pLoin.setPrefSize(w, h);
                 
                 Platform.runLater(new Runnable() {
@@ -232,7 +227,7 @@ public class Fusion extends Task<Void> {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        l.setText(String.valueOf(tuile.getVal()));
+                        lLoin.setText(String.valueOf(tuile.getVal()));
                         pLoin.getStyleClass().add("tuile" + tuile.getVal());
                         anchor.getChildren().remove(pLoin);
                         anchor.getChildren().remove(pProche);

@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.RadioMenuItem;
 import model.Fusion;
 import model.Glissement;
 
@@ -63,9 +64,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private MenuItem quitter, nouveauJeu, changerStyle, aPropos;
     @FXML
-    private Label txtScore, score, logo, resultat;
+    private Label txtScore, score, logo, resultat, commande0, commande1, commande2, commande3, commande4, commande5, commande6;
     @FXML
     private VBox commandes;
+    @FXML
+    private Button bHaut, bBas, bGauche, bDroite, bSup, bInf;
     
     private Grille modelGrille = new Grille();
     
@@ -106,6 +109,61 @@ public class FXMLDocumentController implements Parametres, Initializable {
         nouvellePartie();
     }
     
+    
+    @FXML
+    private void clicHaut(MouseEvent m){
+        if (!modelGrille.partieFinie()){
+            joue(HAUT);
+        }
+        else {
+        }
+    }
+    
+    @FXML
+    private void clicBas(MouseEvent m){
+        if (!modelGrille.partieFinie()){
+            joue(BAS);
+        }
+        else {
+        }
+    }
+    
+    @FXML
+    private void clicGauche(MouseEvent m){
+        if (!modelGrille.partieFinie()){
+            joue(GAUCHE);
+        }
+        else {
+        }
+    }
+    
+    @FXML
+    private void clicDroite(MouseEvent m){
+        if (!modelGrille.partieFinie()){
+            joue(DROITE);
+        }
+        else {
+        }
+    }
+    
+    @FXML
+    private void clicSup(MouseEvent m){
+        if (!modelGrille.partieFinie()){
+            joue(SUPERIEUR);
+        }
+        else {
+        }
+    }
+    
+    @FXML
+    private void clicInf(MouseEvent m){
+        if (!modelGrille.partieFinie()){
+            joue(INFERIEUR);
+        }
+        else {
+        }
+    }
+    
     @FXML
     public void toucheClavier(KeyEvent ke) {
         if (!modelGrille.partieFinie()){
@@ -136,29 +194,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     direction = INFERIEUR;
                     break;
             }
-            if (direction != 0) {
-                boolean b2 = modelGrille.initialiserDeplacement(direction);
-                if (b2) {
-                    boolean b = modelGrille.nouvelleCase();
-                    if (!b) {
-                        modelGrille.defaite();
-                        resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
-                       
-                     
-                    }
-                }
-                afficheGrille(modelGrille);
-                System.out.println(modelGrille);
-                if (modelGrille.getValeurMax()>=OBJECTIF){
-                    modelGrille.victoire();
-                    resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".");
-                  
-                }
-            }
+            joue(direction);
         }
         else {
-            resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
-                 
+            resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");    
         }
     }
     
@@ -168,6 +207,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     // Place la case sur la fenêtre graphique
     public void placeCase(Case c){
+        //System.out.println(c + " a été placée!");
         StackPane p = new StackPane();
         p.getStyleClass().add("tuile" + c.getVal());
         Label l = new Label(String.valueOf(c.getVal()));
@@ -186,6 +226,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         c.setGlisseX0(-1);
         c.setGlisseY0(-1);
+        c.setFusionneX0(-1);
+        c.setFusionneY0(-1);
         c.setGrimpe(false);
         p.setVisible(true);
         l.setVisible(true);
@@ -208,10 +250,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             case 0:
                 // Ajouter le glissement ici
                 if (c.getFusionneX0() != -1 && c.getFusionneY0() != -1){
+                    //System.out.println(cCopy + " a fusionné!");
                     fus = new Fusion(ap1, gr1, cCopy);
                     th = new Thread(fus);
                 }
                 else {
+                    //System.out.println(cCopy + " a glissé!");
                     gl = new Glissement(ap1, gr1, cCopy);
                     th = new Thread(gl);
                 }
@@ -221,10 +265,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             case 1:
                 // Ajouter le glissement ici
                 if (c.getFusionneX0() != -1 && c.getFusionneY0() != -1){
+                    //System.out.println(cCopy + " a fusionné!");
                     fus = new Fusion(ap2, gr2, cCopy);
                     th = new Thread(fus);
                 }
                 else {
+                    //System.out.println(cCopy + " a glissé!");
                     gl = new Glissement(ap2, gr2, cCopy);
                     th = new Thread(gl);
                 }
@@ -234,10 +280,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             default:
                 // Ajouter le glissement ici
                 if (c.getFusionneX0() != -1 && c.getFusionneY0() != -1){
+                    //System.out.println(cCopy + " a fusionné!");
                     fus = new Fusion(ap3, gr3, cCopy);
                     th = new Thread(fus);
                 }
                 else {
+                    //System.out.println(cCopy + " a glissé!");
                     gl = new Glissement(ap3, gr3, cCopy);
                     th = new Thread(gl);
                 }
@@ -284,7 +332,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
             else {
                 immobile.add(c);
             }
-            //placeCase(c);
         }
         
         for (Case c : immobile){
@@ -292,7 +339,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         
         Thread fin = null;
-        //HashSet<Thread> threads = new HashSet();
         
         for (Case c : glisse){
             if (fin != null){
@@ -300,13 +346,13 @@ public class FXMLDocumentController implements Parametres, Initializable {
             }
             else {fin = glisseCase(c);}
         }
-        if (fin != null){
-            try { // Pour éviter que la nouvelle case n'apparaisse sous un glissement
-                fin.join(TPSSLEEP*150);
-            } catch (Exception ex) {
-                System.out.println("Join killed");
-            }
-        }
+//        if (fin != null){
+//            try { // Pour éviter que la nouvelle case n'apparaisse sous un glissement
+//                fin.join(TPSSLEEP*150);
+//            } catch (Exception ex) {
+//                System.out.println("Join killed");
+//            }
+//        }
         
         for (Case c : apparait){
             placeCase(c);
@@ -340,6 +386,26 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
 
     
+    public void joue(int direction){
+        System.out.println();
+        if (direction != 0) {
+            boolean b2 = modelGrille.initialiserDeplacement(direction);
+            if (b2) {
+                boolean b = modelGrille.nouvelleCase();
+                if (!b) {
+                    modelGrille.defaite();
+                    resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                }
+            }
+            afficheGrille(modelGrille);
+            System.out.println(modelGrille);
+            if (modelGrille.getValeurMax()>=OBJECTIF){
+                modelGrille.victoire();
+                resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".");
+            }
+        }
+    }
+    
     //////////////////////////////////////////////////////////////////////
     
 
@@ -348,10 +414,21 @@ public class FXMLDocumentController implements Parametres, Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         System.out.println("le contrôleur initialise la vue");
-        fond.getStyleClass().add("pane");
-        gr1.getStyleClass().add("gridpane");
-        gr2.getStyleClass().add("gridpane");
-        gr3.getStyleClass().add("gridpane");
+        try {
+            fond.getStyleClass().add("pane");
+            gr1.getStyleClass().add("gridpane");
+            gr2.getStyleClass().add("gridpane");
+            gr3.getStyleClass().add("gridpane");
+            resultat.getStyleClass().add("resultat");
+            logo.getStyleClass().add("logo");
+            commande0.getStyleClass().add("commandes");
+            commande1.getStyleClass().add("commandes");
+            commande2.getStyleClass().add("commandes");
+            commande3.getStyleClass().add("commandes");
+            commande4.getStyleClass().add("commandes");
+            commande5.getStyleClass().add("commandes");
+            commande6.getStyleClass().add("commandes");
+        } catch (Exception e){}
         
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
