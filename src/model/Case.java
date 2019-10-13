@@ -19,6 +19,7 @@ public class Case implements Parametres, Serializable, Cloneable {
     private Grille grille; // La grille à laquelle appartient la case
     
     private boolean grimpe = false; // Pour savoir si la case doit bouger
+    private boolean apparue = true;
     
     private int glisseX0 = -1; // Pour savoir si la case doit glisser ou juste apparaitre
     private int glisseY0 = -1; // Pour savoir si la case doit glisser ou juste apparaitre
@@ -67,6 +68,10 @@ public class Case implements Parametres, Serializable, Cloneable {
         this.grimpe = b;
     }
     
+    public void setApparue(boolean b){
+        this.apparue = b;
+    }
+    
     public void setFusionneX0(int k){
         this.fusionneX0 = k;
     }
@@ -105,6 +110,10 @@ public class Case implements Parametres, Serializable, Cloneable {
     
     public boolean getGrimpe(){
         return this.grimpe;
+    }
+    
+    public boolean getApparue(){
+        return this.apparue;
     }
     
     public int getFusionneX0(){

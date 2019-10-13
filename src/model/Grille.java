@@ -144,6 +144,7 @@ public class Grille implements Parametres, Serializable {
             // on en choisit une au hasard et on l'ajoute à la grille
             Case ajout = casesLibres.get(ra.nextInt(casesLibres.size()));
             ajout.setGr(this);
+            ajout.setApparue(false);
             this.grille.add(ajout);
             if ((this.grille.size() == 1) || (this.valeurMax == 2 && ajout.getVal() == 4)) { // Mise à jour de la valeur maximale présente dans la grille si c'est la première case ajoutée ou si on ajoute un 4 et que l'ancien max était 2
                 this.valeurMax = ajout.getVal();

@@ -40,6 +40,7 @@ import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.RadioMenuItem;
+import model.Apparition;
 import model.Fusion;
 import model.Glissement;
 
@@ -232,6 +233,37 @@ public class FXMLDocumentController implements Parametres, Initializable {
         p.setVisible(true);
         l.setVisible(true);
     }
+    
+    // Place la case sur la fenêtre graphique
+    public void afficheCase(Case c){
+        Thread th;
+        Apparition app;
+        Case cCopy = (Case) c.clone();
+        //System.out.println(c + " est apparue!");
+        switch (c.getZ()){
+            case 0:
+                app = new Apparition(ap1, gr1, cCopy);
+                th = new Thread(app);
+                break;
+            case 1:
+                app = new Apparition(ap2, gr2, cCopy);
+                th = new Thread(app);
+                break;
+            default:
+                app = new Apparition(ap3, gr3, cCopy);
+                th = new Thread(app);
+                break;
+        }
+        th.setDaemon(true);
+        th.start();
+        
+        c.setGlisseX0(-1);
+        c.setGlisseY0(-1);
+        c.setFusionneX0(-1);
+        c.setFusionneY0(-1);
+        c.setGrimpe(false);
+        c.setApparue(true);
+    }
 
     
     public Thread glisseCase(Case c){
@@ -318,46 +350,21 @@ public class FXMLDocumentController implements Parametres, Initializable {
         gr3.getChildren().clear();
         gr3.getChildren().add(0,node3);
         
-        HashSet<Case> glisse = new HashSet();
-        HashSet<Case> apparait = new HashSet();
-        HashSet<Case> immobile = new HashSet();
         
         for (Case c : gr.getGr()){
-            if (c.getGrimpe()){
-                apparait.add(c);
-            }
-            else if ((c.getGlisseX0() != -1 && c.getGlisseY0() != -1) || (c.getFusionneX0() != -1 && c.getFusionneY0() != -1)){
-                glisse.add(c);
-            }
-            else {
-                immobile.add(c);
-            }
-        }
-        
-        for (Case c : immobile){
-            placeCase(c);
-        }
-        
-        Thread fin = null;
-        
-        for (Case c : glisse){
-            if (fin != null){
+            if ((c.getGlisseX0() != -1 && c.getGlisseY0() != -1) || (c.getFusionneX0() != -1 && c.getFusionneY0() != -1)){
                 glisseCase(c);
             }
-            else {fin = glisseCase(c);}
+            else if (c.getGrimpe()){
+                placeCase(c);
+            }
+            else if (!c.getApparue()){
+                afficheCase(c);
+            }
+            else {
+                placeCase(c);
+            }
         }
-//        if (fin != null){
-//            try { // Pour éviter que la nouvelle case n'apparaisse sous un glissement
-//                fin.join(TPSSLEEP*150);
-//            } catch (Exception ex) {
-//                System.out.println("Join killed");
-//            }
-//        }
-        
-        for (Case c : apparait){
-            placeCase(c);
-        }
-        
         score.setText(String.valueOf(gr.getScore()));
     }
 
