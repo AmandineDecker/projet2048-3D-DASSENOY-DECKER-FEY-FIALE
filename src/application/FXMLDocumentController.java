@@ -426,6 +426,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
             gr1.getStyleClass().add("gridpane");
             gr2.getStyleClass().add("gridpane");
             gr3.getStyleClass().add("gridpane");
+            score.getStyleClass().add("score");
+            txtScore.getStyleClass().add("score");
             resultat.getStyleClass().add("resultat");
             logo.getStyleClass().add("logo");
             commande0.getStyleClass().add("commandes");
