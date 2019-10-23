@@ -40,9 +40,9 @@ import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.RadioMenuItem;
-import model.Apparition;
-import model.Fusion;
-import model.Glissement;
+import threads.Apparition;
+import threads.Fusion;
+import threads.Glissement;
 
 /**
  *
@@ -356,7 +356,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 glisseCase(c);
             }
             else if (c.getGrimpe()){
-                placeCase(c);
+                placeCase(c); // On peut mettre affiche aussi, a discuter
             }
             else if (!c.getApparue()){
                 afficheCase(c);

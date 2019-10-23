@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package threads;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import model.Case;
 import static model.Parametres.TPSSLEEP;
 
 /**

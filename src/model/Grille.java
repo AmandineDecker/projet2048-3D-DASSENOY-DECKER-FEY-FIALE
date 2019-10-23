@@ -18,7 +18,7 @@ public class Grille implements Parametres, Serializable {
     
     // Atributs
     private final HashSet<Case> grille;
-    private transient int valeurMax = 0;
+    private int valeurMax = 0;
     private int score = 0;
     private transient boolean deplacement;
     
@@ -168,7 +168,10 @@ public class Grille implements Parametres, Serializable {
     
     
     public boolean partieFinie() {
-        if (this.grille.size() < TAILLE * TAILLE * TAILLE) {
+        if (this.valeurMax == OBJECTIF){
+            return true;
+        }
+        else if (this.grille.size() < TAILLE * TAILLE * TAILLE) {
             return false;
         } else {
             for (Case c : this.grille) {

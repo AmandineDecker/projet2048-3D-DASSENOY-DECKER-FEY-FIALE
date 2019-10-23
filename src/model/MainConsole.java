@@ -18,10 +18,17 @@ public class MainConsole implements Parametres {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        
+        
         Grille g = new Grille();
         boolean b = g.nouvelleCase();
         b = g.nouvelleCase();
         System.out.println(g);
+        
+        int e = 0xFE;
+        System.out.println(e);
+        
         Scanner sc = new Scanner(System.in);
         /*System.out.println("X:");
         int x= sc.nextInt();
@@ -69,6 +76,8 @@ public class MainConsole implements Parametres {
             }
         }
         g.defaite();
+        
+        
     }
     
 }
