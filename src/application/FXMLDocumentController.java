@@ -146,15 +146,19 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private void revenirUnCoup(ActionEvent event) {
         int index=caretaker.getIndex();
-        originator.restoreFromMemento(caretaker.getMemento(index-1));
+        modelGrille = originator.restoreFromMemento(caretaker.getMemento(index-1));
         caretaker.setIndex(index-1);
+        afficheGrille(modelGrille);
+        System.out.println(modelGrille);
     }
     
     @FXML
     private void avancerUnCoup(ActionEvent event) {
         int index=caretaker.getIndex();
-        originator.restoreFromMemento(caretaker.getMemento(index+1));
+        modelGrille = originator.restoreFromMemento(caretaker.getMemento(index+1));
         caretaker.setIndex(index +1);
+        afficheGrille(modelGrille);
+        System.out.println(modelGrille);
     }
     
 //    // Changer de theme
@@ -457,7 +461,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         System.out.println();
         if (direction != 0) {
             boolean b2 = modelGrille.initialiserDeplacement(direction);
-            originator.set(modelGrille);
+            originator.set(modelGrille.clone());
             caretaker.addMemento(originator.saveToMemento());
             if (b2) {
                 boolean b = modelGrille.nouvelleCase();

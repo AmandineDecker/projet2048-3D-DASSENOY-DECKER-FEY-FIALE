@@ -14,10 +14,10 @@ import java.util.Random;
  *
  * @author Amandine
  */
-public class Grille implements Parametres, Serializable {
+public class Grille implements Parametres, Serializable, Cloneable {
     
     // Atributs
-    private final HashSet<Case> grille;
+    private HashSet<Case> grille;
     private int valeurMax = 0;
     private int score = 0;
     private transient boolean deplacement;
@@ -31,6 +31,7 @@ public class Grille implements Parametres, Serializable {
     public void setValeurMax(int val){
         this.valeurMax = val;
     }
+    
     
 //    public void setDeplacement(boolean move){
 //        this.deplacement = move;
@@ -98,6 +99,22 @@ public class Grille implements Parametres, Serializable {
             result += "\n";
         }
         return result;
+    }
+    
+    @Override
+    public Grille clone(){
+        Grille gr = null;
+        try {
+            gr = (Grille) super.clone();
+            gr.grille = new HashSet();
+            for (Case c : this.grille){
+                gr.grille.add(c.clone());
+            }
+        }
+        catch (CloneNotSupportedException e){
+            System.out.println("Clone fail");
+        }
+        return gr;
     }
     
 //    public String toHTML() {
