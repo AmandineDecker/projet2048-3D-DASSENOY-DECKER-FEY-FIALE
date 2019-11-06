@@ -136,7 +136,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 fond.getStylesheets().add("css/amandine.css");
                 break;
             case 4 :
-                fond.getStylesheets().add("css/amelia.css");
+                fond.getStylesheets().add("css/amelie.css");
                 break;
             default:
                 break;
