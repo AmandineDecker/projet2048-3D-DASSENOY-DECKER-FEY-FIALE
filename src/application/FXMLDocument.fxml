@@ -28,7 +28,19 @@
           </Menu>
           <Menu id="menuEdit" fx:id="menuEdit" mnemonicParsing="false" text="Editer">
             <items>
-              <MenuItem id="changerStyle" fx:id="changerStyle" mnemonicParsing="false" text="Modifier le style" />
+                  <Menu mnemonicParsing="false" text="Style">
+                    <items>
+                        <RadioMenuItem fx:id="themeClassique" mnemonicParsing="false" onAction="#changeTheme" text="Thème classique">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="grStyle" />
+                           </toggleGroup>
+                        </RadioMenuItem>
+                        <RadioMenuItem fx:id="themeNuit" mnemonicParsing="false" onAction="#changeTheme" selected="true" text="Thème nuit" toggleGroup="$grStyle" />
+                        <RadioMenuItem fx:id="themeWanda" mnemonicParsing="false" onAction="#changeTheme" text="Thème bleu" toggleGroup="$grStyle" />
+                        <RadioMenuItem fx:id="themeAmandine" mnemonicParsing="false" onAction="#changeTheme" text="Thème coloré" toggleGroup="$grStyle" />
+                    </items>
+                  </Menu>
+              <MenuItem id="changerStyle" fx:id="changerStyle" mnemonicParsing="false" text="Modifier le style personnalisé" />
             </items>
           </Menu>
           <Menu id="menuAide" fx:id="menuAide" mnemonicParsing="false" text="Aide">
@@ -171,7 +183,7 @@
                   <Insets />
                </opaqueInsets>
                <children>
-                  <AnchorPane fx:id="ap1" focusTraversable="true" HBox.hgrow="ALWAYS">
+                  <AnchorPane fx:id="ap1" focusTraversable="true" HBox.hgrow="NEVER">
                      <children>
                         <GridPane id="gr1" fx:id="gr1" alignment="CENTER" focusTraversable="true" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
@@ -190,7 +202,7 @@
                         </GridPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="ap2" HBox.hgrow="ALWAYS">
+                  <AnchorPane fx:id="ap2" HBox.hgrow="NEVER">
                      <children>
                         <GridPane id="gr2" fx:id="gr2" alignment="CENTER" focusTraversable="true" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
@@ -209,7 +221,7 @@
                         </GridPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="ap3" HBox.hgrow="ALWAYS">
+                  <AnchorPane fx:id="ap3" HBox.hgrow="NEVER">
                      <children>
                         <GridPane id="gr3" fx:id="gr3" alignment="CENTER" focusTraversable="true" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>

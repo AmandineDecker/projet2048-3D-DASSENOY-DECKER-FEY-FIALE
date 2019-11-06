@@ -39,7 +39,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javafx.application.Application.STYLESHEET_MODENA;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.ToggleGroup;
 import threads.Apparition;
 import threads.Fusion;
 import threads.Glissement;
@@ -64,6 +66,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
     private Menu menuFic, menuAide, menuEdit;
     @FXML
     private MenuItem quitter, nouveauJeu, changerStyle, aPropos;
+    @FXML
+    private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine;
+    @FXML
+    private ToggleGroup grStyle;
     @FXML
     private Label txtScore, score, logo, resultat, commande0, commande1, commande2, commande3, commande4, commande5, commande6;
     @FXML
@@ -109,6 +115,37 @@ public class FXMLDocumentController implements Parametres, Initializable {
         System.out.println("\n\n\nNouvelle partie!");
         nouvellePartie();
     }
+    
+    @FXML
+    private void changeTheme(ActionEvent event) {
+        fond.getStylesheets().clear();
+        switch(grStyle.getToggles().indexOf(grStyle.getSelectedToggle())){
+            // Les nombres sont dans l'ordre du menu
+            case 0 :
+                fond.getStylesheets().add("css/styles.css");
+                break;
+            case 1 :
+                fond.getStylesheets().add("css/modeNuit.css");
+                break;
+            case 2 :
+                fond.getStylesheets().add("css/wanda.css");
+                break;
+            case 3 :
+                fond.getStylesheets().add("css/amandine.css");
+                break;
+            default:
+                break;
+        }
+    }
+    
+    
+//    // Changer de theme
+//    public void changerTheme(String theme){
+//        fond.getStylesheets().clear();
+//        fond.getStylesheets().add(STYLESHEET_MODENA);
+//        fond.getStylesheets().add(theme);
+//    }
+    
     
     
     @FXML
@@ -355,9 +392,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
             if ((c.getGlisseX0() != -1 && c.getGlisseY0() != -1) || (c.getFusionneX0() != -1 && c.getFusionneY0() != -1)){
                 glisseCase(c);
             }
-            else if (c.getGrimpe()){
-                placeCase(c); // On peut mettre affiche aussi, a discuter
-            }
+//            else if (c.getGrimpe()){
+//                placeCase(c); // On peut mettre affiche aussi, a discuter
+//            }
             else if (!c.getApparue()){
                 afficheCase(c);
             }
@@ -420,6 +457,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
         System.out.println("le contrôleur initialise la vue");
         try {
             fond.getStyleClass().add("pane");

@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import model.Case;
 import static model.Parametres.TPSSLEEP;
+import static model.Parametres.X;
 
 /**
  *
@@ -53,8 +54,6 @@ public class Fusion extends Task<Void> {
             
             if ((tuile.getGlisseX0() != -1 && tuile.getGlisseY0() != -1) && (tuile.getGlisseX0() != tuile.getX() || tuile.getGlisseY0() != tuile.getY())){ // Les deux tuiles doivent glisser avant de fusionner
                 
-                
-                
                 // On ajoute les deux Pane
                 Label lProche = new Label(String.valueOf(tuile.getVal()/2));
                 lProche.getStyleClass().add("valeurTuile");
@@ -90,7 +89,7 @@ public class Fusion extends Task<Void> {
                 double yProche = h * tuile.getGlisseY0();
                 
                 if (tuile.getFusionneX0() > tuile.getX()){ // Glissement vers la gauche
-                    while ((int) xProche != (int) x2){
+                    while ((int) xProche > (int) x2+X){
                         xProche -= 1;
                         xLoin -= 1;
                         double posXProche = xProche;
@@ -108,7 +107,7 @@ public class Fusion extends Task<Void> {
                         });
                         Thread.sleep(TPSSLEEP);
                     }
-                    while ((int) xLoin != (int) x2+1){
+                    while ((int) xLoin > (int) x2+X){
                         xLoin -= 1;
                         double posXLoin = xLoin;
                         double posYLoin = yLoin;
@@ -123,7 +122,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneX0() < tuile.getX()){ // Glissement vers la droite
-                    while ((int) xProche != (int) x2){
+                    while ((int) xProche < (int) x2-X){
                         xProche += 1;
                         xLoin += 1;
                         double posXProche = xProche;
@@ -141,7 +140,7 @@ public class Fusion extends Task<Void> {
                         });
                         Thread.sleep(TPSSLEEP);
                     }
-                    while ((int) xLoin != (int) x2-1){
+                    while ((int) xLoin < (int) x2-X){
                         xLoin += 1;
                         double posXLoin = xLoin;
                         double posYLoin = yLoin;
@@ -156,7 +155,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneY0() > tuile.getY()){ // Glissement vers le haut
-                    while ((int)yProche != (int)y2){
+                    while ((int)yProche > (int)y2+X){
                         yProche -= 1;
                         yLoin -= 1;
                         double posXProche = xProche;
@@ -174,7 +173,7 @@ public class Fusion extends Task<Void> {
                         });
                         Thread.sleep(TPSSLEEP);
                     }
-                    while ((int) yLoin != (int) y2+1){
+                    while ((int) yLoin > (int) y2+X){
                         yLoin -= 1;
                         double posXLoin = xLoin;
                         double posYLoin = yLoin;
@@ -189,7 +188,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneY0() < tuile.getY()){ // Glissement vers le bas
-                    while ((int)yProche != (int)y2){
+                    while ((int)yProche < (int)y2-X){
                         yProche += 1;
                         yLoin += 1;
                         double posXProche = xProche;
@@ -207,7 +206,7 @@ public class Fusion extends Task<Void> {
                         });
                         Thread.sleep(TPSSLEEP);
                     }
-                    while ((int) yLoin != (int) y2-1){
+                    while ((int) yLoin < (int) y2-X){
                         yLoin += 1;
                         double posXLoin = xLoin;
                         double posYLoin = yLoin;
@@ -275,7 +274,7 @@ public class Fusion extends Task<Void> {
                 });
             
                 if (tuile.getFusionneX0() > tuile.getX()){ // Glissement vers la gauche
-                    while ((int) x != (int) x2+1){
+                    while ((int) x > (int) x2+X){
                         x -= 1;
                         double posX = x;
                         double posY = y;
@@ -290,7 +289,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneX0() < tuile.getX()){ // Glissement vers la droite
-                    while ((int) x != (int) x2-1){
+                    while ((int) x < (int) x2-X){
                         x += 1;
                         double posX = x;
                         double posY = y;
@@ -305,7 +304,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneY0() > tuile.getY()){ // Glissement vers le haut
-                    while ((int)y != (int)y2+1){
+                    while ((int)y > (int)y2+X){
                         y -= 1;
                         double posX = x;
                         double posY = y;
@@ -320,7 +319,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneY0() < tuile.getY()){ // Glissement vers le bas
-                    while ((int)y != (int)y2 -1){
+                    while ((int)y < (int)y2 -X){
                         y += 1;
                         double posX = x;
                         double posY = y;
@@ -342,12 +341,9 @@ public class Fusion extends Task<Void> {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        l2.setText(String.valueOf(tuile.getVal()));
-                        pGlisse.getStyleClass().add("tuile" + tuile.getVal());
-                        grille.getChildren().remove(pTemp);
+                        l1.setText(String.valueOf(tuile.getVal()));
+                        pTemp.getStyleClass().add("tuile" + tuile.getVal());
                         anchor.getChildren().remove(pGlisse);
-                        grille.add(pGlisse, tuile.getX(), tuile.getY());
-                        pGlisse.setVisible(true);
                     }
                 });
                 

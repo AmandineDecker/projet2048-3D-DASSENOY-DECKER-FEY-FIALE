@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import model.Case;
 import static model.Parametres.TPSSLEEP;
+import static model.Parametres.X;
 
 /**
  *
@@ -70,9 +71,13 @@ public class Apparition extends Task<Void> {
             double w2 = 0;
             double h2 = 0;
             
-            while (((int) w2 < (int) w) || ((int) h2 < (int) h)){
-                w2 += 1;
-                h2 += 1;
+            int augmente = 1;
+            while (((int) w2 < (int) w-X) || ((int) h2 < (int) h-X)){
+                if (augmente == 0){
+                    w2 += 1;
+                    h2 += 1;
+                }
+                augmente = (augmente + 1)%3;
                 double a = w2;
                 double b = h2;
                 Platform.runLater(new Runnable() {

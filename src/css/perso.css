@@ -1,0 +1,233 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 29 oct. 2019, 09:39:29
+    Author     : Amandine
+*/
+
+.pane {
+    -fx-background-color: #FBEFF2 ;
+    -fx-border-color: black;
+}
+
+.logo {
+    -fx-font-size: 24;
+    -fx-text-fill: #64bf76;
+    -fx-alignment: CENTER;
+}
+
+.resultat {
+    -fx-font-size: 18;
+    -fx-text-fill: #f22e2e;
+    -fx-alignment: CENTER;
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-weight: Bold;
+}
+
+.commandes {
+    -fx-text-fill: black;
+}
+
+/* LE MENU */
+
+/*******************************************************************************
+ *                                                                             *
+ * PopupMenu                                                                   *
+ *                                                                             *
+ ******************************************************************************/
+.context-menu {
+    -fx-background-color:
+        linear-gradient(to bottom,
+            derive(-fx-color,-17%),
+            derive(-fx-color,-30%)
+        ),
+    -fx-control-inner-background;
+}
+.context-menu .separator:horizontal .line {
+    -fx-border-color: -fx-box-border transparent transparent transparent;
+}
+.context-menu > .scroll-arrow {
+    -fx-background-color: transparent;
+}
+.context-menu > .scroll-arrow:hover {
+    -fx-background: -fx-selection-bar;
+    -fx-background-color: -fx-background;
+    -fx-text-fill: -fx-text-background-color;
+}
+/*******************************************************************************
+ *                                                                             *
+ * Menu                                                                        *
+ *                                                                             *
+ ******************************************************************************/
+.menu {
+    -fx-background-color: transparent;
+}
+.menu > .right-container > .arrow {
+    -fx-background-color: -fx-mark-color;
+}
+.menu:focused > .right-container > .arrow {
+    -fx-background-color: -fx-focused-mark-color;
+}
+.menu:showing .label { /* Styles the text on a menu item when activated */ 
+    -fx-text-fill: black;
+}
+.menu-up-arrow {
+    -fx-background-color: derive(-fx-color,-2%);
+}
+.menu-down-arrow {
+    -fx-background-color: derive(-fx-color,-2%);
+}
+/*******************************************************************************
+ *                                                                             *
+ * MenuBar                                                                     *
+ *                                                                             *
+ ******************************************************************************/
+.menu-bar {
+    -fx-background-color:
+    linear-gradient(to bottom, derive(-fx-base,75%) 0%, -fx-outer-border 90%),
+    linear-gradient(to bottom, derive(-fx-base,46.9%) 2%, derive(-fx-base,-2.1%) 95%);
+    -fx-border-color: none ;
+}
+/* Show nothing for background of normal menu button in a menu bar */
+.menu-bar > .container > .menu-button {
+    -fx-background-color: transparent;
+}
+/* Hide the down arrow for a menu placed in a menubar */
+.menu-bar > .container > .menu-button > .arrow-button > .arrow {
+    -fx-background-color: transparent;
+}
+.menu-bar > .container > .menu-button:hover,
+.menu-bar > .container > .menu-button:focused,
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: -fx-background;
+}
+.menu-bar > .container > .menu-button:hover > .label,
+.menu-bar > .container > .menu-button:focused > .label,
+.menu-bar > .container > .menu-button:showing  > .label {
+    -fx-text-fill: -fx-text-background-color;
+}
+/*******************************************************************************
+ *                                                                             *
+ * MenuItem                                                                    *
+ *                                                                             *
+ ******************************************************************************/
+.menu-item {
+    -fx-background-color: transparent;
+}
+.menu-item > .left-container {
+    -fx-padding: 0.458em 0.791em 0.458em 0.458em;
+}
+.menu-item >.label {
+    -fx-text-fill: -fx-text-base-color;
+}
+.menu-item:focused {
+    -fx-background-color: -fx-background;
+    -fx-text-fill:  -fx-text-background-color;
+}
+.menu-item:focused > .label {
+    -fx-text-fill: -fx-focused-text-base-color;
+}
+.radio-menu-item:checked > .left-container > .radio {
+    -fx-background-color: -fx-mark-color;
+}
+.radio-menu-item:focused:checked > .left-container > .radio {
+    -fx-background-color: -fx-focused-mark-color;
+}
+.check-menu-item:checked > .left-container > .check {
+    -fx-background-color: -fx-mark-color;
+}
+.check-menu-item:focused:checked > .left-container > .check {
+    -fx-background-color: -fx-focused-mark-color;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * TabPane                                                                     *
+ *                                                                             *
+ ******************************************************************************/
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
+-fx-text-fill: -fx-text-base-color;
+}
+.tab-pane > .tab-header-area > .headers-region > .tab {
+-fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
+}
+.tab-pane > .tab-header-area > .headers-region > .tab:hover {
+-fx-color: -fx-hover-base;
+}
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+-fx-background-color: -fx-outer-border, -fx-inner-border, -fx-background;
+}
+.tab-pane > .tab-header-area > .tab-header-background {
+/* TODO should not be using text-box-border I think? */
+-fx-background-color:
+        -fx-outer-border,
+        -fx-text-box-border,
+linear-gradient(from 0px 0px to 0px 5px, -fx-text-box-border, derive(-fx-text-box-border, 30%));
+}
+
+/* LES GRILLES */
+
+.gridpane {
+    -fx-border-color: black;
+    -fx-grid-lines-visible: true;
+    /*-fx-border: 2px solid;*/
+    -fx-halignment: center;
+    -fx-valignment: center;
+    -fx-alignment: CENTER;  
+     
+}
+
+.tuile2 {
+    -fx-background-color: #F8ECE0;
+    -fx-border-color: black;
+}
+.tuile4 {
+    -fx-background-color: #F5D0A9;
+    -fx-border-color: black;
+}
+.tuile8 {
+    -fx-background-color: #FAAC58;
+    -fx-border-color: black;
+}
+.tuile16 {
+    -fx-background-color: #FF8000;
+    -fx-border-color: black;
+}
+.tuile32 {
+    -fx-background-color: #FF4000;
+    -fx-border-color: black;
+}
+.tuile64 {
+    -fx-background-color: #DF0101;
+    -fx-border-color: black;
+}
+.tuile128 {
+    -fx-background-color: #F4FA58;
+    -fx-border-color: black;
+}
+.tuile256 {
+    -fx-background-color: #F7D358;
+    -fx-border-color: black;
+}
+.tuile512 {
+    -fx-background-color: DBA901;
+    -fx-border-color: black;
+}
+.tuile1024 {
+    -fx-background-color: #8A4B08;
+    -fx-border-color: black;
+}
+.tuile2048 {
+    -fx-background-color: orange;
+    -fx-border-color: black;
+}
+     
+.valeurTuile {
+    -fx-font-size: 32;
+    -fx-text-fill: black;
+    -fx-font-weight: 800;
+    -fx-alignment: CENTER;
+}
