@@ -1,0 +1,45 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Wanda
+ */
+public class Caretaker {
+    private int index=0;
+    
+    private ArrayList savedStates=new ArrayList();
+    
+    public void setIndex(int ind){
+        index=ind;
+    }
+    
+    public int getIndex(){
+        return index;
+    }
+    
+    public void addMemento(Object m){
+        int l=savedStates.size();
+        if (index!=l){
+            savedStates.add(index+1, m);
+            for (int k=index+2;k<l;k++){
+                savedStates.remove(k);
+            }            
+        }
+        else{
+            savedStates.add(m);
+        }
+        index++;
+    }
+    
+    public Object getMemento(int i){
+        return savedStates.get(i);
+    }
+}
+

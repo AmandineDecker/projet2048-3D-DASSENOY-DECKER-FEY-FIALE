@@ -42,6 +42,8 @@ import java.util.logging.Logger;
 import static javafx.application.Application.STYLESHEET_MODENA;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
+import model.Caretaker;
+import model.Originator;
 import threads.Apparition;
 import threads.Fusion;
 import threads.Glissement;
@@ -65,7 +67,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private Menu menuFic, menuAide, menuEdit;
     @FXML
-    private MenuItem quitter, nouveauJeu, changerStyle, aPropos;
+    private MenuItem quitter, nouveauJeu, changerStyle, aPropos, backMove, avancerUnCoup;
     @FXML
     private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine;
     @FXML
@@ -138,6 +140,19 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
     }
     
+    @FXML
+    private void revenirUnCoup(ActionEvent event) {
+        int index=caretaker.getIndex();
+        originator.restoreFromMemento(caretaker.getMemento(index-1));
+        caretaker.setIndex(index-1);
+    }
+    
+    @FXML
+    private void avancerUnCoup(ActionEvent event) {
+        int index=caretaker.getIndex();
+        originator.restoreFromMemento(caretaker.getMemento(index+1));
+        caretaker.setIndex(index +1);
+    }
     
 //    // Changer de theme
 //    public void changerTheme(String theme){
@@ -242,6 +257,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     // Les méthodes
     
+               
+    Caretaker caretaker= new Caretaker();
+    Originator originator=new Originator();
     
     // Place la case sur la fenêtre graphique
     public void placeCase(Case c){
@@ -427,6 +445,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
         b = modelGrille.nouvelleCase();
         System.out.println(modelGrille);
         afficheGrille(modelGrille);
+        originator=new Originator();
+        caretaker=new Caretaker();
     }
 
     
@@ -434,6 +454,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
         System.out.println();
         if (direction != 0) {
             boolean b2 = modelGrille.initialiserDeplacement(direction);
+            originator.set(modelGrille);
+            caretaker.addMemento(originator.saveToMemento());
             if (b2) {
                 boolean b = modelGrille.nouvelleCase();
                 if (!b) {
@@ -509,6 +531,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
         
         System.out.println(modelGrille);
         afficheGrille(modelGrille);     
+
+        originator.set(modelGrille);
+        caretaker.addMemento(originator.saveToMemento());                
     }
     
 }
