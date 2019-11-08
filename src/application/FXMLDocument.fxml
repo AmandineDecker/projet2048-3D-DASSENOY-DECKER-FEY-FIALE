@@ -35,10 +35,11 @@
                               <ToggleGroup fx:id="grStyle" />
                            </toggleGroup>
                         </RadioMenuItem>
-                        <RadioMenuItem fx:id="themeNuit" mnemonicParsing="false" onAction="#changeTheme" selected="true" text="Thème nuit" toggleGroup="$grStyle" />
+                        <RadioMenuItem fx:id="themeNuit" mnemonicParsing="false" onAction="#changeTheme" text="Thème nuit" toggleGroup="$grStyle" />
                         <RadioMenuItem fx:id="themeWanda" mnemonicParsing="false" onAction="#changeTheme" text="Thème bleu" toggleGroup="$grStyle" />
                         <RadioMenuItem fx:id="themeAmandine" mnemonicParsing="false" onAction="#changeTheme" text="Thème coloré" toggleGroup="$grStyle" />
-                        <RadioMenuItem fx:id="themeAmelie" mnemonicParsing="false" onAction="#changeTheme" text="Thème chaud" toggleGroup="$grStyle" />
+                        <RadioMenuItem fx:id="themeAmelie" mnemonicParsing="false" onAction="#changeTheme" selected="true" text="Thème chaud" toggleGroup="$grStyle" />
+                        <RadioMenuItem fx:id="themePerso" mnemonicParsing="false" onAction="#changeTheme" text="Thème personnalisé" toggleGroup="$grStyle" />
                     </items>
                   </Menu>
               <MenuItem id="changerStyle" fx:id="changerStyle" mnemonicParsing="false" text="Modifier le style personnalisé" />

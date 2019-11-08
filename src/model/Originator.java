@@ -15,12 +15,12 @@ public class Originator {
     private Grille state;
     
     public void set(Grille state){
-        System.out.println("Originator: etat affecte a: \n" + state);
+        //System.out.println("Originator: etat affecte a: \n" + state);
         this.state=state;
     }
     
     public Object saveToMemento(){
-        System.out.println("Originator: sauvegarder dans le memento.");
+        //System.out.println("Originator: sauvegarder dans le memento.");
         return new Memento(state);
     }
     
@@ -28,7 +28,7 @@ public class Originator {
         if (m instanceof Memento){
             Memento memento = (Memento)m;
             state = memento.getSavedState();
-            System.out.println("Originator: Etat après restauration: \n" + state);
+            //System.out.println("Originator: Etat après restauration: \n" + state);
         }
         return state;
     }

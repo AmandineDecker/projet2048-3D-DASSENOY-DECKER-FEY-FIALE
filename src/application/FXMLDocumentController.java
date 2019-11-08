@@ -5,6 +5,7 @@
  */
 package application;
 
+import css.Style;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -69,7 +70,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private MenuItem quitter, nouveauJeu, changerStyle, aPropos, backMove, avancerUnCoup;
     @FXML
-    private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine, themeAmelie;
+    private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine, themeAmelie, themePerso;
     @FXML
     private ToggleGroup grStyle;
     @FXML
@@ -80,30 +81,40 @@ public class FXMLDocumentController implements Parametres, Initializable {
     private Button bHaut, bBas, bGauche, bDroite, bSup, bInf;
     
     private Grille modelGrille = new Grille();
+    public Style style = new Style();
     
     // Les événements
     
     @FXML
     public void quitter(ActionEvent event) {
         System.out.println("Au revoir!");
-        ObjectOutputStream oos = null;
+        ObjectOutputStream oosGrille = null;
+        ObjectOutputStream oosStyle = null;
         
         if (modelGrille.partieFinie()){
             nouvellePartie();
         }
         try{
-            final FileOutputStream fichier = new FileOutputStream("../../model.ser");
-            oos = new ObjectOutputStream(fichier);
-            oos.writeObject(modelGrille);
-            oos.flush();
+            final FileOutputStream fichierGrille = new FileOutputStream("../../model.ser");
+            oosGrille = new ObjectOutputStream(fichierGrille);
+            oosGrille.writeObject(modelGrille);
+            oosGrille.flush();
+            final FileOutputStream fichierStyle = new FileOutputStream("../../style.ser");
+            oosStyle = new ObjectOutputStream(fichierStyle);
+            oosStyle.writeObject(style);
+            oosStyle.flush();
         }catch (final IOException e){
             e.printStackTrace();
         }finally{
             try{
-                if(oos != null){
-                    oos.flush();
-                    oos.close();
-            }
+                if(oosGrille != null){
+                    oosGrille.flush();
+                    oosGrille.close();
+                }
+                if(oosStyle != null){
+                    oosStyle.flush();
+                    oosStyle.close();
+                }
             }catch(final IOException ex){
                 ex.printStackTrace();
             }
@@ -111,6 +122,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         
         System.exit(0);
     }
+
 
     @FXML
     private void nouveauJeu(ActionEvent event) {
@@ -125,49 +137,51 @@ public class FXMLDocumentController implements Parametres, Initializable {
             // Les nombres sont dans l'ordre du menu
             case 0 :
                 fond.getStylesheets().add("css/styles.css");
+                style.styleActuel = "css/styles.css";
                 break;
             case 1 :
                 fond.getStylesheets().add("css/modeNuit.css");
+                style.styleActuel = "css/modeNuit.css";
                 break;
             case 2 :
                 fond.getStylesheets().add("css/wanda.css");
+                style.styleActuel = "css/wanda.css";
                 break;
             case 3 :
                 fond.getStylesheets().add("css/amandine.css");
+                style.styleActuel = "css/amandine.css";
                 break;
             case 4 :
                 fond.getStylesheets().add("css/amelie.css");
+                style.styleActuel = "css/amelie.css";
+                break;
+            case 5 :
+                fond.getStylesheets().add("css/perso.css");
+                style.styleActuel = "css/perso.css";
                 break;
             default:
                 break;
         }
     }
+
     
     @FXML
     private void revenirUnCoup(ActionEvent event) {
         int index=caretaker.getIndex();
-        modelGrille = originator.restoreFromMemento(caretaker.getMemento(index-1));
-        caretaker.setIndex(index-1);
+        modelGrille = originator.restoreFromMemento(caretaker.getMemento(index - 1));
+        caretaker.setIndex(index - 1);
         afficheGrille(modelGrille);
         System.out.println(modelGrille);
     }
     
     @FXML
     private void avancerUnCoup(ActionEvent event) {
-        int index=caretaker.getIndex();
-        modelGrille = originator.restoreFromMemento(caretaker.getMemento(index+1));
-        caretaker.setIndex(index +1);
+        int index = caretaker.getIndex();
+        modelGrille = originator.restoreFromMemento(caretaker.getMemento(index + 1));
+        caretaker.setIndex(index + 1);
         afficheGrille(modelGrille);
         System.out.println(modelGrille);
     }
-    
-//    // Changer de theme
-//    public void changerTheme(String theme){
-//        fond.getStylesheets().clear();
-//        fond.getStylesheets().add(STYLESHEET_MODENA);
-//        fond.getStylesheets().add(theme);
-//    }
-    
     
     
     @FXML
@@ -506,21 +520,30 @@ public class FXMLDocumentController implements Parametres, Initializable {
             commande6.getStyleClass().add("commandes");
         } catch (Exception e){}
         
-        ObjectOutputStream oos = null;
-        ObjectInputStream ois = null;
+        ObjectOutputStream oosGrille = null;
+        ObjectInputStream oisGrille = null;
         Grille gr = null;
+        ObjectOutputStream oosStyle = null;
+        ObjectInputStream oisStyle = null;
+        Style st = null;
         try{
-            final FileInputStream fichierln = new FileInputStream("../../model.ser");
-            ois = new ObjectInputStream(fichierln);
-            gr = (Grille)ois.readObject();
+            final FileInputStream fichierlnGrille = new FileInputStream("../../model.ser");
+            oisGrille = new ObjectInputStream(fichierlnGrille);
+            gr = (Grille)oisGrille.readObject();
+            final FileInputStream fichierlnStyle = new FileInputStream("../../style.ser");
+            oisStyle = new ObjectInputStream(fichierlnStyle);
+            st = (Style)oisStyle.readObject();
         } catch (final IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         } finally{
             try{
-                if(ois != null){
-                    ois.close();
+                if(oisGrille != null){
+                    oisGrille.close();
+                }
+                if(oisStyle != null){
+                    oisStyle.close();
                 }
             }catch (final IOException exc){
                 exc.printStackTrace();
@@ -534,6 +557,39 @@ public class FXMLDocumentController implements Parametres, Initializable {
         b = modelGrille.nouvelleCase();
         }else{
             modelGrille = gr;
+        }
+        
+        if (st != null){
+            try{
+            // On met le bon style
+            fond.getStylesheets().clear();
+            fond.getStylesheets().add(st.styleActuel);
+            grStyle.getSelectedToggle().setSelected(false);
+            // On coche le bon style dans le menu
+            switch(st.styleActuel){
+                case "css/styles.css":
+                    themeClassique.setSelected(true);
+                    break;
+                case "css/modeNuit.css":
+                    themeNuit.setSelected(true);
+                    break;
+                case "css/wanda.css":
+                    themeWanda.setSelected(true);
+                    break;
+                case "css/amandine.css":
+                    themeAmandine.setSelected(true);
+                    break;
+                case "css/amelie.css":
+                    themeAmelie.setSelected(true);
+                    break;
+                case "css/perso.css":
+                    themePerso.setSelected(true);
+                    break;
+                default:
+                    break;
+            }
+            } catch (Exception e){System.out.println("HAHAH");}
+            
         }
         
         System.out.println(modelGrille);

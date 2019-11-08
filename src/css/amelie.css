@@ -31,13 +31,19 @@ and open the template in the editor.
 }
 
 .commandes {
+    -fx-font-size: 18;
     -fx-text-fill: black;
-     -fx-font-family: "Arial";
+    -fx-alignment: CENTER;
+    -fx-font-family: "Arial";
+    -fx-font-weight: Bold;
 }
 
 .score{
+    -fx-font-size: 18;
     -fx-text-fill: black;
-     -fx-font-family: "Arial";
+    -fx-alignment: CENTER;
+    -fx-font-family: "Arial";
+    -fx-font-weight: Bold;
 
 }
 /* LE MENU */
