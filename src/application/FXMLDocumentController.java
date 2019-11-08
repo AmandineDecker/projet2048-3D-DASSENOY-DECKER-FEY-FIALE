@@ -38,6 +38,7 @@ import model.Grille;
 import model.Parametres;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javafx.application.Application.STYLESHEET_MODENA;
@@ -156,8 +157,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 style.styleActuel = "css/amelie.css";
                 break;
             case 5 :
-                fond.getStylesheets().add("css/perso.css");
-                style.styleActuel = "css/perso.css";
+                try {
+                    style.applyCSS(fond);
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             default:
                 break;
@@ -504,20 +508,20 @@ public class FXMLDocumentController implements Parametres, Initializable {
         System.out.println("le contrôleur initialise la vue");
         try {
             fond.getStyleClass().add("pane");
-            gr1.getStyleClass().add("gridpane");
-            gr2.getStyleClass().add("gridpane");
-            gr3.getStyleClass().add("gridpane");
-            score.getStyleClass().add("score");
-            txtScore.getStyleClass().add("score");
-            resultat.getStyleClass().add("resultat");
-            logo.getStyleClass().add("logo");
-            commande0.getStyleClass().add("commandes");
-            commande1.getStyleClass().add("commandes");
-            commande2.getStyleClass().add("commandes");
-            commande3.getStyleClass().add("commandes");
-            commande4.getStyleClass().add("commandes");
-            commande5.getStyleClass().add("commandes");
-            commande6.getStyleClass().add("commandes");
+//            gr1.getStyleClass().add("gridpane");
+//            gr2.getStyleClass().add("gridpane");
+//            gr3.getStyleClass().add("gridpane");
+//            score.getStyleClass().add("score");
+//            txtScore.getStyleClass().add("score");
+//            resultat.getStyleClass().add("resultat");
+//            logo.getStyleClass().add("logo");
+//            commande0.getStyleClass().add("commandes");
+//            commande1.getStyleClass().add("commandes");
+//            commande2.getStyleClass().add("commandes");
+//            commande3.getStyleClass().add("commandes");
+//            commande4.getStyleClass().add("commandes");
+//            commande5.getStyleClass().add("commandes");
+//            commande6.getStyleClass().add("commandes");
         } catch (Exception e){}
         
         ObjectOutputStream oosGrille = null;
