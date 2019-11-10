@@ -28,7 +28,8 @@
           </Menu>
           <Menu id="menuEdit" fx:id="menuEdit" mnemonicParsing="false" text="Editer">
             <items>
-                  <Menu mnemonicParsing="false" text="Style">
+                  <SeparatorMenuItem mnemonicParsing="false" text="Style" />
+                  <Menu mnemonicParsing="false" text="Style utilisé">
                     <items>
                         <RadioMenuItem fx:id="themeClassique" mnemonicParsing="false" onAction="#changeTheme" text="Thème classique">
                            <toggleGroup>
@@ -39,11 +40,13 @@
                         <RadioMenuItem fx:id="themeWanda" mnemonicParsing="false" onAction="#changeTheme" text="Thème bleu" toggleGroup="$grStyle" />
                         <RadioMenuItem fx:id="themeAmandine" mnemonicParsing="false" onAction="#changeTheme" text="Thème coloré" toggleGroup="$grStyle" />
                         <RadioMenuItem fx:id="themeAmelie" mnemonicParsing="false" onAction="#changeTheme" selected="true" text="Thème chaud" toggleGroup="$grStyle" />
-                        <RadioMenuItem fx:id="themePerso" mnemonicParsing="false" onAction="#changeTheme" text="Thème personnalisé" toggleGroup="$grStyle" />
                         <RadioMenuItem fx:id="themeAme2" mnemonicParsing="false" onAction="#changeTheme" text="Thème cubain" toggleGroup="$grStyle" />
+                        <RadioMenuItem fx:id="themeWVert" mnemonicParsing="false" onAction="#changeTheme" text="Thème actuel" toggleGroup="$grStyle" />
+                        <RadioMenuItem fx:id="themePerso" mnemonicParsing="false" onAction="#changeTheme" text="Thème personnalisé" toggleGroup="$grStyle" />
                     </items>
                   </Menu>
               <MenuItem id="changerStyle" fx:id="changerStyle" mnemonicParsing="false" onAction="#fenetrePersonnalisation" text="Modifier le style personnalisé" />
+                  <SeparatorMenuItem mnemonicParsing="false" text="Jeu" />
                   <MenuItem fx:id="backMove" mnemonicParsing="false" onAction="#revenirUnCoup" text="Revenir au coup précédent" />
                   <MenuItem fx:id="avancerUnCoup" mnemonicParsing="false" onAction="#avancerUnCoup" text="Avancer" />
             </items>

@@ -175,6 +175,16 @@ and open the template in the editor.
 -fx-background-color: #372E65;
 }
 
+/* LES BOUTONS */
+
+.button,
+.color-picker.split-button > .color-picker-label {
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: CENTER;  
+}
+
  /* LES GRILLES */ 
 
 .gridpane {

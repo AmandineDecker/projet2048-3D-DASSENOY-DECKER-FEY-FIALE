@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,8 +8,378 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXMLColorPickerController">
-   <children>
-      <Button layoutX="268.0" layoutY="158.0" mnemonicParsing="false" onAction="#coucou" text="Click me" />
-   </children>
-</AnchorPane>
+<BorderPane fx:id="fond" minWidth="433.0" prefHeight="477.0" prefWidth="522.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXMLColorPickerController">
+   <bottom>
+      <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveStyle" text="Enregistrer ce style" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="15.0" top="10.0" />
+         </BorderPane.margin>
+      </Button>
+   </bottom>
+   <center>
+      <VBox prefHeight="396.0" prefWidth="360.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelFond" alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" text="Fond" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                        </Label>
+                        <ColorPicker fx:id="fondPicker" maxWidth="100.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </ColorPicker>
+                     </children>
+                     <opaqueInsets>
+                        <Insets right="20.0" />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelInfos" alignment="CENTER" minWidth="-Infinity" text="Informations" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                        </Label>
+                        <ColorPicker fx:id="infosPicker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </ColorPicker>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+            <Separator prefWidth="200.0" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTexte" alignment="CENTER" minWidth="-Infinity" text="Texte" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="textePicker">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTuile2" alignment="CENTER" contentDisplay="CENTER" minWidth="-Infinity" text="Tuile 2" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="tuile2Picker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <opaqueInsets>
+                        <Insets right="20.0" />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTuile4" alignment="CENTER" minWidth="-Infinity" text="Tuile 4" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="tuile4Picker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTuile8" alignment="CENTER" minWidth="-Infinity" text="Tuile 8" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="tuile8Picker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <opaqueInsets>
+                        <Insets right="20.0" />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTuile16" alignment="CENTER" minWidth="-Infinity" text="Tuile 16" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="tuile16Picker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTuile32" alignment="CENTER" minWidth="-Infinity" text="Tuile 32" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="tuile32Picker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <opaqueInsets>
+                        <Insets right="20.0" />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTuile64" alignment="CENTER" minWidth="-Infinity" text="Tuile 64" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="tuile64Picker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTuile128" alignment="CENTER" minWidth="-Infinity" text="Tuile 128" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="tuile128Picker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <opaqueInsets>
+                        <Insets right="20.0" />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTuile256" alignment="CENTER" minWidth="-Infinity" text="Tuile 256" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="tuile256Picker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTuile512" alignment="CENTER" minWidth="-Infinity" text="Tuile 512" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="tuile512Picker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <opaqueInsets>
+                        <Insets right="20.0" />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTuile1024" alignment="CENTER" minWidth="-Infinity" text="Tuile 1024" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="tuile1024Picker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="label" fx:id="labelTuile2048" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" text="Tuile 2048" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ColorPicker fx:id="tuile2048Picker">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" />
+                           </HBox.margin>
+                        </ColorPicker>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>

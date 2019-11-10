@@ -5,12 +5,20 @@
  */
 package application;
 
-import java.io.IOException;
+import css.Style;
+import java.io.*;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 
 /**
  * FXML Controller class
@@ -18,16 +26,90 @@ import javafx.fxml.Initializable;
  * @author Valou
  */
 public class FXMLColorPickerController implements Initializable {
-
+    
+    @FXML
+    BorderPane fond;
+    @FXML
+    Button saveButton;
+    @FXML
+    ColorPicker fondPicker, infosPicker, textePicker, tuile2Picker, tuile4Picker, tuile8Picker, tuile16Picker, tuile32Picker, tuile64Picker, tuile128Picker, tuile256Picker, tuile512Picker, tuile1024Picker, tuile2048Picker;
+    @FXML
+    Label labelFond, labelInfos, labelTexte, labelTuile2, labelTuile4, labelTuile8, labelTuile16, labelTuile32, labelTuile64, labelTuile128, labelTuile256, labelTuile512, labelTuile1024, labelTuile2048;
+    
+    //(ColorPicker fondPicker, ColorPicker textePicker, ColorPicker tuile2Picker, ColorPicker tuile4Picker, ColorPicker tuile8Picker, ColorPicker tuile16Picker, ColorPicker tuile32Picker, ColorPicker tuile64Picker, ColorPicker tuile128Picker, ColorPicker tuile256Picker, ColorPicker tuile512Picker, ColorPicker tuile1024Picker, ColorPicker tuile2048Picker)
+    
+    Style perso;
+    AnchorPane fondPrincipal;
+    
+    // Recevoir le style de l'autre page
+    public void transferStyle(Style s, AnchorPane p){
+        perso = s;
+        fondPrincipal = p;
+//        fond.getStylesheets().clear();
+//        //fond.getStylesheets().add("css/basePerso.css");
+//        
+//        fond.getStylesheets().add(perso.styleActuel);
+//        fond.getStyleClass().add("pane");
+//        fond.setStyle("     -fx-opacity: 0.5;");
+//        //saveButton.getStyleClass().add("button");
+//        
+//        String styleLabel = "   -fx-text-fill: black;     -fx-opacity: 0.5;";
+//        labelFond.setStyle(styleLabel);
+//        labelInfos.setStyle(styleLabel);
+//        labelTexte.setStyle(styleLabel);
+//        labelTuile2.setStyle(styleLabel);
+//        labelTuile4.setStyle(styleLabel);
+//        labelTuile8.setStyle(styleLabel);
+//        labelTuile16.setStyle(styleLabel);
+//        labelTuile32.setStyle(styleLabel);
+//        labelTuile64.setStyle(styleLabel);
+//        labelTuile128.setStyle(styleLabel);
+//        labelTuile256.setStyle(styleLabel);
+//        labelTuile512.setStyle(styleLabel);
+//        labelTuile1024.setStyle(styleLabel);
+//        labelTuile2048.setStyle(styleLabel);
+//        
+        //fond.setStyle("    -fx-background-color: #" + col + ";")
+        
+        try {
+            fondPicker.setValue(Color.web(perso.colFond));
+            infosPicker.setValue(Color.web(perso.colInfos));
+            textePicker.setValue(Color.web(perso.colTexte));
+            tuile2Picker.setValue(Color.web(perso.colTuile2));
+            tuile4Picker.setValue(Color.web(perso.colTuile4));
+            tuile8Picker.setValue(Color.web(perso.colTuile8));
+            tuile16Picker.setValue(Color.web(perso.colTuile16));
+            tuile32Picker.setValue(Color.web(perso.colTuile32));
+            tuile64Picker.setValue(Color.web(perso.colTuile64));
+            tuile128Picker.setValue(Color.web(perso.colTuile128));
+            tuile256Picker.setValue(Color.web(perso.colTuile256));
+            tuile512Picker.setValue(Color.web(perso.colTuile512));
+            tuile1024Picker.setValue(Color.web(perso.colTuile1024));
+            tuile2048Picker.setValue(Color.web(perso.colTuile2048));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    public void saveStyle(ActionEvent event) {
+        perso.saveCSS(fondPicker, infosPicker, textePicker, tuile2Picker, tuile4Picker, tuile8Picker, tuile16Picker, tuile32Picker, tuile64Picker, tuile128Picker, tuile256Picker, tuile512Picker, tuile1024Picker, tuile2048Picker);
+        
+        if (perso.styleActuel.equals("css/perso.css")){
+            perso.applyCSS(fondPrincipal);
+            //perso.applyCSS(fond);
+        }
+        //fondPicker.getV
+    }
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
+        
     }    
     
-        @FXML private void coucou(ActionEvent event) throws IOException {
-            System.out.println("coucou");
-    }
 }

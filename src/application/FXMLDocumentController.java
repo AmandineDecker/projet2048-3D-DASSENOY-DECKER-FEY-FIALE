@@ -43,6 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javafx.application.Application.STYLESHEET_MODENA;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
@@ -87,6 +88,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     private Grille modelGrille = new Grille();
     public Style style = new Style();
+    
+    Caretaker caretaker= new Caretaker();
+    Originator originator=new Originator();
     
     // Les événements
     
@@ -159,21 +163,19 @@ public class FXMLDocumentController implements Parametres, Initializable {
             case 4 :
                 fond.getStylesheets().add("css/amelie.css");
                 style.styleActuel = "css/amelie.css";
-                break;            
+                break;  
             case 5 :
-                try {
-                    style.applyCSS(fond);
-                } catch (URISyntaxException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                break;
-            case 6 :
                 fond.getStylesheets().add("css/ame.css");
                 style.styleActuel = "css/ame.css";
                 break;
-            case 7 :
+            case 6 :
                 fond.getStylesheets().add("css/wvert.css");
                 style.styleActuel = "css/wvert.css";
+                break;
+            case 7 :
+                style.applyCSS(fond);
+//                fond.getStylesheets().add("css/perso.css");
+//                style.styleActuel = "css/perso.css";
                 break;
             default:
                 break;
@@ -293,10 +295,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     
     // Les méthodes
-    
-               
-    Caretaker caretaker= new Caretaker();
-    Originator originator=new Originator();
     
     // Place la case sur la fenêtre graphique
     public void placeCase(Case c){
@@ -509,6 +507,27 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
     }
     
+    
+    @FXML private void fenetrePersonnalisation(ActionEvent event) throws IOException {
+        // Load fenetre de personnalisation
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLColorPicker.fxml"));
+        Parent root = loader.load();
+        // Recupérer le controller
+        FXMLColorPickerController personnalisationController = loader.getController();
+        // Transmettre ce qu'on veut
+        personnalisationController.transferStyle(style, fond);
+        //System.out.println(style.styleActuel);
+        // Afficher la fenetre
+        //Scene scene = new Scene(FXMLLoader.load(getClass().getResource("FXMLColorPicker.fxml")));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Fenetre de personnalisation");
+        stage.initModality(Modality.WINDOW_MODAL);
+        scene.getStylesheets().add(style.styleActuel);
+        stage.show();
+    }
+    
     //////////////////////////////////////////////////////////////////////
     
 
@@ -567,59 +586,69 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         
         if(gr == null){
-       
-        //Initialisation de la partie avec les deux premières cases aux hasard 
-        boolean b = modelGrille.nouvelleCase();
-        b = modelGrille.nouvelleCase();
+            //Initialisation de la partie avec les deux premières cases aux hasard 
+            boolean b = modelGrille.nouvelleCase();
+            b = modelGrille.nouvelleCase();
         }else{
             modelGrille = gr;
         }
-        
         if (st != null){
+            style = st;
             try{
-            // On met le bon style
-            fond.getStylesheets().clear();
-            fond.getStylesheets().add(st.styleActuel);
-            grStyle.getSelectedToggle().setSelected(false);
-            // On coche le bon style dans le menu
-            switch(st.styleActuel){
-                case "css/styles.css":
-                    themeClassique.setSelected(true);
-                    break;
-                case "css/modeNuit.css":
-                    themeNuit.setSelected(true);
-                    break;
-                case "css/wanda.css":
-                    themeWanda.setSelected(true);
-                    break;
-                case "css/amandine.css":
-                    themeAmandine.setSelected(true);
-                    break;
-                case "css/amelie.css":
-                    themeAmelie.setSelected(true);
-                    break;
-                case "css/perso.css":
-                    themePerso.setSelected(true);
-                    break;
-                default:
-                    break;
+                // On met le bon style
+                fond.getStylesheets().clear();
+                grStyle.getSelectedToggle().setSelected(false);
+                // On coche le bon style dans le menu
+                switch(st.styleActuel){
+                    case "css/styles.css":
+                        fond.getStylesheets().add("css/styles.css");
+                        themeClassique.setSelected(true);
+                        break;
+                    case "css/modeNuit.css":
+                        fond.getStylesheets().add("css/modeNuit.css");
+                        themeNuit.setSelected(true);
+                        break;
+                    case "css/wanda.css":
+                        fond.getStylesheets().add("css/wanda.css");
+                        themeWanda.setSelected(true);
+                        break;
+                    case "css/amandine.css":
+                        fond.getStylesheets().add("css/amandine.css");
+                        themeAmandine.setSelected(true);
+                        break;
+                    case "css/amelie.css":
+                        fond.getStylesheets().add("css/amelie.css");
+                        themeAmelie.setSelected(true);
+                        break;
+                    case "css/perso.css":
+//                        fond.getStylesheets().add("css/basePerso.css");
+//                        fond.getStylesheets().add("css/perso.css");
+                        style.applyCSS(fond);
+                        themePerso.setSelected(true);
+                        break;
+                    case "css/ame.css":
+                        fond.getStylesheets().add("css/ame.css");
+                        themeAme2.setSelected(true);
+                        break;
+                    case "css/wvert.css":
+                        fond.getStylesheets().add("css/wvert.css");
+                        themePerso.setSelected(true);
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception e){
+                System.out.println("HAHAH");
             }
-            } catch (Exception e){System.out.println("HAHAH");}
-            
         }
         
         System.out.println(modelGrille);
         afficheGrille(modelGrille);     
 
         originator.set(modelGrille);
-        caretaker.addMemento(originator.saveToMemento());                
+        caretaker.addMemento(originator.saveToMemento());  
+        
     }
     
-    @FXML private void fenetrePersonnalisation(ActionEvent event) throws IOException {
-        Stage stage = new Stage();
-        stage.setTitle("Fenetre de personnalisation");
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("FXMLColorPicker.fxml"))));
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.show();
-    }
+    
 }

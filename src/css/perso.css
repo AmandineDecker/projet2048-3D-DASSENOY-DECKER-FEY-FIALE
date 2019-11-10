@@ -1,65 +1,77 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 29 oct. 2019, 09:39:29
-    Author     : Amandine
-*/
-
-
 /* Le fond  */
 .pane {
-    -fx-background-color: #FBEFF2 ;
+    -fx-background-color: #ccffff;
+    -fx-border-color: whitesmoke;
 }
 
-
-/* Le texte */
+/* Le texte  */
 .logo {
-    -fx-text-fill: #64bf76;
+    -fx-font-size: 1.5em;
+    -fx-text-fill: #bd046e;
+    -fx-alignment: CENTER;
 }
-
 .resultat {
-    -fx-text-fill: #f22e2e;
+    -fx-font-size: 2em;
+    -fx-text-fill: #bd046e;
+    -fx-alignment: CENTER;
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-weight: Bold;
 }
-
 .commandes {
-    -fx-text-fill: black;
+    -fx-text-fill: #bd046e;
+}
+.score {
+    -fx-text-fill: #bd046e;
 }
 
-/* Les tuiles */
-
+/* Les tuiles  */
 .tuile2 {
-    -fx-background-color: #F8ECE0;
+    -fx-background-color: #003333;
+    -fx-border-color: black;
 }
 .tuile4 {
-    -fx-background-color: #F5D0A9;
+    -fx-background-color: #001a80;
+    -fx-border-color: black;
 }
 .tuile8 {
-    -fx-background-color: #FAAC58;
+    -fx-background-color: #1a0068;
+    -fx-border-color: black;
 }
 .tuile16 {
-    -fx-background-color: #FF8000;
+    -fx-background-color: #330033;
+    -fx-border-color: black;
 }
 .tuile32 {
-    -fx-background-color: #FF4000;
+    -fx-background-color: #4d001a;
+    -fx-border-color: black;
 }
 .tuile64 {
-    -fx-background-color: #DF0101;
+    -fx-background-color: #990000;
+    -fx-border-color: black;
 }
 .tuile128 {
-    -fx-background-color: #F4FA58;
+    -fx-background-color: #993300;
+    -fx-border-color: black;
 }
 .tuile256 {
-    -fx-background-color: #F7D358;
+    -fx-background-color: #994d00;
+    -fx-border-color: black;
 }
 .tuile512 {
-    -fx-background-color: DBA901;
+    -fx-background-color: #996600;
+    -fx-border-color: black;
 }
 .tuile1024 {
-    -fx-background-color: #8A4B08;
+    -fx-background-color: #999900;
+    -fx-border-color: black;
 }
 .tuile2048 {
-    -fx-background-color: orange;
+    -fx-background-color: #666600;
+    -fx-border-color: black;
+}
+.valeurTuile {
+    -fx-font-size: 32;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: 800;
+    -fx-alignment: CENTER;
 }

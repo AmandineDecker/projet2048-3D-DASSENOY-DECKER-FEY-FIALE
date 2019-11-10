@@ -6,6 +6,7 @@
 package css;
 
 
+import application.FXMLColorPickerController;
 import application.FXMLDocumentController;
 import application.Main;
 import java.io.File;
@@ -19,8 +20,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javafx.application.Application.STYLESHEET_MODENA;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
@@ -29,11 +32,15 @@ import javafx.scene.paint.Color;
  */
 public class Style implements Serializable{
     
-//    final transient String chemin = "src/css/perso.css";
 //    public transient String styleFond, styleTexte, styleTuile2, styleTuile4, styleTuile8, styleTuile16, styleTuile32, styleTuile64, styleTuile128, styleTuile256, styleTuile512, styleTuile1024, styleTuile2048;
     public String styleActuel = "css/amelie.css";
+    public String colFond, colInfos, colTexte, colTuile2, colTuile4, colTuile8, colTuile16, colTuile32, colTuile64, colTuile128, colTuile256, colTuile512, colTuile1024, colTuile2048;
     
     public Style(){}
+    
+    public String toString(){
+        return colFond + ", " + colTexte + ", " + colTuile2;
+    }
     
     public String makeCol(ColorPicker colorPic){
         Color c = colorPic.getValue();
@@ -41,7 +48,7 @@ public class Style implements Serializable{
         return col;
     }
     
-    public void saveCSS(ColorPicker fondPicker, ColorPicker textePicker, ColorPicker tuile2Picker, ColorPicker tuile4Picker, ColorPicker tuile8Picker, ColorPicker tuile16Picker, ColorPicker tuile32Picker, ColorPicker tuile64Picker, ColorPicker tuile128Picker, ColorPicker tuile256Picker, ColorPicker tuile512Picker, ColorPicker tuile1024Picker, ColorPicker tuile2048Picker){
+    public void saveCSS(ColorPicker fondPicker, ColorPicker infosPicker, ColorPicker textePicker, ColorPicker tuile2Picker, ColorPicker tuile4Picker, ColorPicker tuile8Picker, ColorPicker tuile16Picker, ColorPicker tuile32Picker, ColorPicker tuile64Picker, ColorPicker tuile128Picker, ColorPicker tuile256Picker, ColorPicker tuile512Picker, ColorPicker tuile1024Picker, ColorPicker tuile2048Picker){
         
         PrintWriter writer = null;
         String cssFileName = "perso.css", distPath=null, srcPath = "src/css/" + cssFileName, buildPath = "build/classes/css/" + cssFileName;
@@ -62,24 +69,35 @@ public class Style implements Serializable{
             col = makeCol(fondPicker);
             writer.println(".pane {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: whitesmoke;");
             writer.println("}");
+            // Classe style
+            colFond = col;
             
             // Le texte
             writer.println("");
             writer.println("/* Le texte  */");
             
-            col = makeCol(textePicker);
+            col = makeCol(infosPicker);
+            // Classe style
+            colInfos = col;
             
             // Logo
             // CSS
             writer.println(".logo {");
+            writer.println("    -fx-font-size: 1.5em;");
             writer.println("    -fx-text-fill: #" + col + ";");
+            writer.println("    -fx-alignment: CENTER;");
             writer.println("}");
             
             // Resultat
             // CSS
             writer.println(".resultat {");
+            writer.println("    -fx-font-size: 2em;");
             writer.println("    -fx-text-fill: #" + col + ";");
+            writer.println("    -fx-alignment: CENTER;");
+            writer.println("    -fx-font-family: \"Comic Sans MS\";");
+            writer.println("    -fx-font-weight: Bold;");
             writer.println("}");
             
             // Commandes
@@ -88,6 +106,11 @@ public class Style implements Serializable{
             writer.println("    -fx-text-fill: #" + col + ";");
             writer.println("}");
             
+            // Score
+            // CSS
+            writer.println(".score {");
+            writer.println("    -fx-text-fill: #" + col + ";");
+            writer.println("}");
             
             
             // Les tuiles
@@ -99,77 +122,122 @@ public class Style implements Serializable{
             col = makeCol(tuile2Picker);
             writer.println(".tuile2 {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Classe style
+            colTuile2 = col;
             
             // Tuile 4
             // CSS
             col = makeCol(tuile4Picker);
             writer.println(".tuile4 {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Classe style
+            colTuile4 = col;
             
             // Tuile 8
             // CSS
             col = makeCol(tuile8Picker);
             writer.println(".tuile8 {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Classe style
+            colTuile8 = col;
             
             // Tuile 16
             // CSS
             col = makeCol(tuile16Picker);
             writer.println(".tuile16 {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Classe style
+            colTuile16 = col;
             
             // Tuile 32
             // CSS
             col = makeCol(tuile32Picker);
             writer.println(".tuile32 {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Classe style
+            colTuile32 = col;
             
             // Tuile 64
             // CSS
             col = makeCol(tuile64Picker);
             writer.println(".tuile64 {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Classe style
+            colTuile64 = col;
             
             // Tuile 128
             // CSS
             col = makeCol(tuile128Picker);
             writer.println(".tuile128 {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Classe style
+            colTuile128 = col;
             
             // Tuile 256
             // CSS
             col = makeCol(tuile256Picker);
             writer.println(".tuile256 {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Classe style
+            colTuile256 = col;
             
             // Tuile 512
             // CSS
             col = makeCol(tuile512Picker);
             writer.println(".tuile512 {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Classe style
+            colTuile512 = col;
             
             // Tuile 1024
             // CSS
             col = makeCol(tuile1024Picker);
             writer.println(".tuile1024 {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Classe style
+            colTuile1024 = col;
             
             // Tuile 2048
             // CSS
             col = makeCol(tuile2048Picker);
             writer.println(".tuile2048 {");
             writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Classe style
+            colTuile2048 = col;
+            
+            // Valeur des tuiles
+            col = makeCol(textePicker);
+            writer.println(".valeurTuile {");
+            writer.println("    -fx-font-size: 32;");
+            writer.println("    -fx-text-fill: #" + col + ";");
+            writer.println("    -fx-font-weight: 800;");
+            writer.println("    -fx-alignment: CENTER;");
+            writer.println("}");
+            // Classe style
+            colTexte = col;
+            
 
         } catch (URISyntaxException | IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -192,12 +260,24 @@ public class Style implements Serializable{
         }
     }
     
-    public void applyCSS(AnchorPane fond) throws URISyntaxException{
-        fond.getScene().getStylesheets().clear();
-        File f = new File(new File(FXMLDocumentController.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent() + "\\" + "perso.css");
-        String fileURI = f.toURI().toString();
-        fond.getScene().getStylesheets().add(fileURI);
-        styleActuel = "css/perso.css";
+    public void applyCSS(Pane fond) {
+        try {
+            fond.getStylesheets().clear();
+            fond.getStylesheets().add("css/basePerso.css");
+            styleActuel = "css/perso.css";
+            String distCSSFile = new File(FXMLDocumentController.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent() + "\\", cssFileName = "perso.css";
+            if (new File(distCSSFile + cssFileName).exists()) {
+//                System.out.println("css modifié");
+                File f = new File(distCSSFile + cssFileName);
+                String fileURI = f.toURI().toString();
+                boolean add = fond.getStylesheets().add(fileURI);
+            } else {
+//                System.out.println("css d'origine");
+                boolean add = fond.getStylesheets().add("css/perso.css");
+            }
+        } catch (URISyntaxException ex) {
+            ex.printStackTrace();
+        }
     }
     
 }
