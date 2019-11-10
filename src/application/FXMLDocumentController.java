@@ -75,7 +75,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private MenuItem quitter, nouveauJeu, changerStyle, aPropos, backMove, avancerUnCoup;
     @FXML
-    private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine, themeAmelie, themePerso, themeAme2;
+    private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine, themeAmelie, themePerso, themeAme2, themeWVert;
     @FXML
     private ToggleGroup grStyle;
     @FXML
@@ -159,17 +159,21 @@ public class FXMLDocumentController implements Parametres, Initializable {
             case 4 :
                 fond.getStylesheets().add("css/amelie.css");
                 style.styleActuel = "css/amelie.css";
-                break;
+                break;            
             case 5 :
-                fond.getStylesheets().add("css/ame.css");
-                style.styleActuel = "css/ame.css";
-                break;
-            case 6 :
                 try {
                     style.applyCSS(fond);
                 } catch (URISyntaxException ex) {
                     Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                break;
+            case 6 :
+                fond.getStylesheets().add("css/ame.css");
+                style.styleActuel = "css/ame.css";
+                break;
+            case 7 :
+                fond.getStylesheets().add("css/wvert.css");
+                style.styleActuel = "css/wvert.css";
                 break;
             default:
                 break;
