@@ -42,8 +42,12 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javafx.application.Application.STYLESHEET_MODENA;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.Caretaker;
 import model.Originator;
 import threads.Apparition;
@@ -512,20 +516,20 @@ public class FXMLDocumentController implements Parametres, Initializable {
         System.out.println("le contrôleur initialise la vue");
         try {
             fond.getStyleClass().add("pane");
-//            gr1.getStyleClass().add("gridpane");
-//            gr2.getStyleClass().add("gridpane");
-//            gr3.getStyleClass().add("gridpane");
-//            score.getStyleClass().add("score");
-//            txtScore.getStyleClass().add("score");
-//            resultat.getStyleClass().add("resultat");
-//            logo.getStyleClass().add("logo");
-//            commande0.getStyleClass().add("commandes");
-//            commande1.getStyleClass().add("commandes");
-//            commande2.getStyleClass().add("commandes");
-//            commande3.getStyleClass().add("commandes");
-//            commande4.getStyleClass().add("commandes");
-//            commande5.getStyleClass().add("commandes");
-//            commande6.getStyleClass().add("commandes");
+            gr1.getStyleClass().add("gridpane");
+            gr2.getStyleClass().add("gridpane");
+            gr3.getStyleClass().add("gridpane");
+            score.getStyleClass().add("score");
+            txtScore.getStyleClass().add("score");
+            resultat.getStyleClass().add("resultat");
+            logo.getStyleClass().add("logo");
+            commande0.getStyleClass().add("commandes");
+            commande1.getStyleClass().add("commandes");
+            commande2.getStyleClass().add("commandes");
+            commande3.getStyleClass().add("commandes");
+            commande4.getStyleClass().add("commandes");
+            commande5.getStyleClass().add("commandes");
+            commande6.getStyleClass().add("commandes");
         } catch (Exception e){}
         
         ObjectOutputStream oosGrille = null;
@@ -607,4 +611,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
         caretaker.addMemento(originator.saveToMemento());                
     }
     
+    @FXML private void fenetrePersonnalisation(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        stage.setTitle("Fenetre de personnalisation");
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("FXMLColorPicker.fxml"))));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.show();
+    }
 }

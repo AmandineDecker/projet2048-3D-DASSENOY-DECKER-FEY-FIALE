@@ -43,7 +43,7 @@
                         <RadioMenuItem fx:id="themeAme2" mnemonicParsing="false" onAction="#changeTheme" text="Thème cubain" toggleGroup="$grStyle" />
                     </items>
                   </Menu>
-              <MenuItem id="changerStyle" fx:id="changerStyle" mnemonicParsing="false" text="Modifier le style personnalisé" />
+              <MenuItem id="changerStyle" fx:id="changerStyle" mnemonicParsing="false" onAction="#fenetrePersonnalisation" text="Modifier le style personnalisé" />
                   <MenuItem fx:id="backMove" mnemonicParsing="false" onAction="#revenirUnCoup" text="Revenir au coup précédent" />
                   <MenuItem fx:id="avancerUnCoup" mnemonicParsing="false" onAction="#avancerUnCoup" text="Avancer" />
             </items>
