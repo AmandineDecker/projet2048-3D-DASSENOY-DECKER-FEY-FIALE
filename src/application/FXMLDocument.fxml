@@ -40,6 +40,7 @@
                         <RadioMenuItem fx:id="themeAmandine" mnemonicParsing="false" onAction="#changeTheme" text="Thème coloré" toggleGroup="$grStyle" />
                         <RadioMenuItem fx:id="themeAmelie" mnemonicParsing="false" onAction="#changeTheme" selected="true" text="Thème chaud" toggleGroup="$grStyle" />
                         <RadioMenuItem fx:id="themePerso" mnemonicParsing="false" onAction="#changeTheme" text="Thème personnalisé" toggleGroup="$grStyle" />
+                        <RadioMenuItem fx:id="themeAme2" mnemonicParsing="false" onAction="#changeTheme" text="Thème cubain" toggleGroup="$grStyle" />
                     </items>
                   </Menu>
               <MenuItem id="changerStyle" fx:id="changerStyle" mnemonicParsing="false" text="Modifier le style personnalisé" />

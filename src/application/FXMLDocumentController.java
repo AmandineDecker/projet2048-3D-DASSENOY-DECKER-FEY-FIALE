@@ -71,7 +71,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private MenuItem quitter, nouveauJeu, changerStyle, aPropos, backMove, avancerUnCoup;
     @FXML
-    private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine, themeAmelie, themePerso;
+    private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine, themeAmelie, themePerso, themeAme2;
     @FXML
     private ToggleGroup grStyle;
     @FXML
@@ -157,6 +157,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 style.styleActuel = "css/amelie.css";
                 break;
             case 5 :
+                fond.getStylesheets().add("css/ame.css");
+                style.styleActuel = "css/ame.css";
+                break;
+            case 6 :
                 try {
                     style.applyCSS(fond);
                 } catch (URISyntaxException ex) {
