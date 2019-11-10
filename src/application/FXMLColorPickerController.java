@@ -5,8 +5,11 @@
  */
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 /**
@@ -24,4 +27,7 @@ public class FXMLColorPickerController implements Initializable {
         // TODO
     }    
     
+        @FXML private void coucou(ActionEvent event) throws IOException {
+            System.out.println("coucou");
+    }
 }
