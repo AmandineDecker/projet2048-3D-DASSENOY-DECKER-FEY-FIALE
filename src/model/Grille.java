@@ -5,7 +5,7 @@
  */
 package model;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -22,9 +22,41 @@ public class Grille implements Parametres, Serializable, Cloneable {
     private int score = 0;
     private transient boolean deplacement;
     
+    private static Grille instance = new Grille();
+    
     // Constructeur
-    public Grille() {
+    private Grille() {
         this.grille = new HashSet<>();
+    }
+    
+    public Grille newGame(){
+        instance.valeurMax = 0;
+        instance.score = 0;
+        instance.grille.clear();
+        return instance;
+    }
+    
+    public Grille update(Grille gr){
+        instance.valeurMax = gr.valeurMax;
+        instance.score = gr.score;
+        instance.grille.clear();
+        instance.grille.addAll(gr.grille);
+        return instance;
+    }
+    
+    public static Grille getInstance() {
+        //System.out.println("An instance is returned");
+        return instance;
+    }
+    
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        instance = this;
+    }
+    
+    public Object readResolve() {
+//        System.out.println("Executing readResolve");
+        return instance; // FIXME
     }
     
     // Setter
@@ -223,31 +255,37 @@ public class Grille implements Parametres, Serializable, Cloneable {
                     case HAUT:
                         if (c.getZ() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getY() > c.getY()))) { // si on n'avait pas encore de case pour cette rangée ou si on a trouvé un meilleur candidat
                             result[k][c.getX()] = c;
+//                            System.out.println("Enregistrer " + k + ", " + c.getX() + ": " + c);
                         }
                         break;
                     case BAS:
                         if (c.getZ() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getY() < c.getY()))) {
                             result[k][c.getX()] = c;
+//                            System.out.println("Enregistrer " + k + ", " + c.getX() + ": " + c);
                         }
                         break;
                     case GAUCHE:
                         if (c.getZ() == k && ((result[k][c.getY()] == null) || (result[k][c.getY()].getX() > c.getX()))) {
                             result[k][c.getY()] = c;
+//                            System.out.println("Enregistrer " + k + ", " + c.getY() + ": " + c);
                         }
                         break;
                     case DROITE:
                         if (c.getZ() == k && ((result[k][c.getY()] == null) || (result[k][c.getY()].getX() < c.getX()))) {
                             result[k][c.getY()] = c;
+//                            System.out.println("Enregistrer " + k + ", " + c.getY() + ": " + c);
                         }
                         break;
                     case SUPERIEUR:
                         if (c.getY() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getZ() > c.getZ()))) {
                             result[k][c.getX()] = c;
+//                            System.out.println("Enregistrer " + k + ", " + c.getX() + ": " + c);
                         }
                         break;
                     default: // case INFERIEUR
                         if (c.getY() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getZ() < c.getZ()))) {
                             result[k][c.getX()] = c;
+//                            System.out.println("Enregistrer " + k + ", " + c.getX() + ": " + c);
                         }
                         break;
                 }
@@ -298,7 +336,9 @@ public class Grille implements Parametres, Serializable, Cloneable {
                     || (direction == DROITE && extremites[sousGrille][rangee].getX() != TAILLE - 1 - compteur)
                     || (direction == SUPERIEUR && extremites[sousGrille][rangee].getZ() != compteur)
                     || (direction == INFERIEUR && extremites[sousGrille][rangee].getZ() != TAILLE - 1 - compteur)) {
+//                System.out.println("Avant effacage: " + grille);
                 this.grille.remove(extremites[sousGrille][rangee]);
+//                System.out.println("Apres effacage: " + grille);
                 switch (direction) {
                     case HAUT:
                         if (extremites[sousGrille][rangee].getGlisseY0() == -1){
@@ -306,7 +346,9 @@ public class Grille implements Parametres, Serializable, Cloneable {
                             extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
                         }
                         extremites[sousGrille][rangee].setGrimpe(false);
+//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         extremites[sousGrille][rangee].setY(compteur);
+//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         break;
                     case BAS:
                         if (extremites[sousGrille][rangee].getGlisseY0() == -1){
@@ -314,7 +356,9 @@ public class Grille implements Parametres, Serializable, Cloneable {
                             extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
                         }
                         extremites[sousGrille][rangee].setGrimpe(false);
+//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         extremites[sousGrille][rangee].setY(TAILLE - 1 - compteur);
+//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         break;
                     case GAUCHE:
                         if (extremites[sousGrille][rangee].getGlisseX0() == -1){
@@ -322,7 +366,9 @@ public class Grille implements Parametres, Serializable, Cloneable {
                             extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
                         }
                         extremites[sousGrille][rangee].setGrimpe(false);
+//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         extremites[sousGrille][rangee].setX(compteur);
+//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         break;
                     case DROITE:
                         if (extremites[sousGrille][rangee].getGlisseX0() == -1){
@@ -330,25 +376,33 @@ public class Grille implements Parametres, Serializable, Cloneable {
                             extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
                         }
                         extremites[sousGrille][rangee].setGrimpe(false);
+//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         extremites[sousGrille][rangee].setX(TAILLE - 1 - compteur);
+//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         break;
                     case SUPERIEUR:
                         if (compteur != extremites[sousGrille][rangee].getZ()){
+//                            System.out.println("Changement " + extremites[sousGrille][rangee]);
                             extremites[sousGrille][rangee].setZ(compteur);
+//                            System.out.println("Changement " + extremites[sousGrille][rangee]);
                             extremites[sousGrille][rangee].setGrimpe(true);
                         }
                         break;
                     default: // case INFERIEUR
                         if (compteur != extremites[sousGrille][rangee].getZ()){
+//                            System.out.println("Changement " + extremites[sousGrille][rangee]);
                             extremites[sousGrille][rangee].setZ(TAILLE - 1 - compteur);
+//                            System.out.println("Changement " + extremites[sousGrille][rangee]);
                             extremites[sousGrille][rangee].setGrimpe(true);
                         }
                         break;
                 }
                 this.grille.add(extremites[sousGrille][rangee]);
+//                System.out.println("Ajout " + extremites[sousGrille][rangee]);
                 deplacement = true;
             }
             Case voisin = extremites[sousGrille][rangee].getVoisinDirect(-direction);
+//            System.out.println("Voisin: " + voisin);
             if (voisin != null) {
                 if (extremites[sousGrille][rangee].valeurEgale(voisin)) {
                     // Voisin est celui qui bouge, extremites[sousGrille][rangee] qui est augmenté

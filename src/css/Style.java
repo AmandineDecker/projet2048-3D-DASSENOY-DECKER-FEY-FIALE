@@ -73,6 +73,12 @@ public class Style implements Serializable{
             writer.println("}");
             // Classe style
             colFond = col;
+            // L'autre page
+            writer.println(".style-perso-fond {");
+            writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: whitesmoke;");
+            writer.println("}");
+            
             
             // Le texte
             writer.println("");
@@ -110,6 +116,13 @@ public class Style implements Serializable{
             // CSS
             writer.println(".score {");
             writer.println("    -fx-text-fill: #" + col + ";");
+            writer.println("}");
+            
+            // L'autre page
+            writer.println(".style-perso-labels {");
+            writer.println("    -fx-font-size: 1em;");
+            writer.println("    -fx-text-fill: #" + col + ";");
+            writer.println("    -fx-alignment: CENTER;");
             writer.println("}");
             
             

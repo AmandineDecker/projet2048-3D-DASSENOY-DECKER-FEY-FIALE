@@ -1,77 +1,86 @@
 /* Le fond  */
 .pane {
-    -fx-background-color: #ccffff;
+    -fx-background-color: #ffff4d;
+    -fx-border-color: whitesmoke;
+}
+.style-perso-fond {
+    -fx-background-color: #ffff4d;
     -fx-border-color: whitesmoke;
 }
 
 /* Le texte  */
 .logo {
     -fx-font-size: 1.5em;
-    -fx-text-fill: #bd046e;
+    -fx-text-fill: #000000;
     -fx-alignment: CENTER;
 }
 .resultat {
     -fx-font-size: 2em;
-    -fx-text-fill: #bd046e;
+    -fx-text-fill: #000000;
     -fx-alignment: CENTER;
     -fx-font-family: "Comic Sans MS";
     -fx-font-weight: Bold;
 }
 .commandes {
-    -fx-text-fill: #bd046e;
+    -fx-text-fill: #000000;
 }
 .score {
-    -fx-text-fill: #bd046e;
+    -fx-text-fill: #000000;
+}
+.style-perso-labels {
+    -fx-font-size: 1em;
+    -fx-text-fill: #000000;
+    -fx-alignment: CENTER;
 }
 
 /* Les tuiles  */
 .tuile2 {
-    -fx-background-color: #003333;
+    -fx-background-color: #ffb399;
     -fx-border-color: black;
 }
 .tuile4 {
-    -fx-background-color: #001a80;
+    -fx-background-color: #ff9999;
     -fx-border-color: black;
 }
 .tuile8 {
-    -fx-background-color: #1a0068;
+    -fx-background-color: #ff6666;
     -fx-border-color: black;
 }
 .tuile16 {
-    -fx-background-color: #330033;
+    -fx-background-color: #cc8033;
     -fx-border-color: black;
 }
 .tuile32 {
-    -fx-background-color: #4d001a;
+    -fx-background-color: #e64d4d;
     -fx-border-color: black;
 }
 .tuile64 {
-    -fx-background-color: #990000;
+    -fx-background-color: #cc8099;
     -fx-border-color: black;
 }
 .tuile128 {
-    -fx-background-color: #993300;
+    -fx-background-color: #ffe680;
     -fx-border-color: black;
 }
 .tuile256 {
-    -fx-background-color: #994d00;
+    -fx-background-color: #cc3333;
     -fx-border-color: black;
 }
 .tuile512 {
-    -fx-background-color: #996600;
+    -fx-background-color: #b399ff;
     -fx-border-color: black;
 }
 .tuile1024 {
-    -fx-background-color: #999900;
+    -fx-background-color: #8066cc;
     -fx-border-color: black;
 }
 .tuile2048 {
-    -fx-background-color: #666600;
+    -fx-background-color: #cc99cc;
     -fx-border-color: black;
 }
 .valeurTuile {
     -fx-font-size: 32;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #000000;
     -fx-font-weight: 800;
     -fx-alignment: CENTER;
 }

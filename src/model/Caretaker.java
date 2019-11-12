@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Wanda
  */
 public class Caretaker {
-    private int index=0;
+    private int index = -1;
     
     private ArrayList savedStates=new ArrayList();
     
@@ -25,10 +25,11 @@ public class Caretaker {
     }
     
     public void addMemento(Object m){
-        int l=savedStates.size();
-        if (index!=l){
-            savedStates.add(index+1, m);
-            for (int k=index+2;k<l;k++){
+        int l = savedStates.size();
+        if (index != l){
+//            System.out.println("On efface");
+            savedStates.add(index + 1, m);
+            for (int k = index + 2; k < l; k++){
                 savedStates.remove(k);
             }            
         }

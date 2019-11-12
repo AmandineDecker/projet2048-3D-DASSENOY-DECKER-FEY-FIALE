@@ -21,7 +21,7 @@ public class MainConsole implements Parametres {
         
         
         
-        Grille g = new Grille();
+        Grille g = Grille.getInstance();
         boolean b = g.nouvelleCase();
         b = g.nouvelleCase();
         System.out.println(g);

@@ -38,11 +38,11 @@ private static class Memento{
     private Grille state;
     
     public Memento(Grille stateToSave){
-        state = stateToSave;
+        state = stateToSave.clone();
     }
     
     public Grille getSavedState(){
-        return state;
+        return state.clone();
     }
 }
 }

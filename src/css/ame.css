@@ -8,6 +8,32 @@ and open the template in the editor.
     Author     : amelie
 */
 
+/* La page de choix de style */
+.style-perso-fond {
+    -fx-background-color: #BAF3F5 ;
+    -fx-border-color: whitesmoke;
+}
+
+.style-perso-labels {
+    -fx-font-size: 1em;
+    -fx-text-fill: black;
+    -fx-alignment: CENTER;
+}
+
+.style-perso-bouton {
+    -fx-background-color: #9999ff, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
+    -fx-text-fill: black;
+    -fx-alignment: CENTER;
+    -fx-content-display: CENTER;  
+}
+
+.style-perso-colorPicker {
+    -fx-background-color: #9999ff, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
+    -fx-text-fill: black;
+    -fx-alignment: CENTER;
+    -fx-content-display: CENTER;  
+}
+
 .pane {
     -fx-background-color: #FBEFF2 ;
     -fx-border-color: black;

@@ -86,7 +86,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private Button bHaut, bBas, bGauche, bDroite, bSup, bInf;
     
-    private Grille modelGrille = new Grille();
+    private Grille modelGrille = Grille.getInstance();
     public Style style = new Style();
     
     Caretaker caretaker= new Caretaker();
@@ -185,8 +185,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     @FXML
     private void revenirUnCoup(ActionEvent event) {
-        int index=caretaker.getIndex();
-        modelGrille = originator.restoreFromMemento(caretaker.getMemento(index - 1));
+        int index = caretaker.getIndex();
+        modelGrille.update(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
+//        System.out.println("On récupère " + (index - 1));
+//        for (Case c : modelGrille.getGr()){
+//            System.out.println(c);
+//        }
         caretaker.setIndex(index - 1);
         afficheGrille(modelGrille);
         System.out.println(modelGrille);
@@ -195,8 +199,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private void avancerUnCoup(ActionEvent event) {
         int index = caretaker.getIndex();
-        modelGrille = originator.restoreFromMemento(caretaker.getMemento(index + 1));
+        modelGrille.update(originator.restoreFromMemento(caretaker.getMemento(index + 1)));
         caretaker.setIndex(index + 1);
+        originator.set(modelGrille.clone());
+        caretaker.addMemento(originator.saveToMemento());
         afficheGrille(modelGrille);
         System.out.println(modelGrille);
     }
@@ -473,7 +479,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         gr3.getChildren().add(0,node3);
         
         //
-        modelGrille = new Grille();
+        modelGrille = modelGrille.newGame();
         
         //Initialisation de la partie avec les deux premières cases aux hasard
         boolean b = modelGrille.nouvelleCase();
@@ -482,6 +488,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
         afficheGrille(modelGrille);
         originator=new Originator();
         caretaker=new Caretaker();
+        originator.set(modelGrille.clone());
+        caretaker.addMemento(originator.saveToMemento());
     }
 
     
@@ -489,8 +497,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         System.out.println();
         if (direction != 0) {
             boolean b2 = modelGrille.initialiserDeplacement(direction);
-            originator.set(modelGrille.clone());
-            caretaker.addMemento(originator.saveToMemento());
+            
             if (b2) {
                 boolean b = modelGrille.nouvelleCase();
                 if (!b) {
@@ -498,6 +505,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
                 }
             }
+            originator.set(modelGrille.clone());
+            caretaker.addMemento(originator.saveToMemento());
             afficheGrille(modelGrille);
             System.out.println(modelGrille);
             if (modelGrille.getValeurMax()>=OBJECTIF){
@@ -645,7 +654,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         System.out.println(modelGrille);
         afficheGrille(modelGrille);     
 
-        originator.set(modelGrille);
+        originator.set(modelGrille.clone());
         caretaker.addMemento(originator.saveToMemento());  
         
     }

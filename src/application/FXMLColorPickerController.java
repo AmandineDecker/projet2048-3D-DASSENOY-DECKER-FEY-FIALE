@@ -45,31 +45,39 @@ public class FXMLColorPickerController implements Initializable {
     public void transferStyle(Style s, AnchorPane p){
         perso = s;
         fondPrincipal = p;
-//        fond.getStylesheets().clear();
-//        //fond.getStylesheets().add("css/basePerso.css");
-//        
-//        fond.getStylesheets().add(perso.styleActuel);
-//        fond.getStyleClass().add("pane");
-//        fond.setStyle("     -fx-opacity: 0.5;");
-//        //saveButton.getStyleClass().add("button");
-//        
-//        String styleLabel = "   -fx-text-fill: black;     -fx-opacity: 0.5;";
-//        labelFond.setStyle(styleLabel);
-//        labelInfos.setStyle(styleLabel);
-//        labelTexte.setStyle(styleLabel);
-//        labelTuile2.setStyle(styleLabel);
-//        labelTuile4.setStyle(styleLabel);
-//        labelTuile8.setStyle(styleLabel);
-//        labelTuile16.setStyle(styleLabel);
-//        labelTuile32.setStyle(styleLabel);
-//        labelTuile64.setStyle(styleLabel);
-//        labelTuile128.setStyle(styleLabel);
-//        labelTuile256.setStyle(styleLabel);
-//        labelTuile512.setStyle(styleLabel);
-//        labelTuile1024.setStyle(styleLabel);
-//        labelTuile2048.setStyle(styleLabel);
-//        
-        //fond.setStyle("    -fx-background-color: #" + col + ";")
+        fond.getStylesheets().clear();
+        fond.getStylesheets().add("css/basePerso.css");
+        fond.getStylesheets().add(perso.styleActuel);
+        fond.getStyleClass().add("style-perso-fond");
+        saveButton.getStyleClass().add("style-perso-bouton");
+        labelFond.getStyleClass().add("style-perso-labels");
+        labelInfos.getStyleClass().add("style-perso-labels");
+        labelTexte.getStyleClass().add("style-perso-labels");
+        labelTuile2.getStyleClass().add("style-perso-labels");
+        labelTuile4.getStyleClass().add("style-perso-labels");
+        labelTuile8.getStyleClass().add("style-perso-labels");
+        labelTuile16.getStyleClass().add("style-perso-labels");
+        labelTuile32.getStyleClass().add("style-perso-labels");
+        labelTuile64.getStyleClass().add("style-perso-labels");
+        labelTuile128.getStyleClass().add("style-perso-labels");
+        labelTuile256.getStyleClass().add("style-perso-labels");
+        labelTuile512.getStyleClass().add("style-perso-labels");
+        labelTuile1024.getStyleClass().add("style-perso-labels");
+        labelTuile2048.getStyleClass().add("style-perso-labels");
+        fondPicker.getStyleClass().add("style-perso-colorPicker");
+        infosPicker.getStyleClass().add("style-perso-colorPicker");
+        textePicker.getStyleClass().add("style-perso-colorPicker");
+        tuile2Picker.getStyleClass().add("style-perso-colorPicker");
+        tuile4Picker.getStyleClass().add("style-perso-colorPicker");
+        tuile8Picker.getStyleClass().add("style-perso-colorPicker");
+        tuile16Picker.getStyleClass().add("style-perso-colorPicker");
+        tuile32Picker.getStyleClass().add("style-perso-colorPicker");
+        tuile64Picker.getStyleClass().add("style-perso-colorPicker");
+        tuile128Picker.getStyleClass().add("style-perso-colorPicker");
+        tuile256Picker.getStyleClass().add("style-perso-colorPicker");
+        tuile512Picker.getStyleClass().add("style-perso-colorPicker");
+        tuile1024Picker.getStyleClass().add("style-perso-colorPicker");
+        tuile2048Picker.getStyleClass().add("style-perso-colorPicker");
         
         try {
             fondPicker.setValue(Color.web(perso.colFond));
