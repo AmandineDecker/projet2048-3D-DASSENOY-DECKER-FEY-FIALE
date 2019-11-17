@@ -45,9 +45,50 @@ public class FXMLColorPickerController implements Initializable {
     public void transferStyle(Style s, AnchorPane p){
         perso = s;
         fondPrincipal = p;
-        fond.getStylesheets().clear();
-        fond.getStylesheets().add("css/basePerso.css");
-        fond.getStylesheets().add(perso.styleActuel);
+        if (perso.styleActuel.equals("css/perso.css")){
+            perso.applyCSS(fond);
+        } else {
+            fond.getStylesheets().clear();
+            fond.getStylesheets().add(perso.styleActuel);
+        }
+        
+        try {
+            fondPicker.setValue(Color.web(perso.colFond));
+            infosPicker.setValue(Color.web(perso.colInfos));
+            textePicker.setValue(Color.web(perso.colTexte));
+            tuile2Picker.setValue(Color.web(perso.colTuile2));
+            tuile4Picker.setValue(Color.web(perso.colTuile4));
+            tuile8Picker.setValue(Color.web(perso.colTuile8));
+            tuile16Picker.setValue(Color.web(perso.colTuile16));
+            tuile32Picker.setValue(Color.web(perso.colTuile32));
+            tuile64Picker.setValue(Color.web(perso.colTuile64));
+            tuile128Picker.setValue(Color.web(perso.colTuile128));
+            tuile256Picker.setValue(Color.web(perso.colTuile256));
+            tuile512Picker.setValue(Color.web(perso.colTuile512));
+            tuile1024Picker.setValue(Color.web(perso.colTuile1024));
+            tuile2048Picker.setValue(Color.web(perso.colTuile2048));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    public void saveStyle(ActionEvent event) {
+        perso.saveCSS(fondPicker, infosPicker, textePicker, tuile2Picker, tuile4Picker, tuile8Picker, tuile16Picker, tuile32Picker, tuile64Picker, tuile128Picker, tuile256Picker, tuile512Picker, tuile1024Picker, tuile2048Picker);
+        
+        if (perso.styleActuel.equals("css/perso.css")){
+            perso.applyCSS(fondPrincipal);
+            perso.applyCSS(fond);
+        }
+        //fondPicker.getV
+    }
+    
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
         fond.getStyleClass().add("style-perso-fond");
         saveButton.getStyleClass().add("style-perso-bouton");
         labelFond.getStyleClass().add("style-perso-labels");
@@ -78,46 +119,6 @@ public class FXMLColorPickerController implements Initializable {
         tuile512Picker.getStyleClass().add("style-perso-colorPicker");
         tuile1024Picker.getStyleClass().add("style-perso-colorPicker");
         tuile2048Picker.getStyleClass().add("style-perso-colorPicker");
-        
-        try {
-            fondPicker.setValue(Color.web(perso.colFond));
-            infosPicker.setValue(Color.web(perso.colInfos));
-            textePicker.setValue(Color.web(perso.colTexte));
-            tuile2Picker.setValue(Color.web(perso.colTuile2));
-            tuile4Picker.setValue(Color.web(perso.colTuile4));
-            tuile8Picker.setValue(Color.web(perso.colTuile8));
-            tuile16Picker.setValue(Color.web(perso.colTuile16));
-            tuile32Picker.setValue(Color.web(perso.colTuile32));
-            tuile64Picker.setValue(Color.web(perso.colTuile64));
-            tuile128Picker.setValue(Color.web(perso.colTuile128));
-            tuile256Picker.setValue(Color.web(perso.colTuile256));
-            tuile512Picker.setValue(Color.web(perso.colTuile512));
-            tuile1024Picker.setValue(Color.web(perso.colTuile1024));
-            tuile2048Picker.setValue(Color.web(perso.colTuile2048));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    
-    @FXML
-    public void saveStyle(ActionEvent event) {
-        perso.saveCSS(fondPicker, infosPicker, textePicker, tuile2Picker, tuile4Picker, tuile8Picker, tuile16Picker, tuile32Picker, tuile64Picker, tuile128Picker, tuile256Picker, tuile512Picker, tuile1024Picker, tuile2048Picker);
-        
-        if (perso.styleActuel.equals("css/perso.css")){
-            perso.applyCSS(fondPrincipal);
-            //perso.applyCSS(fond);
-        }
-        //fondPicker.getV
-    }
-    
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        
-        
     }    
     
 }

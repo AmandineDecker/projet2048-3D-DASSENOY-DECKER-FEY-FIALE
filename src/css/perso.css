@@ -1,81 +1,99 @@
 /* Le fond  */
 .pane {
-    -fx-background-color: #ffff4d;
+    -fx-background-color: #1a0068;
     -fx-border-color: whitesmoke;
 }
 .style-perso-fond {
-    -fx-background-color: #ffff4d;
-    -fx-border-color: whitesmoke;
+    -fx-background-color: #1a0068;
+    -fx-border-color: black;
+}
+.style-client-compet-fond {
+    -fx-background-color: #1a0068;
+    -fx-border-color: black;
+}
+.style-serveur-compet-fond {
+    -fx-background-color: #1a0068;
+    -fx-border-color: black;
 }
 
 /* Le texte  */
 .logo {
     -fx-font-size: 1.5em;
-    -fx-text-fill: #000000;
+    -fx-text-fill: #ccffff;
     -fx-alignment: CENTER;
 }
 .resultat {
     -fx-font-size: 2em;
-    -fx-text-fill: #000000;
+    -fx-text-fill: #ccffff;
     -fx-alignment: CENTER;
     -fx-font-family: "Comic Sans MS";
     -fx-font-weight: Bold;
 }
 .commandes {
-    -fx-text-fill: #000000;
+    -fx-text-fill: #ccffff;
 }
 .score {
-    -fx-text-fill: #000000;
+    -fx-text-fill: #ccffff;
 }
 .style-perso-labels {
     -fx-font-size: 1em;
-    -fx-text-fill: #000000;
+    -fx-text-fill: #ccffff;
+    -fx-alignment: CENTER;
+}
+.style-client-compet-label {
+    -fx-font-size: 1em;
+    -fx-text-fill: #ccffff;
+    -fx-alignment: CENTER;
+}
+.style-serveur-compet-label {
+    -fx-font-size: 1em;
+    -fx-text-fill: #ccffff;
     -fx-alignment: CENTER;
 }
 
 /* Les tuiles  */
 .tuile2 {
-    -fx-background-color: #ffb399;
+    -fx-background-color: #cce6ff;
     -fx-border-color: black;
 }
 .tuile4 {
-    -fx-background-color: #ff9999;
+    -fx-background-color: #e6ccff;
     -fx-border-color: black;
 }
 .tuile8 {
-    -fx-background-color: #ff6666;
+    -fx-background-color: #ffccff;
     -fx-border-color: black;
 }
 .tuile16 {
-    -fx-background-color: #cc8033;
+    -fx-background-color: #ffcce6;
     -fx-border-color: black;
 }
 .tuile32 {
-    -fx-background-color: #e64d4d;
+    -fx-background-color: #ffcccc;
     -fx-border-color: black;
 }
 .tuile64 {
-    -fx-background-color: #cc8099;
+    -fx-background-color: #ffccb3;
     -fx-border-color: black;
 }
 .tuile128 {
-    -fx-background-color: #ffe680;
+    -fx-background-color: #ffe6cc;
     -fx-border-color: black;
 }
 .tuile256 {
-    -fx-background-color: #cc3333;
+    -fx-background-color: #ffffb3;
     -fx-border-color: black;
 }
 .tuile512 {
-    -fx-background-color: #b399ff;
+    -fx-background-color: #ffffcc;
     -fx-border-color: black;
 }
 .tuile1024 {
-    -fx-background-color: #8066cc;
+    -fx-background-color: #e6e6cc;
     -fx-border-color: black;
 }
 .tuile2048 {
-    -fx-background-color: #cc99cc;
+    -fx-background-color: #ccffcc;
     -fx-border-color: black;
 }
 .valeurTuile {

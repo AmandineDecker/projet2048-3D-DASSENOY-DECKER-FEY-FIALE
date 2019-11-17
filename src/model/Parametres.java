@@ -19,5 +19,8 @@ public interface Parametres {
     static final int TAILLE = 3;
     static final int OBJECTIF = 2048;
     static final int TPSSLEEP = 1;
+    static final int SOLO = 0;
+    static final int COOPERATION = 1;
+    static final int COMPETITION = 2;
     static final int X = 0;
 }

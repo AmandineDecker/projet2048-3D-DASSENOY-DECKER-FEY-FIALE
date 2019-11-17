@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="fond" prefHeight="429.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reseauClient.FXMLClientController">
+   <children>
+      <TextField fx:id="txtHost" layoutX="147.0" layoutY="21.0" />
+      <TextField fx:id="txtPort" layoutX="147.0" layoutY="60.0" />
+      <TextField fx:id="txtPseudo" layoutX="147.0" layoutY="100.0" />
+      <Label fx:id="labelHost" layoutX="79.0" layoutY="26.0" text="Hôte:" />
+      <Label fx:id="labelPort" layoutX="79.0" layoutY="65.0" text="Port:" />
+      <Label fx:id="labelPseudo" layoutX="72.0" layoutY="105.0" text="Pseudo:" />
+      <Button fx:id="buttonConnexion" layoutX="55.0" layoutY="157.0" mnemonicParsing="false" onAction="#connect" text="Rejoindre le serveur" />
+      <Button fx:id="buttonDeconnexion" disable="true" layoutX="190.0" layoutY="157.0" mnemonicParsing="false" onAction="#disconnect" text="Quitter le serveur" />
+      <TextArea fx:id="affichage" layoutX="77.0" layoutY="205.0" prefHeight="160.0" prefWidth="200.0" />
+      <Button fx:id="buttonStart" disable="true" layoutX="155.0" layoutY="382.0" mnemonicParsing="false" onAction="#lancerPartie" text="Start" />
+   </children>
+</AnchorPane>

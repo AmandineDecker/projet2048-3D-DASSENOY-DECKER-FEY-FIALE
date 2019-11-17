@@ -21,6 +21,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
     private int valeurMax = 0;
     private int score = 0;
     private transient boolean deplacement;
+    private int modeJeu = 0;
     
     private static Grille instance = new Grille();
     
@@ -64,6 +65,10 @@ public class Grille implements Parametres, Serializable, Cloneable {
         this.valeurMax = val;
     }
     
+    public void setModeJeu(int modeJeu) {
+        this.modeJeu = modeJeu;
+    }
+    
     
 //    public void setDeplacement(boolean move){
 //        this.deplacement = move;
@@ -80,6 +85,10 @@ public class Grille implements Parametres, Serializable, Cloneable {
     
     public int getScore(){
         return score;
+    }
+    
+    public int getModeJeu() {
+        return this.modeJeu;
     }
     
     // Methodes

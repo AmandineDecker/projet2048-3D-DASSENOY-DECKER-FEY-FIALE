@@ -47,16 +47,8 @@ public class Main extends Application {
         alert.setContentText("Quitter quand même ?");
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
-                // Si on veut supprimer la derniere sauvegarde quand le joueur quitte sans sauvegarder
-//                File f = new File("../../model.ser");
-//                if (f.exists()){
-//                    f.delete();
-//                }
                 System.exit(0);
             }
-//            if (rs == ButtonType.CANCEL) {
-//                System.out.println("Pressed CANCEL.");
-//            }
         });
         
     }

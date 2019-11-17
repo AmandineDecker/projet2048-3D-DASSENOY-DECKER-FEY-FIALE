@@ -47,10 +47,32 @@
                   </Menu>
               <MenuItem id="changerStyle" fx:id="changerStyle" mnemonicParsing="false" onAction="#fenetrePersonnalisation" text="Modifier le style personnalisé" />
                   <SeparatorMenuItem mnemonicParsing="false" text="Jeu" />
-                  <MenuItem fx:id="backMove" mnemonicParsing="false" onAction="#revenirUnCoup" text="Revenir au coup précédent" />
-                  <MenuItem fx:id="avancerUnCoup" mnemonicParsing="false" onAction="#avancerUnCoup" text="Avancer" />
+                  <MenuItem fx:id="backMove" mnemonicParsing="false" onAction="#revenirUnCoup" text="Annuler le coup">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Z" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="avancerUnCoup" mnemonicParsing="false" onAction="#avancerUnCoup" text="Rejouer le coup">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Z" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Multijoueur">
+               <items>
+                  <Menu mnemonicParsing="false" text="Jeu en coopération">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Créer une partie" />
+                        <MenuItem mnemonicParsing="false" text="Rejoindre une partie" />
+                    </items>
+                  </Menu>
+                  <Menu fx:id="menuCompet" mnemonicParsing="false" text="Jeu en compétition">
+                    <items>
+                        <MenuItem fx:id="newCompetMenu" mnemonicParsing="false" onAction="#newCompet" text="Créer une partie" />
+                      <MenuItem fx:id="joinCompetMenu" mnemonicParsing="false" onAction="#joinCompet" text="Rejoindre une partie" />
+                    </items>
+                  </Menu>
+               </items>
+            </Menu>
           <Menu id="menuAide" fx:id="menuAide" mnemonicParsing="false" text="Aide">
             <items>
               <MenuItem id="aPropos" fx:id="aPropos" mnemonicParsing="false" text="A propos" />
