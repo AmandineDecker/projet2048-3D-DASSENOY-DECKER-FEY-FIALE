@@ -70,6 +70,26 @@ and open the template in the editor.
     -fx-content-display: CENTER;  
 }
 
+/* La page d'affichage des scores */
+.style-scores-compet-fond {
+    -fx-background-color: #BAF3F5 ;
+    -fx-border-color: whitesmoke;
+}
+
+.style-scores-compet-label {
+    -fx-font-size: 1em;
+    -fx-text-fill: black;
+    -fx-alignment: CENTER;
+}
+
+.style-scores-compet-bouton {
+    -fx-background-color: #9999ff, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
+    -fx-text-fill: black;
+    -fx-alignment: CENTER;
+    -fx-content-display: CENTER;  
+}
+
+
 
 /* La page de choix de style */
 .style-perso-fond {

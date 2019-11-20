@@ -112,13 +112,35 @@ public class GestionServeur implements Runnable {
         } 
     }
     
-    public void lancerParties(){
+//    public void lancerParties(){
+//        try {
+//            // On partage
+//            objOut.writeObject("Start");
+//            // On update
+//            objOut.flush();
+//            System.out.println("Serveur: colis Start envoyé");
+//            System.out.println();
+//            System.out.println();
+//        } catch (IOException ex) {
+//            try {
+//                s.close();
+//                controller.listeConnexions.remove(this);
+//                System.out.println("Client: fermeture de " + s);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                out = null;
+//            }
+//            ex.printStackTrace();
+//        } 
+//    }
+    
+    public void shareInfos(String str) {
         try {
             // On partage
-            objOut.writeObject("Start");
+            objOut.writeObject(str);
             // On update
             objOut.flush();
-            System.out.println("Serveur: colis Start envoyé");
+            System.out.println("Serveur: colis " + str + " envoyé");
             System.out.println();
             System.out.println();
         } catch (IOException ex) {
@@ -166,7 +188,7 @@ public class GestionServeur implements Runnable {
                     // Lancer partie
                     for (GestionServeur quai : controller.listeConnexions){
 //                        System.out.println(quai);
-                        quai.lancerParties();
+                        quai.shareInfos("Start");
                     }
                 }
             } 

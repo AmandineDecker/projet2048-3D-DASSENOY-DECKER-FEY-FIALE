@@ -803,6 +803,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
             if (rs == ButtonType.OK) {
                 serveurController.arreterServeur();
                 fond.getScene().getWindow().requestFocus();
+                menuCompet.setDisable(false);
                 s.close();
                 serveurController = null;
             }
@@ -817,11 +818,22 @@ public class FXMLDocumentController implements Parametres, Initializable {
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
                 clientController.arreterClient();
+                newCompetMenu.setDisable(false);
+                joinCompetMenu.setDisable(false);
                 fond.getScene().getWindow().requestFocus();
                 s.close();
                 clientController = null;
             }
         });
+    }
+    
+    public void reactiverMenuCompet() {
+        newCompetMenu.setDisable(false);
+        joinCompetMenu.setDisable(false);
+    }
+    
+    public void focus() {
+        fond.getScene().getWindow().requestFocus();
     }
     
     //////////////////////////////////////////////////////////////////////

@@ -15,10 +15,12 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import model.*;
 
 /**
@@ -52,12 +54,28 @@ public class FXMLServeurController implements Initializable {
     
     @FXML
     private void stopServeur(ActionEvent event) {
-        arreterServeur();
+        if (this.isConnected()) {
+            showAlertCloseServeur();
+        } else {
+            arreterServeur();
+        }
     }
     
     
     
     /* Méthodes */
+    
+    public void showAlertCloseServeur() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Attention!");
+        alert.setHeaderText("Vous allez couper la connexion avec d'autres joueurs.");
+        alert.setContentText("Arreter le serveur quand même ?");
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                this.arreterServeur();
+            }
+        });
+    }
     
     public int getConnexion() {
         return port;
@@ -86,8 +104,12 @@ public class FXMLServeurController implements Initializable {
     
     public void arreterServeur() {
         try {
+            for (GestionServeur quai : listeConnexions){
+                quai.shareInfos("disconnected");
+            }
             ecoute.close();
             ecoute = new ServerSocket(port);
+            listeConnexions.clear();
         } catch (IOException e){
             System.out.println(e.getMessage());
         } finally {

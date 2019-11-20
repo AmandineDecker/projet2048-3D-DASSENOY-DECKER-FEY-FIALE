@@ -15,39 +15,48 @@
     -fx-background-color: #1a0068;
     -fx-border-color: black;
 }
+.style-scores-compet-fond {
+    -fx-background-color: #1a0068;
+    -fx-border-color: black;
+}
 
 /* Le texte  */
 .logo {
     -fx-font-size: 1.5em;
-    -fx-text-fill: #ccffff;
+    -fx-text-fill: #cce6ff;
     -fx-alignment: CENTER;
 }
 .resultat {
     -fx-font-size: 2em;
-    -fx-text-fill: #ccffff;
+    -fx-text-fill: #cce6ff;
     -fx-alignment: CENTER;
     -fx-font-family: "Comic Sans MS";
     -fx-font-weight: Bold;
 }
 .commandes {
-    -fx-text-fill: #ccffff;
+    -fx-text-fill: #cce6ff;
 }
 .score {
-    -fx-text-fill: #ccffff;
+    -fx-text-fill: #cce6ff;
 }
 .style-perso-labels {
     -fx-font-size: 1em;
-    -fx-text-fill: #ccffff;
+    -fx-text-fill: #cce6ff;
     -fx-alignment: CENTER;
 }
 .style-client-compet-label {
     -fx-font-size: 1em;
-    -fx-text-fill: #ccffff;
+    -fx-text-fill: #cce6ff;
     -fx-alignment: CENTER;
 }
 .style-serveur-compet-label {
     -fx-font-size: 1em;
-    -fx-text-fill: #ccffff;
+    -fx-text-fill: #cce6ff;
+    -fx-alignment: CENTER;
+}
+.style-scores-compet-label {
+    -fx-font-size: 1em;
+    -fx-text-fill: #cce6ff;
     -fx-alignment: CENTER;
 }
 

@@ -8,6 +8,7 @@ package model;
 import java.io.*;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.time.Duration;
 
 /**
  *
@@ -117,11 +118,135 @@ public class ListeJoueurs implements Serializable {
                 compteur++;
             }
         }
-        competFinie = compteur == liste.size();
+        competFinie = (compteur == liste.size());
     }
     
     public boolean getCompetFinie() {
         return competFinie;
     }
+    
+    // Le texte à afficher en fin de partie
+    public String afficherScore() {
+        HashSet<Joueur> meilleurTemps = new HashSet();
+        Duration temps = null;
+        HashSet<Joueur> meilleurScore = new HashSet();
+        int score = 0;
+        boolean gagnant = false;
+        
+        for (Joueur j : liste) {
+            if (temps == null) {
+                temps = j.getTemps();
+            }
+            if (gagnant) {
+                if (j.aGagne()) {
+                    // Les listes ne sont pas vides puisqu'il y a un gagnant
+                    // Le score
+                    if (score < j.getScore()){
+                        // j a un meilleur score que les gagnants actuels
+                        meilleurScore.clear();
+                        meilleurScore.add(j);
+                        score = j.getScore();
+                    } else if (score == j.getScore()) {
+                        meilleurScore.add(j);
+                    }
+                    // Le temps
+                    if (temps.compareTo(j.getTemps()) < 0){
+                        // j a un meilleur temps que les gagnants actuels
+                        meilleurTemps.clear();
+                        meilleurTemps.add(j);
+                        temps = j.getTemps();
+                    } else if (temps.compareTo(j.getTemps()) == 0){
+                        meilleurTemps.add(j);
+                    }
+                }
+                // Si j n'a pas gagné, on ne cherche pas à le classer
+            } else {
+                if (j.aGagne()) {
+                    gagnant = true;
+                    meilleurScore.clear();
+                    meilleurScore.add(j);
+                    score = j.getScore();
+                    meilleurTemps.clear();
+                    meilleurTemps.add(j);
+                } else {
+                    if (score < j.getScore()){
+                        // j a un meilleur score que les gagnants actuels
+                        meilleurScore.clear();
+                        meilleurScore.add(j);
+                        score = j.getScore();
+                    } else if (score == j.getScore()) {
+                        meilleurScore.add(j);
+                    }
+                }
+            }
+        }
+        
+        if (gagnant) {
+            String str = "";
+            // Le meilleur temps
+            int k = meilleurTemps.size();
+            Iterator it = meilleurTemps.iterator();
+            if (k > 1){
+                for (int i = 0; i < k - 2; i++){
+                    Joueur j = (Joueur) it.next();
+                    str = str + j.getPseudo() + ", ";
+                }
+                Joueur j = (Joueur) it.next();
+                str = str + j.getPseudo() + " et ";
+                j = (Joueur) it.next();
+                str = str + j.getPseudo() + "ont été les plus rapides: " + durationToString(j.getTemps()) + ".\n";
+            } else {
+                Joueur j = (Joueur) it.next();
+                str = j.getPseudo() + " a été le plus rapide: " + durationToString(j.getTemps()) + ".\n";
+            }
+            // Le meilleur score
+            k = meilleurScore.size();
+            it = meilleurScore.iterator();
+            if (k > 1){
+                for (int i = 0; i < k - 2; i++){
+                    Joueur j = (Joueur) it.next();
+                    str = str + j.getPseudo() + ", ";
+                }
+                Joueur j = (Joueur) it.next();
+                str = str + j.getPseudo() + " et ";
+                j = (Joueur) it.next();
+                str = str + j.getPseudo() + "ont fait le meilleur score: " + Integer.toString(j.getScore()) + ".\n\nBravo à tous !";
+            } else {
+                Joueur j = (Joueur) it.next();
+                str = j.getPseudo() + " a fait le meilleur score: " + Integer.toString(j.getScore()) + ".\n\nBravo à tous !";
+            }
+            
+            return str;
+        } else {
+            // Le meilleur score
+            String str = "";
+            int k = meilleurScore.size();
+            Iterator it = meilleurScore.iterator();
+            if (k > 1){
+                for (int i = 0; i < k - 2; i++){
+                    Joueur j = (Joueur) it.next();
+                    str = str + j.getPseudo() + ", ";
+                }
+                Joueur j = (Joueur) it.next();
+                str = str + j.getPseudo() + " et ";
+                j = (Joueur) it.next();
+                str = str + j.getPseudo() + "ont fait le meilleur score: " + Integer.toString(j.getScore()) + ".\n\nBravo à tous !";
+            } else {
+                Joueur j = (Joueur) it.next();
+                str = j.getPseudo() + " a fait le meilleur score: " + Integer.toString(j.getScore()) + ".\n\nBravo à tous !";
+            }
+            return str;
+        }
+    }
+
+    
+    public String durationToString(Duration tps) {
+        long heures = tps.toHours();
+        long minutes = tps.toMinutes() - 60*heures;
+        long secondes = tps.getSeconds() - 3600*heures - 60*minutes;
+        String str = Long.toString(heures) + ":" + Long.toString(minutes) + ":" + Long.toString(secondes);
+        return str;
+    }
+    
     
 }

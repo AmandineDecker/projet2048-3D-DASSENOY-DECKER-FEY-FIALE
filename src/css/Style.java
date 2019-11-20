@@ -88,6 +88,11 @@ public class Style implements Serializable{
             writer.println("    -fx-background-color: #" + col + ";");
             writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Les scores en compétition
+            writer.println(".style-scores-compet-fond {");
+            writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
+            writer.println("}");
             
             // Le texte
             writer.println("");
@@ -141,6 +146,12 @@ public class Style implements Serializable{
             writer.println("}");
             // Le serveur compétition
             writer.println(".style-serveur-compet-label {");
+            writer.println("    -fx-font-size: 1em;");
+            writer.println("    -fx-text-fill: #" + col + ";");
+            writer.println("    -fx-alignment: CENTER;");
+            writer.println("}");
+            // Les scores en compétition
+            writer.println(".style-scores-compet-label {");
             writer.println("    -fx-font-size: 1em;");
             writer.println("    -fx-text-fill: #" + col + ";");
             writer.println("    -fx-alignment: CENTER;");

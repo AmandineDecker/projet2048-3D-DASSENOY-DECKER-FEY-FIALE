@@ -10,7 +10,12 @@ import model.*;
 import java.io.*;
 import java.io.OutputStream;
 import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 import static model.Parametres.COMPETITION;
 
 /**
@@ -26,9 +31,6 @@ public class GestionClient {
     private final String host;
     private final int port;
     private Socket s = null;
-    
-    
-//    private TextArea affichage;
     
     ListeJoueurs aPartager;
     Joueur joueur;
@@ -167,13 +169,25 @@ public class GestionClient {
                             docController.afficherListeJoueurs(aPartager);
                         }
                     });
+                    if (aPartager.getCompetFinie()){
+                        // Page de résultats et nouvelle partie
+                        Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                System.out.println("Compétition terminée");
+                                clientController.afficherScores(aPartager.afficherScore());
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    });
+                        
+                    }
+                    System.out.println("Reception client: " + joueur);
+                    System.out.println();
+                    System.out.println();
                 }
-                if (aPartager.getCompetFinie()){
-                    // Page de résultats et nouvelle partie
-                }
-                System.out.println("Reception client: " + joueur);
-                System.out.println();
-                System.out.println();
             } else if (colis instanceof Boolean){
 //                System.out.println(colis);
                 if (!((Boolean) colis)){
@@ -184,6 +198,13 @@ public class GestionClient {
                 if (colis.equals("Start")){
                     // Lancer partie
                     this.lancerPartie();
+                } else if (colis.equals("disconnected")){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            clientController.showAlertServeurClosed();
+                        }
+                    });
                 }
             } else if (colis == null){
                 try {
@@ -207,6 +228,9 @@ public class GestionClient {
             }
         } 
     }
+    
+    
+    
     
     public void affiche() {
         String listeJoueurs = "";

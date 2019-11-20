@@ -19,8 +19,13 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import static model.Parametres.SOLO;
 
 /**
  * FXML Controller class
@@ -113,6 +118,26 @@ public class FXMLClientController implements Initializable {
         buttonDeconnexion.setDisable(true);
     }
     
+    
+    public void showAlertServeurClosed() {
+        fond.getScene().getWindow().requestFocus();
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Serveur déconnecté");
+        alert.setHeaderText("Le serveur a été déconnecté.");
+        alert.setContentText("Retour au jeu en solo.");
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                controlleur.reactiverMenuCompet();
+                fond.getScene().getWindow().hide();
+                if (controlleur.getModeJeu() != SOLO){
+                    controlleur.nouvellePartie(SOLO);
+                } else {
+                    controlleur.focus();
+                }
+            }
+        });
+    }
+    
     public void giveRights(){
         buttonStart.setDisable(false);
     }
@@ -154,6 +179,27 @@ public class FXMLClientController implements Initializable {
             fond.getStylesheets().clear();
             fond.getStylesheets().add(perso.styleActuel);
         }
+    }
+    
+    public void afficherScores(String scores) throws IOException {
+        // Load fenetre de personnalisation
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLScores.fxml"));
+        Parent root = loader.load();
+        // Recupérer le controller
+        FXMLScoresController scoresController = loader.getController();
+        // Transmettre ce qu'on veut
+        scoresController.transferStyle(perso);
+        scoresController.getScores(scores);
+        //System.out.println(style.styleActuel);
+        // Afficher la fenetre
+        //Scene scene = new Scene(FXMLLoader.load(getClass().getResource("FXMLColorPicker.fxml")));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Partie terminée !");
+        stage.initModality(Modality.WINDOW_MODAL);
+        scene.getStylesheets().add(perso.styleActuel);
+        stage.show();
     }
     
     

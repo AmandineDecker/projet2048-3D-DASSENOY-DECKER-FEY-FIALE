@@ -150,4 +150,8 @@ public class Joueur implements Serializable {
         return fini;
     }
     
+    public boolean aGagne() {
+        return tuileMax == 2048;
+    }
+    
 }
