@@ -162,10 +162,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
 //            System.out.println(c);
 //        }
         caretaker.setIndex(index - 1);
-        this.joueur.setScore(modelGrille.getScore());
-        this.joueur.setTuileMax(modelGrille.getValeurMax());
-        clientController.gare.update(joueur);
-        clientController.gare.share();
+        if (modelGrille.getModeJeu() == COMPETITION) {
+            this.joueur.setScore(modelGrille.getScore());
+            this.joueur.setTuileMax(modelGrille.getValeurMax());
+            clientController.gare.update(joueur);
+            clientController.gare.share();
+        }
         afficheGrille(modelGrille);
         System.out.println(modelGrille);
     }
@@ -177,10 +179,13 @@ public class FXMLDocumentController implements Parametres, Initializable {
         caretaker.setIndex(index + 1);
         originator.set(modelGrille.clone());
         caretaker.addMemento(originator.saveToMemento());
-        this.joueur.setScore(modelGrille.getScore());
-        this.joueur.setTuileMax(modelGrille.getValeurMax());
-        clientController.gare.update(joueur);
-        clientController.gare.share();
+        if (modelGrille.getModeJeu() == COMPETITION) {
+            this.joueur.setScore(modelGrille.getScore());
+            this.joueur.setTuileMax(modelGrille.getValeurMax());
+            clientController.gare.update(joueur);
+            clientController.gare.share();
+        }
+        
         afficheGrille(modelGrille);
         System.out.println(modelGrille);
     }

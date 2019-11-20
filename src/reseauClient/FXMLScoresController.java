@@ -8,6 +8,7 @@ package reseauClient;
 import css.Style;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -24,11 +25,23 @@ public class FXMLScoresController implements Initializable {
     @FXML
     private BorderPane fond;
     @FXML
-    private Button newPartie, deconnect;
+    private Button buttonNewPartie, buttonDeconnect;
     @FXML
     private Label txtScores;    
     
     Style perso;
+    
+    
+    @FXML
+    private void newPartie(ActionEvent event) {
+        
+    }
+    
+    @FXML
+    private void deconnect(ActionEvent event) {
+        
+    }
+    
 
     
     // Recevoir le style de l'autre page
@@ -56,8 +69,8 @@ public class FXMLScoresController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         fond.getStyleClass().add("style-scores-compet-fond");
-        newPartie.getStyleClass().add("style-scores-compet-bouton");
-        deconnect.getStyleClass().add("style-scores-compet-bouton");
+        buttonNewPartie.getStyleClass().add("style-scores-compet-bouton");
+        buttonDeconnect.getStyleClass().add("style-scores-compet-bouton");
         txtScores.getStyleClass().add("style-scores-compet-label");
     }    
     
