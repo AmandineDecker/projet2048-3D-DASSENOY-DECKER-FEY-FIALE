@@ -73,6 +73,11 @@
                   </Menu>
                </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="IA">
+              <items>
+                <MenuItem fx:id="jouer1IA" mnemonicParsing="false" text="Jouer un coup" />
+              </items>
+            </Menu>
           <Menu id="menuAide" fx:id="menuAide" mnemonicParsing="false" text="Aide">
             <items>
               <MenuItem id="aPropos" fx:id="aPropos" mnemonicParsing="false" text="A propos" />
