@@ -191,6 +191,17 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     @FXML
+    private void jouerUnCoupIA(ActionEvent event){
+        int dir = unCoupIA();
+        if (!modelGrille.partieFinie()){
+            joue(dir);
+        }
+        afficheGrille(modelGrille);
+        System.out.println("IA joue");
+        System.out.println(modelGrille);
+    }
+    
+    @FXML
     private void newCompet(ActionEvent event) throws IOException {
         System.out.println("\n\n\nCréation d'une partie en mode compétitf");
         
@@ -841,6 +852,44 @@ public class FXMLDocumentController implements Parametres, Initializable {
         fond.getScene().getWindow().requestFocus();
     }
     
+        public int unCoupIA(){
+        int dir=0;
+        int[] scoretab = new int[6];
+        int scoreMax = 0;
+        Grille cop1 = (Grille) modelGrille.clone();
+        Grille cop2 = (Grille) modelGrille.clone();
+        Grille cop3 = (Grille) modelGrille.clone();
+        Grille cop4 = (Grille) modelGrille.clone();
+        Grille cop5 = (Grille) modelGrille.clone();
+        Grille cop6 = (Grille) modelGrille.clone();
+        cop1.initialiserDeplacement(INFERIEUR);
+        scoretab[0] = cop1.getScore();
+        cop2.initialiserDeplacement(GAUCHE);
+        scoretab[1] = cop2.getScore();
+        cop3.initialiserDeplacement(BAS);
+        scoretab[2] = cop3.getScore();
+        cop4.initialiserDeplacement(HAUT);
+        scoretab[3] = cop4.getScore();
+        cop5.initialiserDeplacement(DROITE);
+        scoretab[4] = cop5.getScore();
+        cop6.initialiserDeplacement(SUPERIEUR);
+        scoretab[5] = cop6.getScore();
+        for (int k=0; k<6 ;k++){
+            if (scoretab[k]>scoreMax){
+                scoreMax = scoretab[k];
+                if (k<3){
+                    dir = k-3;
+                }
+                else {
+                    dir = k-2;
+                }
+            }
+        }
+        return dir;
+    }
+    
+        
+        
     //////////////////////////////////////////////////////////////////////
     
 
@@ -962,6 +1011,5 @@ public class FXMLDocumentController implements Parametres, Initializable {
         caretaker.addMemento(originator.saveToMemento());  
         
     }
-    
-    
+
 }
