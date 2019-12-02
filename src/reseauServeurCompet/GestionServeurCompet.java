@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reseauServeur;
+package reseauServeurCompet;
 
 import java.io.*;
 import java.net.*;
@@ -13,9 +13,9 @@ import model.*;
  *
  * @author Amandine
  */
-public class GestionServeur implements Runnable {
+public class GestionServeurCompet implements Runnable {
     // Le controller
-    private final FXMLServeurController controller;
+    private final FXMLServeurCompetController controller;
     // La connexion
     Socket s;
     // L'échange de data
@@ -28,7 +28,7 @@ public class GestionServeur implements Runnable {
     boolean isAdmin;
     
     
-    public GestionServeur (Socket s, ListeJoueurs o, FXMLServeurController c) throws IOException{ 
+    public GestionServeurCompet (Socket s, ListeJoueurs o, FXMLServeurCompetController c) throws IOException{ 
         this.s = s;
         this.aPartager = ListeJoueurs.getInstance();
         this.controller = c;
@@ -112,28 +112,6 @@ public class GestionServeur implements Runnable {
         } 
     }
     
-//    public void lancerParties(){
-//        try {
-//            // On partage
-//            objOut.writeObject("Start");
-//            // On update
-//            objOut.flush();
-//            System.out.println("Serveur: colis Start envoyé");
-//            System.out.println();
-//            System.out.println();
-//        } catch (IOException ex) {
-//            try {
-//                s.close();
-//                controller.listeConnexions.remove(this);
-//                System.out.println("Client: fermeture de " + s);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                out = null;
-//            }
-//            ex.printStackTrace();
-//        } 
-//    }
-    
     public void shareInfos(String str) {
         try {
             // On partage
@@ -167,7 +145,7 @@ public class GestionServeur implements Runnable {
                 System.out.println();
                 if (this.aPartager != null){
                     //System.out.println("Serveur: colis stocké");
-                    for (GestionServeur quai : controller.listeConnexions){
+                    for (GestionServeurCompet quai : controller.listeConnexions){
 //                        System.out.println(quai);
                         quai.share();
                     }
@@ -186,9 +164,14 @@ public class GestionServeur implements Runnable {
                 System.out.println(str);
                 if (str.equals("Start")){
                     // Lancer partie
-                    for (GestionServeur quai : controller.listeConnexions){
+                    for (GestionServeurCompet quai : controller.listeConnexions){
 //                        System.out.println(quai);
                         quai.shareInfos("Start");
+                    }
+                } else if (str.equals("newGame?")){
+                    // Demander le lancement d'une nouvelle partie
+                    for (GestionServeurCompet quai : controller.listeConnexions){
+                        quai.shareInfos("newGame?");
                     }
                 }
             } 

@@ -3,29 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reseauClient;
+package reseauClientCompet;
 
 import application.FXMLDocumentController;
 import model.*;
 import java.io.*;
 import java.io.OutputStream;
 import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.stage.Stage;
+import javafx.stage.Modality;
 import static model.Parametres.COMPETITION;
 
 /**
  *
  * @author Amandine
  */
-public class GestionClient {
+public class GestionClientCompet {
     
     // Le controller
-    private final FXMLClientController clientController;
+    private final FXMLClientCompetController clientController;
     private final FXMLDocumentController docController;
     // La connexion
     private final String host;
@@ -41,8 +40,8 @@ public class GestionClient {
     ObjectOutputStream objOut;
     
     
-    public GestionClient(ListeJoueurs o, FXMLClientController c, FXMLDocumentController d){
-        // GestionClient
+    public GestionClientCompet(ListeJoueurs o, FXMLClientCompetController c, FXMLDocumentController d){
+        // GestionClientCompet
         this.aPartager = ListeJoueurs.getInstance();
         this.clientController = c;
         this.docController = d;
@@ -103,6 +102,7 @@ public class GestionClient {
     }
     
     public void disconnect(){
+        System.out.println("Disconnect");
         aPartager.removeJoueur(joueur);
         share();
         if (s != null){
@@ -156,6 +156,9 @@ public class GestionClient {
                 aPartager = (ListeJoueurs) colis;
                 Joueur pRecu = aPartager.getJoueur(joueur.getID());
                 if (pRecu != null){
+                    if (pRecu.getTempsIni() == null && joueur.getTempsIni() != null) {
+                        pRecu.setTempsIni(joueur.getTempsIni());
+                    }
                     joueur = pRecu;
                     if (joueur.isAdmin()){
                         clientController.giveRights();
@@ -172,17 +175,23 @@ public class GestionClient {
                     if (aPartager.getCompetFinie()){
                         // Page de résultats et nouvelle partie
                         Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                System.out.println("Compétition terminée");
-                                clientController.afficherScores(aPartager.afficherScore());
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
+                            @Override
+                            public void run() {
+                                try {
+                                    System.out.println("Compétition terminée");
+                                    clientController.afficherScores(aPartager.afficherScore(), joueur.isAdmin());
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
                             }
+                        });
+                    } else if (aPartager.pretsAJouer() && joueur.getTempsIni() == null){
+                        // Relancer une partie
+                        System.out.println("Relancer partie");
+                        System.out.println(joueur.getTempsIni());
+                        if (joueur.isAdmin()) {
+                            shareInfos("Start");
                         }
-                    });
-                        
                     }
                     System.out.println("Reception client: " + joueur);
                     System.out.println();
@@ -205,6 +214,22 @@ public class GestionClient {
                             clientController.showAlertServeurClosed();
                         }
                     });
+                } else if (colis.equals("newGame?")){
+                    if (joueur.isAdmin()) {
+                        joueur.reinitialiser();
+                        aPartager.setCompetFinie(false);
+                        aPartager.updateJoueur(joueur);
+                        share();
+                    } else {
+                        // Afficher la boite de dialogue OUI / NON, NON déconnecte
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                showAlertNewGame();
+                            }
+                        });
+                        
+                    }
                 }
             } else if (colis == null){
                 try {
@@ -229,6 +254,42 @@ public class GestionClient {
         } 
     }
     
+    public void showAlertNewGame() {
+        System.out.println("New alert");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setOnCloseRequest(e -> {
+//            pour ne pas pouvoir fermer avec la croix
+//        });
+        alert.setTitle("Nouvelle partie ?");
+        alert.setHeaderText("Une nouvelle partie va débuter.");
+        alert.setContentText("Voulez-vous participer ?");
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.getDialogPane().requestFocus();
+        // Les boutons
+        alert.getButtonTypes().clear();
+        alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
+        
+        final Button btnOUI = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
+        btnOUI.setOnAction( event -> {
+            joueur.reinitialiser();
+            aPartager.setCompetFinie(false);
+            aPartager.updateJoueur(joueur);
+            share();
+            System.out.println(joueur.getFini());
+            alert.close();
+            clientController.fermerScores();
+        } );
+        
+        final Button btnNON = (Button) alert.getDialogPane().lookupButton(ButtonType.NO);
+        btnNON.setOnAction( event -> {
+            disconnect();
+            alert.close();
+        } );
+        
+        // Le choix de l'utilisateur
+        alert.show();
+    }
+    
     
     
     
@@ -240,11 +301,11 @@ public class GestionClient {
         clientController.setTextAffichage(listeJoueurs);
     }
     
-    public void start() {
+    public void shareInfos(String str) {
         OutputStream out = null;
         try {
             // On envoie l'objet
-            objOut.writeObject("Start");
+            objOut.writeObject(str);
             // On update
             objOut.flush();
         } catch (NullPointerException | IOException e) { 
@@ -267,6 +328,7 @@ public class GestionClient {
     public void lancerPartie() {
         System.out.println(joueur);
         System.out.println(docController);
+        aPartager.setCompetFinie(false);
         joueur.startGame();
         Platform.runLater(new Runnable() {
             @Override
@@ -275,6 +337,7 @@ public class GestionClient {
             }
         });
     }
+    
     
     
     private class WaitForData implements Runnable {

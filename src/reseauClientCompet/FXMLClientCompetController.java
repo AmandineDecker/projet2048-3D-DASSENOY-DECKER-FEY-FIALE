@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reseauClient;
+package reseauClientCompet;
 
 import application.FXMLDocumentController;
 import css.Style;
@@ -32,7 +32,7 @@ import static model.Parametres.SOLO;
  *
  * @author Amandine
  */
-public class FXMLClientController implements Initializable {
+public class FXMLClientCompetController implements Initializable {
 
     @FXML
     private AnchorPane fond;
@@ -50,7 +50,7 @@ public class FXMLClientController implements Initializable {
     String serverhost;
     int port;
     // Partage de data
-    public GestionClient gare;
+    public GestionClientCompet gare;
     ObjectInputStream objIn;
     ObjectOutputStream objOut;
     // Le jeu
@@ -58,6 +58,7 @@ public class FXMLClientController implements Initializable {
     Joueur joueur;
     // Controlleur
     FXMLDocumentController controlleur;
+    FXMLScoresController scoresController;
     // Style
     Style perso;
     
@@ -75,7 +76,7 @@ public class FXMLClientController implements Initializable {
             serverhost = txtHost.getText();
             port = Integer.parseInt(txtPort.getText());
             // On se connecte
-            gare = new GestionClient(listeAPartager, this, this.controlleur);
+            gare = new GestionClientCompet(listeAPartager, this, this.controlleur);
             gare.connect();
             if (gare.isConnected()){
                 System.out.println("Connexion effectuée, échanges en attente");
@@ -86,9 +87,7 @@ public class FXMLClientController implements Initializable {
                 txtPseudo.setEditable(false);
             }
             joueur = gare.joueur;
-            System.out.println("Joueur du controller: " + joueur.isAdmin());
-            
-            
+//            System.out.println("Joueur du controller: " + joueur.isAdmin());
         }
     }
     
@@ -100,7 +99,7 @@ public class FXMLClientController implements Initializable {
     @FXML
     private void lancerPartie(ActionEvent event) {
         // Play
-        gare.start();
+        gare.shareInfos("Start");
     }
     
     /* Méthodes */
@@ -128,6 +127,7 @@ public class FXMLClientController implements Initializable {
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
                 controlleur.reactiverMenuCompet();
+                controlleur.reactiverMenuCoop();
                 fond.getScene().getWindow().hide();
                 if (controlleur.getModeJeu() != SOLO){
                     controlleur.nouvellePartie(SOLO);
@@ -136,6 +136,10 @@ public class FXMLClientController implements Initializable {
                 }
             }
         });
+    }
+    
+    public void close() {
+        fond.getScene().getWindow().hide();
     }
     
     public void giveRights(){
@@ -151,7 +155,7 @@ public class FXMLClientController implements Initializable {
             txtHost.setText(InetAddress.getLocalHost().getHostAddress());
             txtPort.setText(Integer.toString(p));
         } catch (UnknownHostException ex) {
-            Logger.getLogger(FXMLClientController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FXMLClientCompetController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -181,26 +185,59 @@ public class FXMLClientController implements Initializable {
         }
     }
     
-    public void afficherScores(String scores) throws IOException {
+    public void afficherScores(String scores, boolean isAdmin) throws IOException {
         // Load fenetre de personnalisation
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLScores.fxml"));
         Parent root = loader.load();
         // Recupérer le controller
-        FXMLScoresController scoresController = loader.getController();
+        scoresController = loader.getController();
         // Transmettre ce qu'on veut
         scoresController.transferStyle(perso);
         scoresController.getScores(scores);
+        scoresController.giveObjects(this, controlleur);
+        if (isAdmin) {
+            scoresController.giveRights();
+        }
         //System.out.println(style.styleActuel);
         // Afficher la fenetre
         //Scene scene = new Scene(FXMLLoader.load(getClass().getResource("FXMLColorPicker.fxml")));
         Stage stage = new Stage();
         Scene scene = new Scene(root);
+        
+        // Fermeture propre du serveur
+        stage.setOnCloseRequest(e -> {
+            // Ici mettre le code à utiliser quand on clique sur la croix
+            if (this.isConnected()){
+                e.consume();
+                controlleur.showAlertCloseClientCompet(stage);
+            } else {
+                controlleur.fermerReseau();
+                fond.getScene().getWindow().hide();
+                if (controlleur.getModeJeu() != SOLO){
+                    controlleur.nouvellePartie(SOLO);
+                } else {
+                    controlleur.focus();
+                }
+            }
+        });
+        
         stage.setScene(scene);
         stage.setTitle("Partie terminée !");
         stage.initModality(Modality.WINDOW_MODAL);
         scene.getStylesheets().add(perso.styleActuel);
         stage.show();
     }
+    
+    public void fermerScores() {
+        if (scoresController != null) {
+            scoresController.close();
+            scoresController = null;
+        }
+    }
+    
+   
+    
+    
     
     
     

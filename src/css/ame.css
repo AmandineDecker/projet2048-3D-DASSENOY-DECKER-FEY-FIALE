@@ -70,6 +70,62 @@ and open the template in the editor.
     -fx-content-display: CENTER;  
 }
 
+/* Le client coopération */
+.style-client-coop-fond {
+    -fx-background-color: #BAF3F5 ;
+    -fx-border-color: whitesmoke;
+}
+
+.style-client-coop-label {
+    -fx-font-size: 1em;
+    -fx-text-fill: black;
+    -fx-alignment: CENTER;
+}
+
+.style-client-coop-bouton {
+    -fx-background-color: #9999ff, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
+    -fx-text-fill: black;
+    -fx-alignment: CENTER;
+    -fx-content-display: CENTER;  
+}
+
+.style-client-coop-textField {
+    -fx-background-color:
+        linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: 1 0 1 1;
+    -fx-background-radius: 2 0 0 2;
+}
+.style-client-compet-textField:focused {
+    -fx-background-color:
+        -fx-control-inner-background,
+        -fx-faint-focus-color,
+        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: 1 0 1 1, 1 0 1 1, 3 2 3 3;
+    -fx-background-radius: 2 0 0 2, 1 0 0 1, 0;
+}
+
+
+/* Le serveur coopération */
+.style-serveur-coop-fond {
+    -fx-background-color: #BAF3F5 ;
+    -fx-border-color: whitesmoke;
+}
+
+.style-serveur-coop-label {
+    -fx-font-size: 1em;
+    -fx-text-fill: black;
+    -fx-alignment: CENTER;
+}
+
+.style-serveur-coop-bouton {
+    -fx-background-color: #9999ff, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
+    -fx-text-fill: black;
+    -fx-alignment: CENTER;
+    -fx-content-display: CENTER;  
+}
+
+
 /* La page d'affichage des scores */
 .style-scores-compet-fond {
     -fx-background-color: #BAF3F5 ;

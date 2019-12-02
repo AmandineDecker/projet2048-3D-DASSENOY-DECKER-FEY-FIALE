@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reseauClient;
+package reseauClientCompet;
 
+import application.FXMLDocumentController;
 import css.Style;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import static model.Parametres.SOLO;
 
 /**
  * FXML Controller class
@@ -30,16 +32,26 @@ public class FXMLScoresController implements Initializable {
     private Label txtScores;    
     
     Style perso;
+    FXMLDocumentController documentController;
+    FXMLClientCompetController clientController;
     
     
     @FXML
     private void newPartie(ActionEvent event) {
-        
+        clientController.gare.shareInfos("newGame?");
     }
     
     @FXML
     private void deconnect(ActionEvent event) {
-        
+        clientController.gare.disconnect();
+        documentController.reactiverMenuCompet();
+        // Fermer score
+        fond.getScene().getWindow().hide();
+        // Fermer Client
+        clientController.close();
+        // Relancer une partie solo
+        documentController.fermerReseau();
+        documentController.nouvellePartie(SOLO);
     }
     
 
@@ -60,7 +72,19 @@ public class FXMLScoresController implements Initializable {
         txtScores.setText(scores);
     }
     
+    // Recuperer le controller
+    public void giveObjects(FXMLClientCompetController c, FXMLDocumentController d) {
+        this.clientController = c;
+        this.documentController = d;
+    }
     
+    public void giveRights(){
+        buttonNewPartie.setDisable(false);
+    }
+    
+    public void close() {
+        fond.getScene().getWindow().hide();
+    }
     
     /**
      * Initializes the controller class.

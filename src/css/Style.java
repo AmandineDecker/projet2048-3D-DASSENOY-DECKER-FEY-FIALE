@@ -6,7 +6,6 @@
 package css;
 
 
-import application.FXMLColorPickerController;
 import application.FXMLDocumentController;
 import application.Main;
 import java.io.File;
@@ -20,9 +19,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javafx.application.Application.STYLESHEET_MODENA;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -93,6 +90,16 @@ public class Style implements Serializable{
             writer.println("    -fx-background-color: #" + col + ";");
             writer.println("    -fx-border-color: black;");
             writer.println("}");
+            // Le client coopération
+            writer.println(".style-client-coop-fond {");
+            writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
+            writer.println("}");
+            // Le serveur coopération
+            writer.println(".style-serveur-coop-fond {");
+            writer.println("    -fx-background-color: #" + col + ";");
+            writer.println("    -fx-border-color: black;");
+            writer.println("}");
             
             // Le texte
             writer.println("");
@@ -156,7 +163,18 @@ public class Style implements Serializable{
             writer.println("    -fx-text-fill: #" + col + ";");
             writer.println("    -fx-alignment: CENTER;");
             writer.println("}");
-            
+            // Le client coopératon
+            writer.println(".style-client-coop-label {");
+            writer.println("    -fx-font-size: 1em;");
+            writer.println("    -fx-text-fill: #" + col + ";");
+            writer.println("    -fx-alignment: CENTER;");
+            writer.println("}");
+            // Le serveur coopération
+            writer.println(".style-serveur-coop-label {");
+            writer.println("    -fx-font-size: 1em;");
+            writer.println("    -fx-text-fill: #" + col + ";");
+            writer.println("    -fx-alignment: CENTER;");
+            writer.println("}");
             
             // Les tuiles
             writer.println("");

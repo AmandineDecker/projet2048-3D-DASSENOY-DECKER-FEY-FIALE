@@ -8,6 +8,7 @@ package model;
 import java.io.Serializable;
 import java.time.*;
 import java.util.Objects;
+import static model.Parametres.OBJECTIF;
 
 /**
  *
@@ -35,7 +36,7 @@ public class Joueur implements Serializable {
             long minutes = temps.toMinutes() - 60*heures;
             long secondes = temps.getSeconds() - 3600*heures - 60*minutes;
             String tps = Long.toString(heures) + ":" + Long.toString(minutes) + ":" + Long.toString(secondes);
-            if (tuileMax == 2048) {
+            if (tuileMax == OBJECTIF) {
                 return pseudo + ": PARTIE GAGNEE, " + score + " points, temps de jeu: " + tps;
             } else {
                 return pseudo + ": PARTIE PERDUE, " + score + " points, temps de jeu: " + tps;
@@ -65,6 +66,14 @@ public class Joueur implements Serializable {
             return false;
         }
         return Objects.equals(this.pseudo, other.pseudo);
+    }
+    
+    public void reinitialiser() {
+        score = 0;
+        tuileMax = 0;
+        tempsIni = null;
+        temps = Duration.ZERO;
+        fini = false;
     }
     
     // ID

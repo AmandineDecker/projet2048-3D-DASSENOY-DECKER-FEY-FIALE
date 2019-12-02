@@ -59,10 +59,10 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Multijoueur">
                <items>
-                  <Menu mnemonicParsing="false" text="Jeu en coopération">
+                  <Menu fx:id="menuCoop" mnemonicParsing="false" text="Jeu en coopération">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Créer une partie" />
-                        <MenuItem mnemonicParsing="false" text="Rejoindre une partie" />
+                      <MenuItem fx:id="newCoopMenu" mnemonicParsing="false" onAction="#newCoop" text="Créer une partie" />
+                        <MenuItem fx:id="joinCoopMenu" mnemonicParsing="false" onAction="#joinCoop" text="Rejoindre une partie" />
                     </items>
                   </Menu>
                   <Menu fx:id="menuCompet" mnemonicParsing="false" text="Jeu en compétition">

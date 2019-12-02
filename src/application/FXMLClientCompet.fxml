@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="fond" prefHeight="429.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reseauClient.FXMLClientController">
+<AnchorPane id="AnchorPane" fx:id="fond" prefHeight="429.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reseauClientCompet.FXMLClientCompetController">
    <children>
       <TextField fx:id="txtHost" layoutX="147.0" layoutY="21.0" />
       <TextField fx:id="txtPort" layoutX="147.0" layoutY="60.0" />

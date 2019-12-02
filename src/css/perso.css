@@ -1,108 +1,126 @@
 /* Le fond  */
 .pane {
-    -fx-background-color: #1a0068;
+    -fx-background-color: #330033;
     -fx-border-color: whitesmoke;
 }
 .style-perso-fond {
-    -fx-background-color: #1a0068;
+    -fx-background-color: #330033;
     -fx-border-color: black;
 }
 .style-client-compet-fond {
-    -fx-background-color: #1a0068;
+    -fx-background-color: #330033;
     -fx-border-color: black;
 }
 .style-serveur-compet-fond {
-    -fx-background-color: #1a0068;
+    -fx-background-color: #330033;
     -fx-border-color: black;
 }
 .style-scores-compet-fond {
-    -fx-background-color: #1a0068;
+    -fx-background-color: #330033;
+    -fx-border-color: black;
+}
+.style-client-coop-fond {
+    -fx-background-color: #330033;
+    -fx-border-color: black;
+}
+.style-serveur-coop-fond {
+    -fx-background-color: #330033;
     -fx-border-color: black;
 }
 
 /* Le texte  */
 .logo {
     -fx-font-size: 1.5em;
-    -fx-text-fill: #cce6ff;
+    -fx-text-fill: #ffccff;
     -fx-alignment: CENTER;
 }
 .resultat {
     -fx-font-size: 2em;
-    -fx-text-fill: #cce6ff;
+    -fx-text-fill: #ffccff;
     -fx-alignment: CENTER;
     -fx-font-family: "Comic Sans MS";
     -fx-font-weight: Bold;
 }
 .commandes {
-    -fx-text-fill: #cce6ff;
+    -fx-text-fill: #ffccff;
 }
 .score {
-    -fx-text-fill: #cce6ff;
+    -fx-text-fill: #ffccff;
 }
 .style-perso-labels {
     -fx-font-size: 1em;
-    -fx-text-fill: #cce6ff;
+    -fx-text-fill: #ffccff;
     -fx-alignment: CENTER;
 }
 .style-client-compet-label {
     -fx-font-size: 1em;
-    -fx-text-fill: #cce6ff;
+    -fx-text-fill: #ffccff;
     -fx-alignment: CENTER;
 }
 .style-serveur-compet-label {
     -fx-font-size: 1em;
-    -fx-text-fill: #cce6ff;
+    -fx-text-fill: #ffccff;
     -fx-alignment: CENTER;
 }
 .style-scores-compet-label {
     -fx-font-size: 1em;
-    -fx-text-fill: #cce6ff;
+    -fx-text-fill: #ffccff;
+    -fx-alignment: CENTER;
+}
+.style-client-coop-label {
+    -fx-font-size: 1em;
+    -fx-text-fill: #ffccff;
+    -fx-alignment: CENTER;
+}
+.style-serveur-coop-label {
+    -fx-font-size: 1em;
+    -fx-text-fill: #ffccff;
     -fx-alignment: CENTER;
 }
 
 /* Les tuiles  */
 .tuile2 {
-    -fx-background-color: #cce6ff;
+    -fx-background-color: #ccffff;
     -fx-border-color: black;
 }
 .tuile4 {
-    -fx-background-color: #e6ccff;
+    -fx-background-color: #cce6ff;
     -fx-border-color: black;
 }
 .tuile8 {
-    -fx-background-color: #ffccff;
+    -fx-background-color: #e6ccff;
     -fx-border-color: black;
 }
 .tuile16 {
-    -fx-background-color: #ffcce6;
+    -fx-background-color: #ffccff;
     -fx-border-color: black;
 }
 .tuile32 {
-    -fx-background-color: #ffcccc;
+    -fx-background-color: #ffcce6;
     -fx-border-color: black;
 }
 .tuile64 {
-    -fx-background-color: #ffccb3;
+    -fx-background-color: #ffcccc;
     -fx-border-color: black;
 }
 .tuile128 {
-    -fx-background-color: #ffe6cc;
+    -fx-background-color: #ffccb3;
     -fx-border-color: black;
 }
 .tuile256 {
-    -fx-background-color: #ffffb3;
+    -fx-background-color: #ffe6cc;
     -fx-border-color: black;
 }
 .tuile512 {
-    -fx-background-color: #ffffcc;
+    -fx-background-color: #ffffb3;
     -fx-border-color: black;
 }
 .tuile1024 {
-    -fx-background-color: #e6e6cc;
+    -fx-background-color: #ccffcc;
     -fx-border-color: black;
 }
 .tuile2048 {
-    -fx-background-color: #ccffcc;
+    -fx-background-color: #e6e6cc;
     -fx-border-color: black;
 }
 .valeurTuile {

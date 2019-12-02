@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reseauServeur;
+package reseauServeurCompet;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,7 @@ import javafx.stage.Stage;
  *
  * @author Amandine
  */
-public class LancerServeur extends Application {
+public class LancerServeurCompet extends Application {
     
     @Override
     public void start(Stage primaryStage) throws Exception {

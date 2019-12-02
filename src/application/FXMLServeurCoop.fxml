@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="fond" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reseauServeurCoop.FXMLServeurCoopController">
+    <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="labelHost" text="Hôte: " />
+                  <Label fx:id="labelTxtHost" alignment="CENTER" contentDisplay="CENTER" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="labelPort" text="Port: " />
+                  <Label fx:id="labelTxtPort" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <Button fx:id="startButton" mnemonicParsing="false" onAction="#startServeur" text="Lancer le serveur" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="15.0" />
+         </BorderPane.margin></Button>
+   </top>
+   <bottom>
+      <Button fx:id="stopButton" disable="true" mnemonicParsing="false" onAction="#stopServeur" text="Arrêter le serveur" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="15.0" />
+         </BorderPane.margin></Button>
+   </bottom>
+</BorderPane>

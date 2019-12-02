@@ -5,6 +5,8 @@
  */
 package application;
 
+import reseauServeurCompet.FXMLServeurCompetController;
+import reseauClientCompet.FXMLClientCompetController;
 import css.Style;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -39,9 +41,9 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.*;
+import reseauClientCoop.FXMLClientCoopController;
+import reseauServeurCoop.FXMLServeurCoopController;
 import threads.*;
-import reseauClient.*;
-import reseauServeur.*;
 
 /**
  *
@@ -60,9 +62,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private MenuBar barreMenu;
     @FXML
-    private Menu menuFic, menuAide, menuEdit, menuCompet;
+    private Menu menuFic, menuAide, menuEdit, menuCompet, menuCoop;
     @FXML
-    private MenuItem quitter, nouveauJeu, changerStyle, aPropos, backMove, avancerUnCoup, newCompetMenu, joinCompetMenu;
+    private MenuItem quitter, nouveauJeu, changerStyle, aPropos, backMove, avancerUnCoup, newCompetMenu, joinCompetMenu, newCoopMenu, joinCoopMenu;
     @FXML
     private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine, themeAmelie, themePerso, themeAme2, themeWVert;
     @FXML
@@ -81,8 +83,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
     Originator originator=new Originator();
     
     private Joueur joueur = new Joueur("");
-    FXMLClientController clientController;
-    FXMLServeurController serveurController;
+    FXMLClientCompetController clientCompetController;
+    FXMLServeurCompetController serveurCompetController;
+    FXMLClientCoopController clientCoopController;
+    FXMLServeurCoopController serveurCoopController;
     
     // Les événements
     
@@ -122,11 +126,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 }
             }
         } else {
-            if (serveurController != null) {
-                serveurController.arreterServeur();
+            if (serveurCompetController != null) {
+                serveurCompetController.arreterServeur(true);
             }
-            if (clientController != null) {
-                clientController.arreterClient();
+            if (clientCompetController != null) {
+                clientCompetController.arreterClient();
             }
         }
             
@@ -140,12 +144,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
         if (modelGrille.getModeJeu() == SOLO){
             nouvellePartie(SOLO);
         } else {
-            if (clientController.gare.isConnected()){
+            if (clientCompetController.gare.isConnected()){
                 nouvellePartie(joueur, modelGrille.getModeJeu());
                 this.joueur.setScore(modelGrille.getScore());
                 this.joueur.setTuileMax(modelGrille.getValeurMax());
-                clientController.gare.update(joueur);
-                clientController.gare.share();
+                clientCompetController.gare.update(joueur);
+                clientCompetController.gare.share();
             } else {
                 nouvellePartie(SOLO);
             }
@@ -154,9 +158,22 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     @FXML
+    private void jouerUnCoupIA(ActionEvent event){
+        int dir = unCoupIA();
+        System.out.println("IA joue dans la direction " + dir);
+        if (!modelGrille.partieFinie()){
+            joue(dir);
+        }
+//        afficheGrille(modelGrille);
+        
+//        System.out.println(modelGrille);
+    }
+    
+    
+    @FXML
     private void revenirUnCoup(ActionEvent event) {
         int index = caretaker.getIndex();
-        modelGrille.update(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
+        modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
 //        System.out.println("On récupère " + (index - 1));
 //        for (Case c : modelGrille.getGr()){
 //            System.out.println(c);
@@ -165,8 +182,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
         if (modelGrille.getModeJeu() == COMPETITION) {
             this.joueur.setScore(modelGrille.getScore());
             this.joueur.setTuileMax(modelGrille.getValeurMax());
-            clientController.gare.update(joueur);
-            clientController.gare.share();
+            clientCompetController.gare.update(joueur);
+            clientCompetController.gare.share();
         }
         afficheGrille(modelGrille);
         System.out.println(modelGrille);
@@ -175,29 +192,16 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private void avancerUnCoup(ActionEvent event) {
         int index = caretaker.getIndex();
-        modelGrille.update(originator.restoreFromMemento(caretaker.getMemento(index + 1)));
+        modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index + 1)));
         caretaker.setIndex(index + 1);
-        originator.set(modelGrille.clone());
-        caretaker.addMemento(originator.saveToMemento());
         if (modelGrille.getModeJeu() == COMPETITION) {
             this.joueur.setScore(modelGrille.getScore());
             this.joueur.setTuileMax(modelGrille.getValeurMax());
-            clientController.gare.update(joueur);
-            clientController.gare.share();
+            clientCompetController.gare.update(joueur);
+            clientCompetController.gare.share();
         }
         
         afficheGrille(modelGrille);
-        System.out.println(modelGrille);
-    }
-    
-    @FXML
-    private void jouerUnCoupIA(ActionEvent event){
-        int dir = unCoupIA();
-        if (!modelGrille.partieFinie()){
-            joue(dir);
-        }
-        afficheGrille(modelGrille);
-        System.out.println("IA joue");
         System.out.println(modelGrille);
     }
     
@@ -206,30 +210,33 @@ public class FXMLDocumentController implements Parametres, Initializable {
         System.out.println("\n\n\nCréation d'une partie en mode compétitf");
         
         menuCompet.setDisable(true);
+        menuCoop.setDisable(true);
         
         // Le serveur
         
         // Load fenetre d'ouverture serveur
-        FXMLLoader loaderServeur = new FXMLLoader(getClass().getResource("FXMLServeur.fxml"));
+        FXMLLoader loaderServeur = new FXMLLoader(getClass().getResource("FXMLServeurCompet.fxml"));
         Parent rootServeur = loaderServeur.load();
         // Recupérer le controller
-        serveurController = loaderServeur.getController();
+        serveurCompetController = loaderServeur.getController();
         // Transmettre ce qu'on veut
-        serveurController.transferStyle(style);
+        serveurCompetController.transferStyle(style);
         // Afficher la fenetre
         Stage stageServeur = new Stage();
+        stageServeur.setTitle("Serveur compétiton");
         Scene sceneServeur = new Scene(rootServeur);
         
         // Fermeture propre du serveur
         stageServeur.setOnCloseRequest(e -> {
             // Ici mettre le code à utiliser quand on clique sur la croix
-            if (serveurController.isConnected()){
+            if (serveurCompetController.isConnected()){
                 e.consume();
-                showAlertCloseServeur(stageServeur);
+                showAlertCloseServeurCompet(true);
             } else {
-                serveurController.arreterServeur();
-                serveurController = null;
+                serveurCompetController.arreterServeur(true);
+                serveurCompetController = null;
                 menuCompet.setDisable(false);
+                menuCoop.setDisable(false);
             }
         });
         
@@ -242,40 +249,43 @@ public class FXMLDocumentController implements Parametres, Initializable {
         stageServeur.show();
         
         // Le client
-        clientController = this.joinCompet(event);
-        clientController.setConnexion(serveurController.getConnexion());
-        clientController.giveObjects(this);
+        clientCompetController = this.joinCompet(event);
+        clientCompetController.setConnexion(serveurCompetController.getConnexion());
+        clientCompetController.giveObjects(this);
         
       
     }
     
     @FXML
-    private FXMLClientController joinCompet(ActionEvent event) throws IOException {
+    private FXMLClientCompetController joinCompet(ActionEvent event) throws IOException {
         System.out.println("\n\n\nRejoindre une partie en mode compétitif");
         
         newCompetMenu.setDisable(true);
         joinCompetMenu.setDisable(true);
+        newCoopMenu.setDisable(true);
+        joinCoopMenu.setDisable(true);
         
         // Load fenetre d'ouverture serveur
-        FXMLLoader loaderClient = new FXMLLoader(getClass().getResource("FXMLClient.fxml"));
+        FXMLLoader loaderClient = new FXMLLoader(getClass().getResource("FXMLClientCompet.fxml"));
         Parent rootClient = loaderClient.load();
         // Recupérer le controller
-        clientController = loaderClient.getController();
-        clientController.giveObjects(this);
+        clientCompetController = loaderClient.getController();
+        clientCompetController.giveObjects(this);
         // Transmettre ce qu'on veut
-        clientController.transferStyle(style);
+        clientCompetController.transferStyle(style);
         // Afficher la fenetre
         Stage stageClient = new Stage();
+        stageClient.setTitle("Client compétiton");
         Scene sceneClient = new Scene(rootClient);
         
         // Fermeture propre du serveur
         stageClient.setOnCloseRequest(e -> {
             // Ici mettre le code à utiliser quand on clique sur la croix
-            if (clientController.isConnected()){
+            if (clientCompetController.isConnected()){
                 e.consume();
-                showAlertCloseClient(stageClient);
+                showAlertCloseClientCompet(stageClient);
             } else {
-                clientController = null;
+                clientCompetController = null;
                 newCompetMenu.setDisable(false);
                 joinCompetMenu.setDisable(false);
             }
@@ -285,7 +295,101 @@ public class FXMLDocumentController implements Parametres, Initializable {
         stageClient.initModality(Modality.NONE);
         sceneClient.getStylesheets().add(style.styleActuel);
         stageClient.show();
-        return clientController;
+        return clientCompetController;
+    }
+    
+    @FXML
+    private void newCoop(ActionEvent event) throws IOException {
+        System.out.println("\n\n\nCréation d'une partie en mode coopératif");
+        
+        menuCompet.setDisable(true);
+        menuCoop.setDisable(true);
+        
+        // Le serveur
+        
+        // Load fenetre d'ouverture serveur
+        FXMLLoader loaderServeur = new FXMLLoader(getClass().getResource("FXMLServeurCoop.fxml"));
+        Parent rootServeur = loaderServeur.load();
+        // Recupérer le controller
+        serveurCoopController = loaderServeur.getController();
+        // Transmettre ce qu'on veut
+        serveurCoopController.transferStyle(style);
+        // Afficher la fenetre
+        Stage stageServeur = new Stage();
+        stageServeur.setTitle("Serveur coopération");
+        Scene sceneServeur = new Scene(rootServeur);
+        
+        // Fermeture propre du serveur
+        stageServeur.setOnCloseRequest(e -> {
+            // Ici mettre le code à utiliser quand on clique sur la croix
+            if (serveurCoopController.isConnected()){
+                e.consume();
+                showAlertCloseServeurCoop(true);
+            } else {
+                serveurCoopController.arreterServeur(true);
+                serveurCoopController = null;
+                menuCompet.setDisable(false);
+                menuCoop.setDisable(false);
+            }
+        });
+        
+        // On positionne la page du serveur
+        stageServeur.setX(0);
+        stageServeur.setX(0);
+        stageServeur.setScene(sceneServeur);
+//        stage.initModality(Modality.WINDOW_MODAL);
+        sceneServeur.getStylesheets().add(style.styleActuel);
+        stageServeur.show();
+        
+        // Le client
+        clientCoopController = this.joinCoop(event);
+        clientCoopController.setConnexion(serveurCoopController.getConnexion());
+        clientCoopController.giveObjects(this);
+        
+    }
+    
+    @FXML
+    private FXMLClientCoopController joinCoop(ActionEvent event) throws IOException {
+        System.out.println("\n\n\nRejoindre une partie en mode coopératif");
+        
+        newCoopMenu.setDisable(true);
+        joinCoopMenu.setDisable(true);
+        newCompetMenu.setDisable(true);
+        joinCompetMenu.setDisable(true);
+        
+        // Load fenetre d'ouverture serveur
+        FXMLLoader loaderClient = new FXMLLoader(getClass().getResource("FXMLClientCoop.fxml"));
+        Parent rootClient = loaderClient.load();
+        // Recupérer le controller
+        clientCoopController = loaderClient.getController();
+        clientCoopController.giveObjects(this);
+        // Transmettre ce qu'on veut
+        clientCoopController.transferStyle(style);
+        // Afficher la fenetre
+        Stage stageClient = new Stage();
+        stageClient.setTitle("Client coopération");
+        Scene sceneClient = new Scene(rootClient);
+        
+        // Fermeture propre du serveur
+        stageClient.setOnCloseRequest(e -> {
+            // Ici mettre le code à utiliser quand on clique sur la croix
+            if (clientCoopController.isConnected()){
+                e.consume();
+                showAlertCloseClientCoop(stageClient);
+            } else {
+                clientCoopController = null;
+                newCoopMenu.setDisable(false);
+                joinCoopMenu.setDisable(false);
+                newCompetMenu.setDisable(false);
+                joinCompetMenu.setDisable(false);
+            }
+        });
+        
+        stageClient.setScene(sceneClient);
+        stageClient.initModality(Modality.NONE);
+        sceneClient.getStylesheets().add(style.styleActuel);
+        stageClient.show();
+        return clientCoopController;
     }
     
     
@@ -359,7 +463,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     @FXML
     private void clicHaut(MouseEvent m){
-        if (!modelGrille.partieFinie()){
+//        System.out.println(modelGrille.getModeJeu() == COOPERATION);
+//        System.out.println(clientCoopController.gare.aLaMain());
+        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
+            // Ce n'est pas à ce joueur de jouer
+        } else if (!modelGrille.partieFinie()){
             joue(HAUT);
         }
         else {
@@ -371,8 +479,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     this.joueur.stopTemps();
                     this.joueur.setScore(modelGrille.getScore());
                     this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientController.gare.update(joueur);
-                    clientController.gare.share();
+                    clientCompetController.gare.update(joueur);
+                    clientCompetController.gare.share();
                 }
             }
         }
@@ -380,7 +488,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     @FXML
     private void clicBas(MouseEvent m){
-        if (!modelGrille.partieFinie()){
+        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
+            // Ce n'est pas à ce joueur de jouer
+        } else if (!modelGrille.partieFinie()){
             joue(BAS);
         }
         else {
@@ -392,8 +502,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     this.joueur.stopTemps();
                     this.joueur.setScore(modelGrille.getScore());
                     this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientController.gare.update(joueur);
-                    clientController.gare.share();
+                    clientCompetController.gare.update(joueur);
+                    clientCompetController.gare.share();
                 }
             }
         }
@@ -401,7 +511,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     @FXML
     private void clicGauche(MouseEvent m){
-        if (!modelGrille.partieFinie()){
+        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
+            // Ce n'est pas à ce joueur de jouer
+        } else if (!modelGrille.partieFinie()){
             joue(GAUCHE);
         }
         else {
@@ -413,8 +525,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     this.joueur.stopTemps();
                     this.joueur.setScore(modelGrille.getScore());
                     this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientController.gare.update(joueur);
-                    clientController.gare.share();
+                    clientCompetController.gare.update(joueur);
+                    clientCompetController.gare.share();
                 }
             }
         }
@@ -422,7 +534,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     @FXML
     private void clicDroite(MouseEvent m){
-        if (!modelGrille.partieFinie()){
+        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
+            // Ce n'est pas à ce joueur de jouer
+        } else if (!modelGrille.partieFinie()){
             joue(DROITE);
         }
         else {
@@ -434,8 +548,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     this.joueur.stopTemps();
                     this.joueur.setScore(modelGrille.getScore());
                     this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientController.gare.update(joueur);
-                    clientController.gare.share();
+                    clientCompetController.gare.update(joueur);
+                    clientCompetController.gare.share();
                 }
             }
         }
@@ -443,7 +557,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     @FXML
     private void clicSup(MouseEvent m){
-        if (!modelGrille.partieFinie()){
+        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
+            // Ce n'est pas à ce joueur de jouer
+        } else if (!modelGrille.partieFinie()){
             joue(SUPERIEUR);
         }
         else {
@@ -455,8 +571,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     this.joueur.stopTemps();
                     this.joueur.setScore(modelGrille.getScore());
                     this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientController.gare.update(joueur);
-                    clientController.gare.share();
+                    clientCompetController.gare.update(joueur);
+                    clientCompetController.gare.share();
                 }
             }
         }
@@ -464,7 +580,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     @FXML
     private void clicInf(MouseEvent m){
-        if (!modelGrille.partieFinie()){
+        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
+            // Ce n'est pas à ce joueur de jouer
+        } else if (!modelGrille.partieFinie()){
             joue(INFERIEUR);
         }
         else {
@@ -476,8 +594,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     this.joueur.stopTemps();
                     this.joueur.setScore(modelGrille.getScore());
                     this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientController.gare.update(joueur);
-                    clientController.gare.share();
+                    clientCompetController.gare.update(joueur);
+                    clientCompetController.gare.share();
                 }
             }
         }
@@ -485,7 +603,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     @FXML
     public void toucheClavier(KeyEvent ke) {
-        if (!modelGrille.partieFinie()){
+//        System.out.println(modelGrille.getModeJeu());
+//        System.out.println(clientCoopController.gare.aLaMain());
+        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
+            // Ce n'est pas à ce joueur de jouer
+        } else if (!modelGrille.partieFinie()){
             int direction = 0;
             switch(ke.getText()){
                 case "z" :
@@ -514,8 +636,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     break;
             }
             joue(direction);
-        }
-        else {
+        } else {
             if (modelGrille.getModeJeu() == SOLO) {
                 resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
             } else if (modelGrille.getModeJeu() == COMPETITION) {
@@ -524,8 +645,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     this.joueur.stopTemps();
                     this.joueur.setScore(modelGrille.getScore());
                     this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientController.gare.update(joueur);
-                    clientController.gare.share();
+                    clientCompetController.gare.update(joueur);
+                    clientCompetController.gare.share();
                 }
             }
         }
@@ -704,6 +825,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
     public void nouvellePartie(int modeJeu){
 //        fond.getScene().getWindow().centerOnScreen();
         fond.getScene().getWindow().requestFocus();
+        resultat.setText("C'est parti !");
+        if (modeJeu == SOLO) {
+            nouveauJeu.setDisable(false);
+        } else {
+            nouveauJeu.setDisable(true);
+        }
         // On efface les grilles
         Node node1 = gr1.getChildren().get(0);
         Node node2 = gr2.getChildren().get(0);
@@ -729,11 +856,22 @@ public class FXMLDocumentController implements Parametres, Initializable {
         caretaker=new Caretaker();
         originator.set(modelGrille.clone());
         caretaker.addMemento(originator.saveToMemento());
+        
+        if (modeJeu == COOPERATION) {
+            clientCoopController.gare.updateGrille(modelGrille);
+//            clientCoopController.gare.share();
+        }
+        
     }
     
     public void nouvellePartie(Joueur j, int modeJeu){
 //        fond.getScene().getWindow().centerOnScreen();
         fond.getScene().getWindow().requestFocus();
+        if (modeJeu == SOLO) {
+            nouveauJeu.setDisable(false);
+        } else {
+            nouveauJeu.setDisable(true);
+        }
         // On efface les grilles
         Node node1 = gr1.getChildren().get(0);
         Node node2 = gr2.getChildren().get(0);
@@ -749,9 +887,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         //
         modelGrille = modelGrille.newGame();
         joueur = j;
-        if (modeJeu == COMPETITION){
-            modelGrille.setModeJeu(modeJeu);
-        }
+        modelGrille.setModeJeu(modeJeu);
         
         //Initialisation de la partie avec les deux premières cases aux hasard
         boolean b = modelGrille.nouvelleCase();
@@ -762,6 +898,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
         caretaker=new Caretaker();
         originator.set(modelGrille.clone());
         caretaker.addMemento(originator.saveToMemento());
+        
+        if (modeJeu == COOPERATION) {
+            clientCoopController.gare.updateGrille(modelGrille);
+            clientCoopController.gare.share();
+        }
+        
     }
 
     
@@ -771,34 +913,62 @@ public class FXMLDocumentController implements Parametres, Initializable {
             boolean b2 = modelGrille.initialiserDeplacement(direction);
             
             if (b2) {
-                boolean b = modelGrille.nouvelleCase();
-                if (!b) {
-                    modelGrille.defaite();
-                    resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                
+                if (modelGrille.getValeurMax()>=OBJECTIF){
+                    modelGrille.victoire();
+                    resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".");
                     if (modelGrille.getModeJeu() == COMPETITION) {
                         this.joueur.setFini(true);
                         this.joueur.stopTemps();
+                    } else if (modelGrille.getModeJeu() == COOPERATION) {
+                        clientCoopController.gare.updateGrille(modelGrille);
+                        clientCoopController.gare.share();
+                        clientCoopController.gare.shareInfos("PartieFinie");
+                        clientCoopController.gare.donnerMain();
+                    }
+                } else {
+                    boolean b = modelGrille.nouvelleCase();
+                    if (!b) {
+                        modelGrille.defaite();
+                        resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                        if (modelGrille.getModeJeu() == COMPETITION) {
+                            this.joueur.setFini(true);
+                            this.joueur.stopTemps();
+                        } else if (modelGrille.getModeJeu() == COOPERATION) {
+                            clientCoopController.gare.updateGrille(modelGrille);
+                            clientCoopController.gare.share();
+                            clientCoopController.gare.shareInfos("PartieFinie");
+                            clientCoopController.gare.donnerMain();
+                        }
+                    } else if (modelGrille.getModeJeu() == COOPERATION) {
+                        // update grille
+        //                System.out.println("COOPERATION");
+                        resultat.setText("A l'autre joueur");
+                        clientCoopController.gare.updateGrille(modelGrille);
+                        clientCoopController.gare.share();
+                        clientCoopController.gare.donnerMain();
                     }
                 }
             }
             originator.set(modelGrille.clone());
             caretaker.addMemento(originator.saveToMemento());
+            
             afficheGrille(modelGrille);
             System.out.println(modelGrille);
-            if (modelGrille.getValeurMax()>=OBJECTIF){
-                modelGrille.victoire();
-                resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".");
-                if (modelGrille.getModeJeu() == COMPETITION) {
-                    this.joueur.setFini(true);
-                    this.joueur.stopTemps();
-                }
-            }
+//            if (modelGrille.getValeurMax()>=OBJECTIF){
+//                modelGrille.victoire();
+//                resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".");
+//                if (modelGrille.getModeJeu() == COMPETITION) {
+//                    this.joueur.setFini(true);
+//                    this.joueur.stopTemps();
+//                }
+//            }
         }
         if (modelGrille.getModeJeu() == COMPETITION) {
             this.joueur.setScore(modelGrille.getScore());
             this.joueur.setTuileMax(modelGrille.getValeurMax());
-            clientController.gare.update(joueur);
-            clientController.gare.share();
+            clientCompetController.gare.update(joueur);
+            clientCompetController.gare.share();
         }
     }
     
@@ -810,58 +980,153 @@ public class FXMLDocumentController implements Parametres, Initializable {
         resultat.setText(listeJoueurs);
     }
     
-    public void showAlertCloseServeur(Stage s) {
+    public void showAlertCloseServeurCompet(boolean fermer) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Attention!");
         alert.setHeaderText("Vous allez couper la connexion avec d'autres joueurs.");
         alert.setContentText("Fermer quand même ?");
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
-                serveurController.arreterServeur();
+                serveurCompetController.arreterServeur(fermer);
                 fond.getScene().getWindow().requestFocus();
                 menuCompet.setDisable(false);
-                s.close();
-                serveurController = null;
+                menuCoop.setDisable(false);
+                serveurCompetController = null;
             }
         });
     }
     
-    public void showAlertCloseClient(Stage s) {
+    public void showAlertCloseClientCompet(Stage s) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Attention!");
         alert.setHeaderText("Vous allez vous déconnecter du serveur.");
         alert.setContentText("Fermer quand même ?");
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
-                clientController.arreterClient();
+                clientCompetController.arreterClient();
+                newCoopMenu.setDisable(false);
+                joinCoopMenu.setDisable(false);
                 newCompetMenu.setDisable(false);
                 joinCompetMenu.setDisable(false);
                 fond.getScene().getWindow().requestFocus();
                 s.close();
-                clientController = null;
+                clientCompetController = null;
             }
         });
     }
     
+    public void showAlertCloseServeurCoop(boolean fermer) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Attention!");
+        alert.setHeaderText("Vous allez couper la connexion avec d'autres joueurs.");
+        alert.setContentText("Fermer quand même ?");
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                serveurCoopController.arreterServeur(fermer);
+                fond.getScene().getWindow().requestFocus();
+                menuCompet.setDisable(false);
+                menuCoop.setDisable(false);
+                serveurCoopController = null;
+            }
+        });
+    }
+    
+    public void showAlertCloseClientCoop(Stage s) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Attention!");
+        alert.setHeaderText("Vous allez vous déconnecter du serveur et couper la connexion à l'autre joueur.");
+        alert.setContentText("Fermer quand même ?");
+        
+        final Button btnOK = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        btnOK.setOnAction( event -> {
+            System.out.println("OK");
+            clientCoopController.arreterClient();
+            newCoopMenu.setDisable(false);
+            joinCoopMenu.setDisable(false);
+            newCompetMenu.setDisable(false);
+            joinCompetMenu.setDisable(false);
+            fond.getScene().getWindow().requestFocus();
+            if (s != null) {
+                s.close();
+                clientCoopController = null;
+            } else {
+                System.out.println("Alert closed");
+                alert.close();
+            }
+        } );
+        
+        final Button btnCANCEL = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+        btnOK.setOnAction( event -> {} );
+        
+        alert.show();
+    }
+    
+    
     public void reactiverMenuCompet() {
+        menuCompet.setDisable(false);
         newCompetMenu.setDisable(false);
         joinCompetMenu.setDisable(false);
+    }
+    
+    public void reactiverMenuCoop() {
+        menuCoop.setDisable(false);
+        newCoopMenu.setDisable(false);
+        joinCoopMenu.setDisable(false);
+    }
+    
+    public void fermerReseau() {
+        if (clientCompetController != null) {
+            if (clientCompetController.isConnected()) {
+                clientCompetController.arreterClient();
+                newCompetMenu.setDisable(false);
+                joinCompetMenu.setDisable(false);
+                clientCompetController = null;
+            }
+        }
+        if (serveurCompetController != null) {
+            if (serveurCompetController.isConnected()) {
+                showAlertCloseServeurCompet(true);
+            }
+        }
+    }
+    
+    public void setInfos(String str) {
+        resultat.setText(str);
     }
     
     public void focus() {
         fond.getScene().getWindow().requestFocus();
     }
     
-        public int unCoupIA(){
-        int dir=0;
+    public void updateGrille(Grille gr) {
+        modelGrille = Grille.setInstance(gr);
+    }
+    
+    public void effacerGrille() {
+        // On efface les grilles
+        Node node1 = gr1.getChildren().get(0);
+        Node node2 = gr2.getChildren().get(0);
+        Node node3 = gr3.getChildren().get(0);
+
+        gr1.getChildren().clear();
+        gr1.getChildren().add(0,node1);
+        gr2.getChildren().clear();
+        gr2.getChildren().add(0,node2);
+        gr3.getChildren().clear();
+        gr3.getChildren().add(0,node3);
+    }
+    
+    
+    public int unCoupIA(){
+        int dir = 0;
         int[] scoretab = new int[6];
         int scoreMax = 0;
-        Grille cop1 = (Grille) modelGrille.clone();
-        Grille cop2 = (Grille) modelGrille.clone();
-        Grille cop3 = (Grille) modelGrille.clone();
-        Grille cop4 = (Grille) modelGrille.clone();
-        Grille cop5 = (Grille) modelGrille.clone();
-        Grille cop6 = (Grille) modelGrille.clone();
+        Grille cop1 = (Grille) Grille.getInstance().clone();
+        Grille cop2 = (Grille) Grille.getInstance().clone();
+        Grille cop3 = (Grille) Grille.getInstance().clone();
+        Grille cop4 = (Grille) Grille.getInstance().clone();
+        Grille cop5 = (Grille) Grille.getInstance().clone();
+        Grille cop6 = (Grille) Grille.getInstance().clone();
         cop1.initialiserDeplacement(INFERIEUR);
         scoretab[0] = cop1.getScore();
         cop2.initialiserDeplacement(GAUCHE);
@@ -888,8 +1153,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         return dir;
     }
     
-        
-        
+     
     //////////////////////////////////////////////////////////////////////
     
 
@@ -1011,5 +1275,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
         caretaker.addMemento(originator.saveToMemento());  
         
     }
-
+    
+    
 }

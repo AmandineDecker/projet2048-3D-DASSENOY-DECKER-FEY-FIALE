@@ -28,6 +28,7 @@ public class ListeJoueurs implements Serializable {
     
     public void initGame(){
         liste = new HashSet();
+        competFinie = false;
     }
     
     public static ListeJoueurs getInstance() {
@@ -125,6 +126,17 @@ public class ListeJoueurs implements Serializable {
         return competFinie;
     }
     
+    // Pour savoir si on peut relancer une partie
+    public boolean pretsAJouer() {
+        int compteur = 0;
+        for (Joueur j : liste){
+            if (j.getFini()){
+                return false;
+            }
+        }
+        return true;
+    } 
+    
     // Le texte à afficher en fin de partie
     public String afficherScore() {
         HashSet<Joueur> meilleurTemps = new HashSet();
@@ -194,7 +206,7 @@ public class ListeJoueurs implements Serializable {
                 Joueur j = (Joueur) it.next();
                 str = str + j.getPseudo() + " et ";
                 j = (Joueur) it.next();
-                str = str + j.getPseudo() + "ont été les plus rapides: " + durationToString(j.getTemps()) + ".\n";
+                str = str + j.getPseudo() + " ont été les plus rapides: " + durationToString(j.getTemps()) + ".\n";
             } else {
                 Joueur j = (Joueur) it.next();
                 str = j.getPseudo() + " a été le plus rapide: " + durationToString(j.getTemps()) + ".\n";
@@ -210,7 +222,7 @@ public class ListeJoueurs implements Serializable {
                 Joueur j = (Joueur) it.next();
                 str = str + j.getPseudo() + " et ";
                 j = (Joueur) it.next();
-                str = str + j.getPseudo() + "ont fait le meilleur score: " + Integer.toString(j.getScore()) + ".\n\nBravo à tous !";
+                str = str + j.getPseudo() + " ont fait le meilleur score: " + Integer.toString(j.getScore()) + ".\n\nBravo à tous !";
             } else {
                 Joueur j = (Joueur) it.next();
                 str = j.getPseudo() + " a fait le meilleur score: " + Integer.toString(j.getScore()) + ".\n\nBravo à tous !";
@@ -230,7 +242,7 @@ public class ListeJoueurs implements Serializable {
                 Joueur j = (Joueur) it.next();
                 str = str + j.getPseudo() + " et ";
                 j = (Joueur) it.next();
-                str = str + j.getPseudo() + "ont fait le meilleur score: " + Integer.toString(j.getScore()) + ".\n\nBravo à tous !";
+                str = str + j.getPseudo() + " ont fait le meilleur score: " + Integer.toString(j.getScore()) + ".\n\nBravo à tous !";
             } else {
                 Joueur j = (Joueur) it.next();
                 str = j.getPseudo() + " a fait le meilleur score: " + Integer.toString(j.getScore()) + ".\n\nBravo à tous !";

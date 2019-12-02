@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reseauServeur;
+package reseauServeurCompet;
 
 import css.Style;
 import java.io.IOException;
@@ -20,7 +20,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import model.*;
 
 /**
@@ -28,7 +27,7 @@ import model.*;
  *
  * @author Amandine
  */
-public class FXMLServeurController implements Initializable {
+public class FXMLServeurCompetController implements Initializable {
 
     @FXML
     BorderPane fond;
@@ -42,7 +41,7 @@ public class FXMLServeurController implements Initializable {
     // Connexion
     int port = 0;
     ServerSocket ecoute = null;
-    HashSet<GestionServeur> listeConnexions; // La liste des sockets à MAJ
+    HashSet<GestionServeurCompet> listeConnexions; // La liste des sockets à MAJ
     // Le jeu
     public ListeJoueurs listeJoueurs;
     
@@ -55,9 +54,9 @@ public class FXMLServeurController implements Initializable {
     @FXML
     private void stopServeur(ActionEvent event) {
         if (this.isConnected()) {
-            showAlertCloseServeur();
+            showAlertCloseServeur(false);
         } else {
-            arreterServeur();
+            arreterServeur(false);
         }
     }
     
@@ -65,14 +64,14 @@ public class FXMLServeurController implements Initializable {
     
     /* Méthodes */
     
-    public void showAlertCloseServeur() {
+    public void showAlertCloseServeur(boolean fermer) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Attention!");
         alert.setHeaderText("Vous allez couper la connexion avec d'autres joueurs.");
         alert.setContentText("Arreter le serveur quand même ?");
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
-                this.arreterServeur();
+                this.arreterServeur(fermer);
             }
         });
     }
@@ -102,9 +101,9 @@ public class FXMLServeurController implements Initializable {
         startButton.setDisable(true);
     }
     
-    public void arreterServeur() {
+    public void arreterServeur(boolean fermer) {
         try {
-            for (GestionServeur quai : listeConnexions){
+            for (GestionServeurCompet quai : listeConnexions){
                 quai.shareInfos("disconnected");
             }
             ecoute.close();
@@ -115,6 +114,9 @@ public class FXMLServeurController implements Initializable {
         } finally {
             stopButton.setDisable(true);
             startButton.setDisable(false);
+            if (fermer) {
+                fond.getScene().getWindow().hide();
+            }
         }
     }
     
@@ -151,9 +153,9 @@ public class FXMLServeurController implements Initializable {
             port = ecoute.getLocalPort();
             labelPort.setText(Integer.toString(port));
         } catch (UnknownHostException ex) {
-            Logger.getLogger(FXMLServeurController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FXMLServeurCompetController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(FXMLServeurController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FXMLServeurCompetController.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.lancerServeur();
         
@@ -173,9 +175,9 @@ public class FXMLServeurController implements Initializable {
     
     private class WaitForConnection implements Runnable {
         
-        FXMLServeurController controller;
+        FXMLServeurCompetController controller;
         
-        public WaitForConnection(FXMLServeurController c){
+        public WaitForConnection(FXMLServeurCompetController c){
             this.controller = c;
         }
 
@@ -184,7 +186,7 @@ public class FXMLServeurController implements Initializable {
             try {
                 Socket s = ecoute.accept();
                 System.out.println("Serveur atteint");
-                GestionServeur c = new GestionServeur(s, listeJoueurs, controller);
+                GestionServeurCompet c = new GestionServeurCompet(s, listeJoueurs, controller);
                 listeConnexions.add(c);
                 Thread processus_connexion = new Thread(c);
                 processus_connexion.start();

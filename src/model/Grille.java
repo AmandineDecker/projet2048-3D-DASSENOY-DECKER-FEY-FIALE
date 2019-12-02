@@ -37,11 +37,20 @@ public class Grille implements Parametres, Serializable, Cloneable {
         return instance;
     }
     
-    public Grille update(Grille gr){
+    public Grille newGame(int modeJeu){
+        instance.valeurMax = 0;
+        instance.score = 0;
+        instance.grille.clear();
+        instance.modeJeu = modeJeu;
+        return instance;
+    }
+    
+    public static Grille setInstance(Grille gr){
         instance.valeurMax = gr.valeurMax;
         instance.score = gr.score;
-        instance.grille.clear();
-        instance.grille.addAll(gr.grille);
+        instance.modeJeu = gr.getModeJeu();
+        instance.grille = gr.getGr();
+        System.out.println("LA GRILLE: \n" + instance);
         return instance;
     }
     
