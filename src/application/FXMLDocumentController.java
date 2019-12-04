@@ -5,6 +5,8 @@
  */
 package application;
 
+import bdd.FXMLSaveDataBaseController;
+import bdd.FXMLShowDataBaseController;
 import reseauServeurCompet.FXMLServeurCompetController;
 import reseauClientCompet.FXMLClientCompetController;
 import css.Style;
@@ -66,7 +68,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private Menu menuFic, menuAide, menuEdit, menuCompet, menuCoop;
     @FXML
-    private MenuItem quitter, nouveauJeu, changerStyle, aPropos, backMove, avancerUnCoup, newCompetMenu, joinCompetMenu, newCoopMenu, joinCoopMenu;
+    private MenuItem quitter, nouveauJeu, menuScores, changerStyle, aPropos, backMove, avancerUnCoup, newCompetMenu, joinCompetMenu, newCoopMenu, joinCoopMenu;
     @FXML
     private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine, themeAmelie, themePerso, themeAme2, themeWVert;
     @FXML
@@ -145,7 +147,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
 
 /**
  * Fonction nouveauJeu
- * Cette fonction permet de dire si la partie doit être en multijoueur ou en solo
+ * Cette fonction permet de lancer une nouvelle partie
  * @param event 
  */
     @FXML
@@ -166,6 +168,42 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         
     }
+    
+    /**
+    * Fonction voirScores
+    * Cette fonction permet d'afficher la page des scores
+    * @param event 
+    */
+    @FXML
+    private void voirScores(ActionEvent event) throws IOException {
+        // Afficher la page des scores
+        // Le serveur
+        
+        // Load fenetre d'ouverture serveur
+        FXMLLoader loaderServeur = new FXMLLoader(getClass().getResource("FXMLShowDataBase.fxml"));
+        Parent rootServeur = loaderServeur.load();
+        // Recupérer le controller
+        FXMLShowDataBaseController showDataBaseController = loaderServeur.getController();
+        // Transmettre ce qu'on veut
+        showDataBaseController.transferStyle(style);
+        // Afficher la fenetre
+        Stage stageScores = new Stage();
+        stageScores.setTitle("Scores du jeu en solo");
+        Scene sceneScores = new Scene(rootServeur);
+        
+//        stageServeur.setOnCloseRequest(e -> {
+//            // Ici mettre le code à utiliser quand on clique sur la croix
+//        });
+        
+        // On positionne la page
+//        stageServeur.setX(0);
+//        stageServeur.setX(0);
+        stageScores.setScene(sceneScores);
+
+        sceneScores.getStylesheets().add(style.styleActuel);
+        stageScores.show();
+    }
+    
     /**
      * Fonction jouerUnCoupIA
      * Cette fonction permet de faire jouer le prochain  coup par l'intelligence artificielle
@@ -529,7 +567,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         else {
             if (modelGrille.getModeJeu() == SOLO) {
-                resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
+                resultat.setText(aAfficher);
+                this.fenetreBDD(aAfficher);
             } else if (modelGrille.getModeJeu() == COMPETITION) {
                 if (!this.joueur.getFini()){
                     this.joueur.setFini(true);
@@ -557,7 +597,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         else {
             if (modelGrille.getModeJeu() == SOLO) {
-                resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
+                resultat.setText(aAfficher);
+                this.fenetreBDD(aAfficher);
             } else if (modelGrille.getModeJeu() == COMPETITION) {
                 if (!this.joueur.getFini()){
                     this.joueur.setFini(true);
@@ -585,7 +627,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         else {
             if (modelGrille.getModeJeu() == SOLO) {
-                resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
+                resultat.setText(aAfficher);
+                this.fenetreBDD(aAfficher);
             } else if (modelGrille.getModeJeu() == COMPETITION) {
                 if (!this.joueur.getFini()){
                     this.joueur.setFini(true);
@@ -613,7 +657,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         else {
             if (modelGrille.getModeJeu() == SOLO) {
-                resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
+                resultat.setText(aAfficher);
+                this.fenetreBDD(aAfficher);
             } else if (modelGrille.getModeJeu() == COMPETITION) {
                 if (!this.joueur.getFini()){
                     this.joueur.setFini(true);
@@ -641,7 +687,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         else {
             if (modelGrille.getModeJeu() == SOLO) {
-                resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
+                resultat.setText(aAfficher);
+                this.fenetreBDD(aAfficher);
             } else if (modelGrille.getModeJeu() == COMPETITION) {
                 if (!this.joueur.getFini()){
                     this.joueur.setFini(true);
@@ -669,7 +717,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         else {
             if (modelGrille.getModeJeu() == SOLO) {
-                resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
+                resultat.setText(aAfficher);
+                this.fenetreBDD(aAfficher);
             } else if (modelGrille.getModeJeu() == COMPETITION) {
                 if (!this.joueur.getFini()){
                     this.joueur.setFini(true);
@@ -725,7 +775,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
             joue(direction);
         } else {
             if (modelGrille.getModeJeu() == SOLO) {
-                resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
+                resultat.setText(aAfficher);
+                this.fenetreBDD(aAfficher);
             } else if (modelGrille.getModeJeu() == COMPETITION) {
                 if (!this.joueur.getFini()){
                     this.joueur.setFini(true);
@@ -1025,14 +1077,14 @@ public class FXMLDocumentController implements Parametres, Initializable {
         
     }
     
-    public void fenetreBDD(){
+    public void fenetreBDD(String aAfficher){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLSaveDataBase.fxml"));
             Parent root = loader.load();
             FXMLSaveDataBaseController databaseController = loader.getController();
             databaseController.transferStyle(style);
             databaseController.giveObjects(this);
-            databaseController.getData(modelGrille.getScore(), modelGrille.getValeurMax(), "");
+            databaseController.getData(modelGrille.getScore(), modelGrille.getValeurMax(), aAfficher);
             Stage stage = new Stage();
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -1061,8 +1113,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 
                 if (modelGrille.getValeurMax()>=OBJECTIF){
                     modelGrille.victoire();
-                    resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".");
-                    this.fenetreBDD();
+                    String aAfficher = "Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".";
+                    resultat.setText(aAfficher);
+                    this.fenetreBDD(aAfficher);
                     if (modelGrille.getModeJeu() == COMPETITION) {
                         this.joueur.setFini(true);
                         this.joueur.stopTemps();
@@ -1076,8 +1129,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     boolean b = modelGrille.nouvelleCase();
                     if (!b) {
                         modelGrille.defaite();
-                        resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
-                        this.fenetreBDD();
+                        String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
+                        resultat.setText(aAfficher);
+                        this.fenetreBDD(aAfficher);
 
                         if (modelGrille.getModeJeu() == COMPETITION) {
                             this.joueur.setFini(true);

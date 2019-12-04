@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package application;
+package bdd;
 
+import application.FXMLDocumentController;
 import css.Style;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,10 +13,13 @@ import javafx.fxml.Initializable;
 import java.sql.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 
 /**
  * FXML Controller class
@@ -31,14 +35,11 @@ public class FXMLSaveDataBaseController implements Initializable {
     @FXML
     private Button btnValider, btnQuitter;
     @FXML
-    private Label labelScore, instructions;  
+    private Label labelScore, instructions, labelPseudo;  
     
     
     
-    private static String URL = "jdbc:mysql://mysql-2048-dassenoyfialedeckerfey.alwaysdata.net:3306/2048-dassenoyfialedeckerfey_scores";
-    private static String UTILISATEUR = "195812";
-    private static String MDP = "juxje5-maQkum-pacrim";
-    
+   
     // Controlleur
     FXMLDocumentController documentController;
     // Style
@@ -48,28 +49,7 @@ public class FXMLSaveDataBaseController implements Initializable {
     int tuileMax;
     String aAfficher;
     
-//    try {
-//            // TODO code application logic here
-//            Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP);
-//            
-//            String requete = "INSERT INTO scores VALUES ('TestMain', 1024, 29374)";
-//            
-//            Statement stmt = con.createStatement();
-//            stmt.executeUpdate(requete);
-//            
-////            while (res.next()) {
-////                String pseudo = res.getString("pseudo");
-////                System.out.println(pseudo);
-////            }
-////            
-////            res.close();
-//            stmt.close();
-//            con.close();
-//            
-//            
-//        } catch (SQLException ex) {
-//            Logger.getLogger(ConsoleTest.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+//    
     
 //     Recevoir le style de l'autre page
     public void transferStyle(Style s){
@@ -100,6 +80,53 @@ public class FXMLSaveDataBaseController implements Initializable {
         documentController.focus();
     }
     
+    @FXML
+    public void valid(ActionEvent event) {
+        if (!pseudo.getText().equals("")) {
+            // Sauvegarder le score du joueur
+            BDD reachBDD = new BDD();
+            if (reachBDD.pseudoAlreadyExists(pseudo.getText())) {
+                // Alert pseudo existe déjà
+                showAlertPseudoExists();
+            } else {
+                reachBDD.save(pseudo.getText(), tuileMax, score);
+                fond.getScene().getWindow().hide();
+            }
+        } else {
+        }
+    }
+    
+    public void showAlertPseudoExists() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setOnCloseRequest(e -> {
+//            pour ne pas pouvoir fermer avec la croix
+//        });
+        alert.setTitle("");
+        alert.setHeaderText("Ce pseudo existe déjà.");
+        alert.setContentText("Est-ce bien vous ?");
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.getDialogPane().requestFocus();
+        // Les boutons
+        alert.getButtonTypes().clear();
+        alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
+        
+        final Button btnOUI = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
+        btnOUI.setOnAction( event -> {
+            BDD reachBDD = new BDD();
+            reachBDD.save(pseudo.getText(), tuileMax, score);
+            alert.close();
+            fond.getScene().getWindow().hide();
+        } );
+        
+        final Button btnNON = (Button) alert.getDialogPane().lookupButton(ButtonType.NO);
+        btnNON.setOnAction( event -> {
+            alert.close();
+        } );
+        
+        // Le choix de l'utilisateur
+        alert.show();
+    }
+    
     
     /**
      * Initializes the controller class.
@@ -111,8 +138,12 @@ public class FXMLSaveDataBaseController implements Initializable {
         btnValider.getStyleClass().add("style-scores-compet-bouton");
         btnQuitter.getStyleClass().add("style-scores-compet-bouton");
         labelScore.getStyleClass().add("style-scores-compet-label");
+        labelPseudo.getStyleClass().add("style-scores-compet-label");
         instructions.getStyleClass().add("style-scores-compet-label");
         pseudo.getStyleClass().add("style-scores-compet-textfield");
+        
+        labelScore.setText(aAfficher);
+        
     }    
     
 }

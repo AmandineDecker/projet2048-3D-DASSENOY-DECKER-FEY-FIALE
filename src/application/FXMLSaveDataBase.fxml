@@ -7,28 +7,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox fx:id="fond" alignment="CENTER" prefHeight="514.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXMLSaveDataBaseController">
+<VBox fx:id="fond" alignment="CENTER" prefHeight="395.0" prefWidth="359.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bdd.FXMLSaveDataBaseController">
    <children>
-      <Label fx:id="labelScore" alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="42.0" text="Score">
-         <padding>
+      <Label fx:id="labelScore" alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="42.0" text="Score" wrapText="true">
+         <VBox.margin>
             <Insets bottom="50.0" />
-         </padding>
+         </VBox.margin>
       </Label>
-      <Label fx:id="instructions" text="Si vous souhaitez enregistrer votre score, entrez votre pseudo, sinon quittez." wrapText="true">
+      <Label fx:id="instructions" text="Si vous souhaitez enregistrer votre score, entrez votre pseudo, sinon quittez." textAlignment="CENTER" wrapText="true">
          <padding>
             <Insets bottom="20.0" left="50.0" right="50.0" />
          </padding>
       </Label>
-      <TextField fx:id="pseudo" prefHeight="31.0" text="Votre pseudo ">
-         <VBox.margin>
-            <Insets left="50.0" right="50.0" top="20.0" />
-         </VBox.margin>
-      </TextField>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="labelPseudo" text="Votre pseudo: " />
+            <TextField fx:id="pseudo" prefHeight="31.0" prefWidth="219.0" />
+         </children>
+      </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
          <children>
-            <Button fx:id="btnValider" mnemonicParsing="false" text="Valider" />
-            <Button fx:id="btnQuitter" mnemonicParsing="false" text="Quitter" />
+            <Button fx:id="btnValider" mnemonicParsing="false" onAction="#valid" text="Valider" />
+            <Button fx:id="btnQuitter" mnemonicParsing="false" onAction="#quit" text="Quitter" />
          </children>
          <padding>
             <Insets top="50.0" />

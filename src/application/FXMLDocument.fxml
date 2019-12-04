@@ -24,6 +24,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator></MenuItem>
+                  <MenuItem fx:id="menuScores" mnemonicParsing="false" onAction="#voirScores" text="Scores" />
             </items>
           </Menu>
           <Menu id="menuEdit" fx:id="menuEdit" mnemonicParsing="false" text="Editer">
