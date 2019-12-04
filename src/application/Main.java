@@ -7,6 +7,7 @@ package application;
 
 import java.io.File;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,7 +23,11 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = loader.load();
+        
+        // Recupérer le controller
+        FXMLDocumentController controller = loader.getController();
         
         Scene scene = new Scene(root);
         
@@ -35,8 +40,9 @@ public class Main extends Application {
         
         stage.setOnCloseRequest(e -> {
             // Ici mettre le code à utiliser quand on clique sur la croix
-            e.consume();
-            showAlert();
+            controller.quitter(new ActionEvent());
+//            e.consume();
+//            showAlert();
         });
     }
     
