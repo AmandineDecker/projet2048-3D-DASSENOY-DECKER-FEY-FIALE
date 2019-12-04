@@ -11,7 +11,7 @@ and open the template in the editor.
 
 /* Le client compétition */
 .style-client-compet-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #FBEFF2 ;
     -fx-border-color: whitesmoke;
 }
 
@@ -54,7 +54,7 @@ and open the template in the editor.
 
 /* Le serveur compétition */
 .style-serveur-compet-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #FBEFF2 ;
     -fx-border-color: whitesmoke;
 }
 
@@ -74,7 +74,7 @@ and open the template in the editor.
 
 /* Le client coopération */
 .style-client-coop-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #FBEFF2 ;
     -fx-border-color: whitesmoke;
 }
 
@@ -110,7 +110,7 @@ and open the template in the editor.
 
 /* Le serveur coopération */
 .style-serveur-coop-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #FBEFF2 ;
     -fx-border-color: whitesmoke;
 }
 
@@ -130,7 +130,7 @@ and open the template in the editor.
 
 /* La page d'affichage des scores */
 .style-scores-compet-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #FBEFF2 ;
     -fx-border-color: whitesmoke;
 }
 
@@ -150,7 +150,7 @@ and open the template in the editor.
 
 /* La page de choix de style */
 .style-perso-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #FBEFF2 ;
     -fx-border-color: whitesmoke;
 }
 
@@ -191,7 +191,7 @@ and open the template in the editor.
 
 .resultat {
     -fx-font-size: 18;
-    -fx-text-fill: #f22e2e;
+    -fx-text-fill: #2E2E2E;
     -fx-alignment: CENTER;
     -fx-font-family: "Arial";
     -fx-font-weight: Bold;
