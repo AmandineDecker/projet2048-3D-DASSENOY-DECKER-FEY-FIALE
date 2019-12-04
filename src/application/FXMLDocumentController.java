@@ -975,8 +975,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
         
     }
   /**
-     *  Fonction nouvellePartie
-     *Cette fonction permet de lancer une partie en multijoueur
+     * Fonction nouvellePartie
+     * Cette fonction permet de débuter une nouvelle partie selon le mode de jeu
      * @param j
      * Paramètre de type Joueur
      * @param modeJeu 
