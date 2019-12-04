@@ -89,7 +89,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
     FXMLServeurCoopController serveurCoopController;
     
     // Les événements
-    
+    /**
+     * Fonction quitter
+     * Cette fonction permet de quitter le jeu tout en sauvegardant la partie
+     * @param event 
+     */
     @FXML
     public void quitter(ActionEvent event) {
         System.out.println("Au revoir!");
@@ -137,7 +141,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
         System.exit(0);
     }
 
-
+/**
+ * Fonction nouveauJeu
+ * Cette fonction permet de dire si la partie doit être en multijoueur ou en solo
+ * @param event 
+ */
     @FXML
     private void nouveauJeu(ActionEvent event) {
         System.out.println("\n\n\nNouvelle partie!");
@@ -156,7 +164,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         
     }
-    
+    /**
+     * Fonction jouerUnCoupIA
+     * Cette fonction permet de faire jouer le prochain  coup par l'intelligence artificielle
+     * @param event 
+     */
     @FXML
     private void jouerUnCoupIA(ActionEvent event){
         int dir = unCoupIA();
@@ -169,7 +181,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
 //        System.out.println(modelGrille);
     }
     
-    
+    /** 
+     * Fonction revenirUnCoup
+     * Cette fonction permet de revenir un coup en arrière
+     * @param event 
+     */
     @FXML
     private void revenirUnCoup(ActionEvent event) {
         int index = caretaker.getIndex();
@@ -188,7 +204,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
         afficheGrille(modelGrille);
         System.out.println(modelGrille);
     }
-    
+    /**
+    * Fonction avancerUnCoup
+    * Cette fonction permet d'avancer un coup
+    * @param event 
+    */ 
     @FXML
     private void avancerUnCoup(ActionEvent event) {
         int index = caretaker.getIndex();
@@ -204,7 +224,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
         afficheGrille(modelGrille);
         System.out.println(modelGrille);
     }
-    
+    /**
+     * Fonction newCompet
+     * Cette fonction permet de créer une nouvelle partie en mode compétition
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void newCompet(ActionEvent event) throws IOException {
         System.out.println("\n\n\nCréation d'une partie en mode compétitf");
@@ -255,7 +280,13 @@ public class FXMLDocumentController implements Parametres, Initializable {
         
       
     }
-    
+    /**
+     * Fonction joinCompet
+     * Cette fonction permet de rejoinre une partie en mode compétition
+     * @param event
+     * @return ClientController
+     * @throws IOException 
+     */
     @FXML
     private FXMLClientCompetController joinCompet(ActionEvent event) throws IOException {
         System.out.println("\n\n\nRejoindre une partie en mode compétitif");
@@ -297,7 +328,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
         stageClient.show();
         return clientCompetController;
     }
-    
+    /**
+     * Fonction newCoop
+     * Cette fonction permet la création d'une partie en mode coopératif
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void newCoop(ActionEvent event) throws IOException {
         System.out.println("\n\n\nCréation d'une partie en mode coopératif");
@@ -347,7 +383,13 @@ public class FXMLDocumentController implements Parametres, Initializable {
         clientCoopController.giveObjects(this);
         
     }
-    
+    /**
+     * Fonction joinCoop
+     * Cette fonction permet de rejoindre une partie en mode coopératif
+     * @param event
+     * @return clientCoopController
+     * @throws IOException 
+     */
     @FXML
     private FXMLClientCoopController joinCoop(ActionEvent event) throws IOException {
         System.out.println("\n\n\nRejoindre une partie en mode coopératif");
@@ -392,7 +434,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
         return clientCoopController;
     }
     
-    
+   /**
+     * Fonction changeTheme
+     * Cette fonction permet de changer le thème du jeu
+     * @param event 
+     */ 
     @FXML
     private void changeTheme(ActionEvent event) {
         fond.getStylesheets().clear();
@@ -434,7 +480,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
     }
 
-    
+    /**
+     * Fonction fenetrePersonnalisation
+     * Cette fonction permet au joueur du changer les couleurs du jeu
+     * @param event
+     * @throws IOException 
+     */
     @FXML 
     private void fenetrePersonnalisation(ActionEvent event) throws IOException {
         // Load fenetre de personnalisation
@@ -460,7 +511,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     
     
-    
+    /**
+     * Fonction clicHaut
+     * Cette fonction permet de déplacer les case vers le haut
+     * @param m 
+     * Paramètre de type MouseEvent
+     */
     @FXML
     private void clicHaut(MouseEvent m){
 //        System.out.println(modelGrille.getModeJeu() == COOPERATION);
@@ -485,7 +541,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             }
         }
     }
-    
+     /**
+     * Fonction clicBas
+     * Cette fonction permet de déplacer les cases vers le bas
+     * @param m 
+     * Paramètre de type MouseEvent
+     */
     @FXML
     private void clicBas(MouseEvent m){
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
@@ -508,7 +569,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             }
         }
     }
-    
+     /**
+     * Fonction clicGauche
+     * Cette fonction permet de déplcer les cases vers la gauche 
+     * @param m 
+     * Paramètre de type MouseEvent
+     */
     @FXML
     private void clicGauche(MouseEvent m){
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
@@ -531,7 +597,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             }
         }
     }
-    
+       /**
+     * Fonction clicDroite
+     * Cette fonction permet de déplacer les cases vers la droite
+     * @param m 
+     * Paramètre de type MouseEvent
+     */
     @FXML
     private void clicDroite(MouseEvent m){
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
@@ -554,7 +625,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             }
         }
     }
-    
+     /**
+     * Fonction clicSup
+     * Cette fonction permet de déplacer les cases sur la grille du haut
+     * @param m 
+     * Paramètre de type MouseEvent
+     */
     @FXML
     private void clicSup(MouseEvent m){
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
@@ -577,7 +653,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             }
         }
     }
-    
+     /**
+     * Fonction clicInf
+     * Cette fonction permet de déplacer les cases sur la grille du bas
+     * @param m 
+     * Paramètre de type MouseEvent
+     */
     @FXML
     private void clicInf(MouseEvent m){
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
@@ -600,7 +681,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             }
         }
     }
-    
+     /**
+     * Fonction toucheClavier
+     * Cette fonction permet d'assigner un mouvement à une touche 
+     * @param ke 
+     * Paramètre de type KeyEvent
+     */
     @FXML
     public void toucheClavier(KeyEvent ke) {
 //        System.out.println(modelGrille.getModeJeu());
@@ -654,11 +740,20 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     
     // Les méthodes
-    
+    /**
+     * Fonction getModeJeu
+     * Cette fonction permet de renvoyer le mode de jeu
+     * @return mode de jeu
+     */
     public int getModeJeu() {
         return modelGrille.getModeJeu();
     }
-    
+    /**
+     * Fonction placeCase
+     * Cette fonction permet d'avoir la place de la case sur la grille
+     * @param c 
+     * Paramètre de type Case
+     */
     // Place la case sur la fenêtre graphique
     public void placeCase(Case c){
         //System.out.println(c + " a été placée!");
@@ -686,7 +781,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
         p.setVisible(true);
         l.setVisible(true);
     }
-    
+    /**
+     * Fonction afficheCase
+     * Cette fonction permet d'afficher une case sur la grille
+     * @param c 
+     * Paramètre de type Case
+     */
     // Place la case sur la fenêtre graphique
     public void afficheCase(Case c){
         Thread th;
@@ -718,7 +818,13 @@ public class FXMLDocumentController implements Parametres, Initializable {
         c.setApparue(true);
     }
 
-    
+     /**
+     * Fonction glisseCase
+     * Cette fonction permet de faire gisser les cases sur la grille
+     * @param c
+     * Paramètre de type Case
+     * @return Thread
+     */
     public Thread glisseCase(Case c){
         StackPane p = new StackPane();
         p.getStyleClass().add("tuile" + c.getVal());
@@ -789,7 +895,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
         return th;
     }
 
-    
+     /**
+     * Fonction afficherGrille
+     * Cette fonction permet d'afficher la grille
+     * @param gr 
+     * Paramètre de type Grille
+     */
     // Affiche la grille de jeu (les 3 sous-grilles)
     public void afficheGrille(Grille gr){
         Node node1 = gr1.getChildren().get(0);
@@ -863,7 +974,14 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         
     }
-    
+  /**
+     *  Fonction nouvellePartie
+     *Cette fonction permet de lancer une partie en multijoueur
+     * @param j
+     * Paramètre de type Joueur
+     * @param modeJeu 
+     * Paramètre de type int
+     */
     public void nouvellePartie(Joueur j, int modeJeu){
 //        fond.getScene().getWindow().centerOnScreen();
         fond.getScene().getWindow().requestFocus();
@@ -906,7 +1024,13 @@ public class FXMLDocumentController implements Parametres, Initializable {
         
     }
 
-    
+   
+   /**
+     * Fonction joue
+     * Cette fonction permet de déplacer les cases dans une direction
+     * @param direction 
+     * Paramètre de type int
+     */
     public void joue(int direction){
         System.out.println();
         if (direction != 0) {
@@ -971,7 +1095,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             clientCompetController.gare.share();
         }
     }
-    
+     /**
+     * Fonction afficherListeJoueurs
+     * Cette fonction permet de d'afficher la listes de joueurs
+     * @param liste 
+     * Paramètre de type ListeJoueurs
+     */
     public void afficherListeJoueurs(ListeJoueurs liste) {
         String listeJoueurs = "";
         for (Joueur p : liste.getListe()){
@@ -979,7 +1108,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         resultat.setText(listeJoueurs);
     }
-    
+     /**
+     * Fonction showAlertCloseServeurs
+     * Cette fonction permet d'alerter le joueur qu'il va couper la connexion avec d'autres joueurs quand il est en mode compétition
+     * @param fermer 
+     * Paramètre de type boolean
+     */
     public void showAlertCloseServeurCompet(boolean fermer) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Attention!");
@@ -995,7 +1129,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             }
         });
     }
-    
+     /**
+     * Fonction showAlertCloseClient
+     * Cette fonction permet d'alerter le joueur qu'il va se déconnecter du serveur 
+     * @param s 
+     * Paramètre de type Stage
+     */
     public void showAlertCloseClientCompet(Stage s) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Attention!");
@@ -1014,7 +1153,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             }
         });
     }
-    
+     /**
+     * Fonction showAlertCloseServeursCoop
+     * Cette fonction permet d'alerter le joueur qu'il va couper la connexion avec d'autres joueurs quand il est en mode coopératif
+     * @param fermer 
+     * Paramètre de type boolean
+     */
     public void showAlertCloseServeurCoop(boolean fermer) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Attention!");
@@ -1030,7 +1174,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
             }
         });
     }
-    
+  /**
+     * Fonction showAlertCloseClientCoop
+     * Cette fonction permet d'alerter le joueur, en mode coopératif, qu'il va se déconnecter du serveur et couper la connexion à l'autre joueur 
+     * @param s 
+     * Paramètre de type Stage
+     */
     public void showAlertCloseClientCoop(Stage s) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Attention!");
@@ -1061,19 +1210,28 @@ public class FXMLDocumentController implements Parametres, Initializable {
         alert.show();
     }
     
-    
+    /**
+     * Fonction reactiveMenuCompet
+     * Cette fonction permet de réactiver le menu qui permet de lancer une nouvelle partie en compétition
+     */
     public void reactiverMenuCompet() {
         menuCompet.setDisable(false);
         newCompetMenu.setDisable(false);
         joinCompetMenu.setDisable(false);
     }
-    
+    /**
+     * Fonction reactiveMenuCoop
+     * Cette fonction permet de réactiver le menu qui permet de lancer une nouvelle partie en mode coopératif
+     */
     public void reactiverMenuCoop() {
         menuCoop.setDisable(false);
         newCoopMenu.setDisable(false);
         joinCoopMenu.setDisable(false);
     }
-    
+    /**
+     * Fonction fermerReseau
+     * Cette fonction permet de couper la connexion avec le serveur client
+     */
     public void fermerReseau() {
         if (clientCompetController != null) {
             if (clientCompetController.isConnected()) {
@@ -1089,19 +1247,35 @@ public class FXMLDocumentController implements Parametres, Initializable {
             }
         }
     }
-    
+    /**
+     * Fonction setInfos
+     * Cette fonction permet de modifier la valeur du resultat sur l'interface graphique 
+     * @param str 
+     * Paramètre de type String
+     */
     public void setInfos(String str) {
         resultat.setText(str);
     }
-    
+    /**
+     * Fonction focus
+     * Cette fonction permet d'afficher une fenêtre en avant sur l'écran
+     */
     public void focus() {
         fond.getScene().getWindow().requestFocus();
     }
-    
+    /**
+     * Fonction updateGrille
+     * Cette fonction permet de mettre la grille à jour
+     * @param gr 
+     * Paramètre de type Grille
+     */
     public void updateGrille(Grille gr) {
         modelGrille = Grille.setInstance(gr);
     }
-    
+    /**
+     * Fonction effacerGrille
+     * Cette fonction permet d'afficher des grilles vides sur l'écran
+     */
     public void effacerGrille() {
         // On efface les grilles
         Node node1 = gr1.getChildren().get(0);
@@ -1116,7 +1290,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         gr3.getChildren().add(0,node3);
     }
     
-    
+  
     public int unCoupIA(){
         int dir = 0;
         int[] scoretab = new int[6];
@@ -1157,7 +1331,14 @@ public class FXMLDocumentController implements Parametres, Initializable {
     //////////////////////////////////////////////////////////////////////
     
 
-    
+    /**
+     * Fonction initialize
+     * Cette fonction permet d'initialiser la grille de l'interface graphique
+     * @param url
+     * Paramètre de type URL
+     * @param rb 
+     * Paramètre de type ResourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
