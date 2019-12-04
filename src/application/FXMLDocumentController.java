@@ -31,6 +31,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -1022,6 +1024,26 @@ public class FXMLDocumentController implements Parametres, Initializable {
         }
         
     }
+    
+    public void fenetreBDD(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLSaveDataBase.fxml"));
+            Parent root = loader.load();
+            FXMLSaveDataBaseController databaseController = loader.getController();
+            databaseController.transferStyle(style);
+            databaseController.giveObjects(this);
+            databaseController.getData(modelGrille.getScore(), modelGrille.getValeurMax(), "");
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Enregistrer score");
+            stage.initModality(Modality.WINDOW_MODAL);
+            scene.getStylesheets().add(style.styleActuel);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
    
    /**
@@ -1040,6 +1062,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 if (modelGrille.getValeurMax()>=OBJECTIF){
                     modelGrille.victoire();
                     resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".");
+                    this.fenetreBDD();
                     if (modelGrille.getModeJeu() == COMPETITION) {
                         this.joueur.setFini(true);
                         this.joueur.stopTemps();
@@ -1054,6 +1077,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     if (!b) {
                         modelGrille.defaite();
                         resultat.setText("La partie est finie. Votre score est " + modelGrille.getScore() + ".");
+                        this.fenetreBDD();
+
                         if (modelGrille.getModeJeu() == COMPETITION) {
                             this.joueur.setFini(true);
                             this.joueur.stopTemps();
