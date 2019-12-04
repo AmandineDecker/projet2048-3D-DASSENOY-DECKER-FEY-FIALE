@@ -11,18 +11,18 @@ and open the template in the editor.
 
 /* Le client compétition */
 .style-client-compet-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #A9F5E1 ;
     -fx-border-color: whitesmoke;
 }
 
 .style-client-compet-label {
     -fx-font-size: 1em;
-    -fx-text-fill: black;
+    -fx-text-fill: #AC58FA;
     -fx-alignment: CENTER;
 }
 
 .style-client-compet-bouton {
-    -fx-background-color: #9999ff, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
+    -fx-background-color: #AC58FA, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
     -fx-text-fill: black;
     -fx-alignment: CENTER;
     -fx-content-display: CENTER;  
@@ -54,18 +54,18 @@ and open the template in the editor.
 
 /* Le serveur compétition */
 .style-serveur-compet-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #A9F5E1 ;
     -fx-border-color: whitesmoke;
 }
 
 .style-serveur-compet-label {
     -fx-font-size: 1em;
-    -fx-text-fill: black;
+    -fx-text-fill: #AC58FA;
     -fx-alignment: CENTER;
 }
 
 .style-serveur-compet-bouton {
-    -fx-background-color: #9999ff, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
+    -fx-background-color: #AC58FA, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
     -fx-text-fill: black;
     -fx-alignment: CENTER;
     -fx-content-display: CENTER;  
@@ -73,18 +73,18 @@ and open the template in the editor.
 
 /* Le client coopération */
 .style-client-coop-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #A9F5E1 ;
     -fx-border-color: whitesmoke;
 }
 
 .style-client-coop-label {
     -fx-font-size: 1em;
-    -fx-text-fill: black;
+    -fx-text-fill: #AC58FA;
     -fx-alignment: CENTER;
 }
 
 .style-client-coop-bouton {
-    -fx-background-color: #9999ff, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
+    -fx-background-color: #AC58FA, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
     -fx-text-fill: black;
     -fx-alignment: CENTER;
     -fx-content-display: CENTER;  
@@ -109,19 +109,19 @@ and open the template in the editor.
 
 /* Le serveur coopération */
 .style-serveur-coop-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #A9F5E1 ;
     -fx-border-color: whitesmoke;
 }
 
 .style-serveur-coop-label {
     -fx-font-size: 1em;
-    -fx-text-fill: black;
+    -fx-text-fill: #AC58FA;
     -fx-alignment: CENTER;
 }
 
 .style-serveur-coop-bouton {
     -fx-background-color: #9999ff, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
-    -fx-text-fill: black;
+    -fx-text-fill: #AC58FA;
     -fx-alignment: CENTER;
     -fx-content-display: CENTER;  
 }
@@ -129,19 +129,19 @@ and open the template in the editor.
 
 /* La page d'affichage des scores */
 .style-scores-compet-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #A9F5E1 ;
     -fx-border-color: whitesmoke;
 }
 
 .style-scores-compet-label {
     -fx-font-size: 1em;
-    -fx-text-fill: black;
+    -fx-text-fill: #AC58FA;
     -fx-alignment: CENTER;
 }
 
 .style-scores-compet-bouton {
     -fx-background-color: #9999ff, #ccccff, linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%), linear-gradient(to bottom, derive(#cc99ff,75%) 0%, #ffcc66 90%);
-    -fx-text-fill: black;
+    -fx-text-fill: #AC58FA;
     -fx-alignment: CENTER;
     -fx-content-display: CENTER;  
 }
@@ -150,7 +150,7 @@ and open the template in the editor.
 
 /* La page de choix de style */
 .style-perso-fond {
-    -fx-background-color: #BAF3F5 ;
+    -fx-background-color: #A9F5E1 ;
     -fx-border-color: whitesmoke;
 }
 
@@ -177,13 +177,13 @@ and open the template in the editor.
 /* Le jeu */
 
 .pane {
-    -fx-background-color: #FBEFF2 ;
+    -fx-background-color: #A9F5E1 ;
     -fx-border-color: black;
 }
 
 .logo {
     -fx-font-size: 24;
-    -fx-text-fill: #64bf76;
+    -fx-text-fill: #5F04B4;
     -fx-alignment: CENTER;
     -fx-font-family: "System";
     -fx-font-weight: Bold;
@@ -191,14 +191,18 @@ and open the template in the editor.
 
 .resultat {
     -fx-font-size: 18;
-    -fx-text-fill: #f22e2e;
+    -fx-text-fill: #DF01D7;
     -fx-alignment: CENTER;
     -fx-font-family: "Comic Sans MS";
     -fx-font-weight: Bold;
 }
 
 .commandes {
-    -fx-text-fill: black;
+    -fx-text-fill: #AC58FA;
+}
+
+.score {
+    -fx-text-fill: #AC58FA;
 }
 
 /* LE MENU */
