@@ -176,9 +176,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
         if (!modelGrille.partieFinie()){
             joue(dir);
         }
-//        afficheGrille(modelGrille);
-        
-//        System.out.println(modelGrille);
+        afficheGrille(modelGrille);
+        System.out.println("IA joue" + "\n" + modelGrille);
     }
     
     /** 
@@ -1293,35 +1292,37 @@ public class FXMLDocumentController implements Parametres, Initializable {
   
     public int unCoupIA(){
         int dir = 0;
-        int[] scoretab = new int[6];
+        int[] scoretab = new int[3];
         int scoreMax = 0;
-        Grille cop1 = (Grille) Grille.getInstance().clone();
-        Grille cop2 = (Grille) Grille.getInstance().clone();
-        Grille cop3 = (Grille) Grille.getInstance().clone();
-        Grille cop4 = (Grille) Grille.getInstance().clone();
-        Grille cop5 = (Grille) Grille.getInstance().clone();
-        Grille cop6 = (Grille) Grille.getInstance().clone();
-        cop1.initialiserDeplacement(INFERIEUR);
-        scoretab[0] = cop1.getScore();
-        cop2.initialiserDeplacement(GAUCHE);
-        scoretab[1] = cop2.getScore();
-        cop3.initialiserDeplacement(BAS);
-        scoretab[2] = cop3.getScore();
-        cop4.initialiserDeplacement(HAUT);
-        scoretab[3] = cop4.getScore();
-        cop5.initialiserDeplacement(DROITE);
-        scoretab[4] = cop5.getScore();
-        cop6.initialiserDeplacement(SUPERIEUR);
-        scoretab[5] = cop6.getScore();
-        for (int k=0; k<6 ;k++){
+        int index = caretaker.getIndex();
+        modelGrille.initialiserDeplacement(INFERIEUR);
+        index++;
+        System.out.println(modelGrille);
+        scoretab[0]=modelGrille.getScore();
+        modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
+        caretaker.setIndex(index - 1);
+        index--;
+        System.out.println(modelGrille);
+        modelGrille.initialiserDeplacement(GAUCHE);
+        index++;
+        System.out.println(modelGrille);
+        scoretab[1]=modelGrille.getScore();
+        modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
+        caretaker.setIndex(index - 1);
+        index--;
+        System.out.println(modelGrille);
+        modelGrille.initialiserDeplacement(BAS);
+        index++;
+        System.out.println(modelGrille);
+        scoretab[2]=modelGrille.getScore();
+        modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
+        caretaker.setIndex(index - 1);
+        index--;
+        System.out.println(modelGrille);
+        for (int k=0; k<3 ;k++){
             if (scoretab[k]>scoreMax){
                 scoreMax = scoretab[k];
-                if (k<3){
-                    dir = k-3;
-                }
-                else {
-                    dir = k-2;
-                }
+                dir = k-3;
             }
         }
         return dir;
