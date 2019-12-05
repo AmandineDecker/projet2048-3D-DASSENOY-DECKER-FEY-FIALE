@@ -21,78 +21,30 @@ public class ListeJoueurs implements Serializable {
     
     private static ListeJoueurs instance = new ListeJoueurs();
     
+    // Constructeur
     private ListeJoueurs(){
-//        System.out.println("Executing constructor");
         liste = new HashSet();
     }
     
-    public void initGame(){
-        liste = new HashSet();
-        competFinie = false;
-    }
-    
-    public static ListeJoueurs getInstance() {
-//        System.out.println("An instance is returned");
-        return instance;
-    }
-    
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
-        instance = this;
-    }
-
-    
-    public Object readResolve() {
-//        System.out.println("Executing readResolve");
-        return instance; // FIXME
-    }
-    
-    public void updateJoueur(Joueur p){
-        for (Joueur player : liste){
-            if (player.equals(p)){
-                player.setScore(p.getScore());
-                player.setTuileMax(p.getTuileMax());
-                player.setFini(p.getFini());
-                player.setTemps(p.getTemps());
-                player.setTempsIni(p.getTempsIni());
-                break;
-            }
-        }
-    }
-
-    @Override
-    public String toString(){
-        return liste.toString() + ", admin: " + admin;
-    }
+    // Setter
     
     public void setAdmin(Joueur p){
         admin = p;
     }
     
+    public void setCompetFinie(boolean b) {
+        competFinie = b;
+    }
+    
+    
+    // Getter
+    
+    public static ListeJoueurs getInstance() {
+        return instance;
+    }
+    
     public Joueur getAdmin(){
         return admin;
-    }
-    
-    public Boolean hasAdmin(){
-        return admin != null;
-    }
-    
-    public void addJoueur(Joueur p){
-        liste.add(p);
-    }
-    
-    public void removeJoueur(Joueur p){
-        this.liste.remove(p);
-        if (p.isAdmin()){
-            if (this.liste.size() > 0){
-                Iterator it = this.liste.iterator();
-                Joueur play = (Joueur) it.next();
-                play.setAdmin();
-                this.admin = play;
-            } else {
-                this.admin = null;
-            }
-        }
     }
     
     public Joueur getJoueur(int id){
@@ -108,10 +60,69 @@ public class ListeJoueurs implements Serializable {
         return liste;
     }
     
-    public void setCompetFinie(boolean b) {
-        competFinie = b;
+    public boolean getCompetFinie() {
+        return competFinie;
     }
     
+    
+    
+    // Méthodes
+    
+    @Override
+    public String toString(){
+        return liste.toString() + ", admin: " + admin;
+    }
+    
+    /**
+     * Met un objet Duration sous forme de String. 
+     * @param tps
+     * paramètre de type Duration.
+     * @return 
+     */
+    public String durationToString(Duration tps) {
+        long heures = tps.toHours();
+        long minutes = tps.toMinutes() - 60*heures;
+        long secondes = tps.getSeconds() - 3600*heures - 60*minutes;
+        String str = Long.toString(heures) + ":" + Long.toString(minutes) + ":" + Long.toString(secondes);
+        return str;
+    }
+    
+    /**
+     * Reconstitue un objet sérializé. Appelé automatiquement.
+     * @return 
+     */
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        instance = this;
+    }
+    
+    /**
+     * Reconstitue un objet sérializé. Appelé automatiquement.
+     * @return 
+     */
+    public Object readResolve() {
+        return instance; // FIXME
+    }
+    
+    /**
+     * Initialise une partie. La liste de joueur est vide et la partie n'est pas finie.
+     */
+    public void initGame(){
+        liste = new HashSet();
+        competFinie = false;
+    }
+    
+    /**
+     * Vérifie s'il y a un admin parmi les joueurs.
+     * @return 
+     */
+    public Boolean hasAdmin(){
+        return admin != null;
+    }
+    
+    /**
+     * Met à jour l'attribut competFinie.
+     */
     public void updateCompetFinie() {
         int compteur = 0;
         for (Joueur j : liste){
@@ -122,11 +133,10 @@ public class ListeJoueurs implements Serializable {
         competFinie = (compteur == liste.size());
     }
     
-    public boolean getCompetFinie() {
-        return competFinie;
-    }
-    
-    // Pour savoir si on peut relancer une partie
+    /**
+     * Détermine si les joueurs sont tous prêts à relancer une partie.
+     * @return 
+     */
     public boolean pretsAJouer() {
         int compteur = 0;
         for (Joueur j : liste){
@@ -135,9 +145,58 @@ public class ListeJoueurs implements Serializable {
             }
         }
         return true;
-    } 
+    }
     
-    // Le texte à afficher en fin de partie
+    /**
+     * Ajoute un joueur à la liste.
+     * @param p
+     * paramètre de type Joueur.
+     */
+    public void addJoueur(Joueur p){
+        liste.add(p);
+    }
+    
+    /**
+     * Retire un joueur de la liste.
+     * @param p
+     * paramètre de type Joueur.
+     */
+    public void removeJoueur(Joueur p){
+        this.liste.remove(p);
+        if (p.isAdmin()){
+            if (this.liste.size() > 0){
+                Iterator it = this.liste.iterator();
+                Joueur play = (Joueur) it.next();
+                play.setAdmin();
+                this.admin = play;
+            } else {
+                this.admin = null;
+            }
+        }
+    }
+    
+    /**
+     * Met à jour un joueur de la liste.
+     * @param p
+     * paramètre de type Joueur.
+     */
+    public void updateJoueur(Joueur p){
+        for (Joueur player : liste){
+            if (player.equals(p)){
+                player.setScore(p.getScore());
+                player.setTuileMax(p.getTuileMax());
+                player.setFini(p.getFini());
+                player.setTemps(p.getTemps());
+                player.setTempsIni(p.getTempsIni());
+                break;
+            }
+        }
+    }
+    
+    /**
+     * Renvoie le texte à afficher en fin de partie.
+     * @return 
+     */
     public String afficherScore() {
         HashSet<Joueur> meilleurTemps = new HashSet();
         Duration temps = null;
@@ -250,15 +309,4 @@ public class ListeJoueurs implements Serializable {
             return str;
         }
     }
-
-    
-    public String durationToString(Duration tps) {
-        long heures = tps.toHours();
-        long minutes = tps.toMinutes() - 60*heures;
-        long secondes = tps.getSeconds() - 3600*heures - 60*minutes;
-        String str = Long.toString(heures) + ":" + Long.toString(minutes) + ":" + Long.toString(secondes);
-        return str;
-    }
-    
-    
 }

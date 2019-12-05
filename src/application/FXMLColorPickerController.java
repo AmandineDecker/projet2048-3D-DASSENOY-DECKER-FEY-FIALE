@@ -41,7 +41,15 @@ public class FXMLColorPickerController implements Initializable {
     Style perso;
     AnchorPane fondPrincipal;
     
-    // Recevoir le style de l'autre page
+    /**
+     * Fonction transferStyle.
+     * Cette fonction permet de récupérer le style en cours sur la page 
+     * principale et de l'appliquer.
+     * @param s 
+     * paramètre de type Style
+     * @param p 
+     * paramètre de type AnchorPane
+     */
     public void transferStyle(Style s, AnchorPane p){
         perso = s;
         fondPrincipal = p;
@@ -51,7 +59,6 @@ public class FXMLColorPickerController implements Initializable {
             fond.getStylesheets().clear();
             fond.getStylesheets().add(perso.styleActuel);
         }
-        
         try {
             fondPicker.setValue(Color.web(perso.colFond));
             infosPicker.setValue(Color.web(perso.colInfos));
@@ -72,6 +79,13 @@ public class FXMLColorPickerController implements Initializable {
         }
     }
     
+    /**
+     * Fonction saveStyle.
+     * Cette fonction permet d'enregistrer le style personnalisé et de 
+     * l'appliquer s'il est en cours d'utilisation.
+     * @param event 
+     * paramètre de type ActionEvent
+     */
     @FXML
     public void saveStyle(ActionEvent event) {
         perso.saveCSS(fondPicker, infosPicker, textePicker, tuile2Picker, tuile4Picker, tuile8Picker, tuile16Picker, tuile32Picker, tuile64Picker, tuile128Picker, tuile256Picker, tuile512Picker, tuile1024Picker, tuile2048Picker);
@@ -84,7 +98,12 @@ public class FXMLColorPickerController implements Initializable {
     }
     
     /**
-     * Initializes the controller class.
+     * Fonction initialize.
+     * Cette fonction permet d'initialiser l'interface graphique.
+     * @param url
+     * paramètre de type URL.
+     * @param rb
+     * paramètre de type ResourceBundle.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

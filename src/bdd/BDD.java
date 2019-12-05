@@ -27,10 +27,19 @@ public class BDD {
     private static final String UTILISATEUR = "195812";
     private static final String MDP = "juxje5-maQkum-pacrim";
     
-    
+    /**
+     * Fonction save
+     * Cette fonction permet de sauvegarder les résultats de la partie (pseudo,
+     * tuileMax, score) dans la BDD.
+     * @param pseudo
+     * Paramètre de type String
+     * @param tuileMax 
+     * Paramètre de type int
+     * @param score 
+     * Paramètre de type int
+     */
     public void save(String pseudo, int tuileMax, int score) {
         try {
-            // TODO code application logic here
             Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP);
             
             String requete = "INSERT INTO scores VALUES ('" + pseudo + "', " + Integer.toString(tuileMax) + ", " + Integer.toString(score) + ")";
@@ -39,13 +48,18 @@ public class BDD {
             stmt.executeUpdate(requete);
             stmt.close();
             con.close();
-            
-            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
     
+     /**
+     * Fonction pseudoAlreadyExists
+     * Cette fonction permet de déterminer si un pseudo existe déjà dans la BDD.
+     * @param pseudo
+     * Paramètre de type String
+     * @return 
+     */
     public boolean pseudoAlreadyExists(String pseudo) {
         try {
             Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP);
@@ -67,6 +81,38 @@ public class BDD {
         return false;
     }
     
+     /**
+     * Fonction deleteLine
+     * Cette fonction permet de supprimer la ligne concerant un pseudo dans la
+     * BDD.
+     * @param pseudo
+     * Paramètre de type String
+     */
+    public void deleteLine(String pseudo) {
+        try {
+            Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP);
+            
+            String requete = "DELETE FROM scores WHERE pseudo = '" + pseudo + "'";
+            
+            Statement stmt = con.createStatement();
+            ResultSet res = stmt.executeQuery(requete);
+            
+            if (res.next()) {
+                con.close();
+            } 
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(BDD.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+     /**
+     * Fonction buildDataTableScores
+     * Cette fonction permet de récupérer les données de la BDD et de les mettre
+     * en forme dans un tableView
+     * @param tableview
+     * Paramètre de type TableView
+     */
     public void buildDataTableScores(TableView tableview){
           Connection c ;
           ObservableList<ObservableList> data = FXCollections.observableArrayList();

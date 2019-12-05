@@ -28,6 +28,12 @@ public class FXMLShowDataBaseController implements Initializable {
     
     Style perso;
     
+    /**
+     * Fonction transferStyle
+     * Cette fonction permet de récupérer le style en cours d'utilisation.
+     * @param s
+     * Paramètre de type Style
+     */
     public void transferStyle(Style s){
         perso = s;
         if (perso.styleActuel.equals("css/perso.css")){
@@ -39,7 +45,13 @@ public class FXMLShowDataBaseController implements Initializable {
     }
     
     /**
-     * Initializes the controller class.
+     * Fonction initialize
+     * Cette fonction permet d'initialiser l'interface graphique avec le bon 
+     * style et la base de donnée.
+     * @param url
+     * Paramètre de type URL
+     * @param rb 
+     * Paramètre de type ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

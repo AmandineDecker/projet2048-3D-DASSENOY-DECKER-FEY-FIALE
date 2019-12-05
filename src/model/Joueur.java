@@ -23,8 +23,8 @@ public class Joueur implements Serializable {
     private Instant tempsIni;
     private Duration temps = Duration.ZERO; // Temps mis pour jouer
     private boolean fini = false; // Le joueur a fini de jouer (visible en cours de partie)
-    //private int ordreFin; // Le joueur a terminé le n-ieme
     
+    // Constructeur
     public Joueur(String p){
         pseudo = p;
     }
@@ -68,6 +68,9 @@ public class Joueur implements Serializable {
         return Objects.equals(this.pseudo, other.pseudo);
     }
     
+    /**
+     * Réinitialise les données de jeu du joueur.
+     */
     public void reinitialiser() {
         score = 0;
         tuileMax = 0;
@@ -125,6 +128,9 @@ public class Joueur implements Serializable {
     
     // Temps
     
+    /**
+     * Enregistre l'instant initial dans tempsIni.
+     */
     public void startGame(){
         tempsIni = Instant.now();
     }
@@ -137,6 +143,9 @@ public class Joueur implements Serializable {
         return tempsIni;
     }
     
+    /**
+     * Calcule le temps total de jeu et enregistre cette valeur dans temps.
+     */
     public void stopTemps(){
         temps = Duration.between(tempsIni, Instant.now());
     }
@@ -159,8 +168,12 @@ public class Joueur implements Serializable {
         return fini;
     }
     
+    /**
+     * Vérifie si le joueur a atteint l'objectif.
+     * @return 
+     */
     public boolean aGagne() {
-        return tuileMax == 2048;
+        return tuileMax == OBJECTIF;
     }
     
 }

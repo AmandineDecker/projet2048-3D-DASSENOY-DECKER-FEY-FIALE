@@ -30,19 +30,13 @@ public class Grille implements Parametres, Serializable, Cloneable {
         this.grille = new HashSet<>();
     }
     
-    public Grille newGame(){
-        instance.valeurMax = 0;
-        instance.score = 0;
-        instance.grille.clear();
-        return instance;
+    // Setter
+    public void setValeurMax(int val){
+        this.valeurMax = val;
     }
     
-    public Grille newGame(int modeJeu){
-        instance.valeurMax = 0;
-        instance.score = 0;
-        instance.grille.clear();
-        instance.modeJeu = modeJeu;
-        return instance;
+    public void setModeJeu(int modeJeu) {
+        this.modeJeu = modeJeu;
     }
     
     public static Grille setInstance(Grille gr){
@@ -53,31 +47,6 @@ public class Grille implements Parametres, Serializable, Cloneable {
         System.out.println("LA GRILLE: \n" + instance);
         return instance;
     }
-    
-    public static Grille getInstance() {
-        //System.out.println("An instance is returned");
-        return instance;
-    }
-    
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
-        instance = this;
-    }
-    
-    public Object readResolve() {
-//        System.out.println("Executing readResolve");
-        return instance; // FIXME
-    }
-    
-    // Setter
-    public void setValeurMax(int val){
-        this.valeurMax = val;
-    }
-    
-    public void setModeJeu(int modeJeu) {
-        this.modeJeu = modeJeu;
-    }
-    
     
 //    public void setDeplacement(boolean move){
 //        this.deplacement = move;
@@ -100,8 +69,97 @@ public class Grille implements Parametres, Serializable, Cloneable {
         return this.modeJeu;
     }
     
+    public static Grille getInstance() {
+        //System.out.println("An instance is returned");
+        return instance;
+    }
+    
+    
     // Methodes
     
+    /**
+     * Reconstitue un objet sérializé. Appelé automatiquement.
+     * @return 
+     */
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        instance = this;
+    }
+    
+    /**
+     * Reconstitue un objet sérializé. Appelé automatiquement.
+     * @return 
+     */
+    public Object readResolve() {
+        return instance;
+    }
+    
+    
+    @Override
+    public String toString() {
+        int[][][] tableau = new int[TAILLE][TAILLE][TAILLE];
+        for (Case c : this.grille) {
+            tableau[c.getZ()][c.getY()][c.getX()] = c.getVal();
+        }
+        String result = "";
+        for (int i = 0; i < tableau.length; i++){
+            for (int k = 0; k < TAILLE; k++) {
+                result += arraysToString(tableau[k][i]) + "   ";
+            }
+            result += "\n";
+        }
+        return result;
+    }
+    
+    @Override
+    public Grille clone() throws CloneNotSupportedException{
+        Grille gr = null;
+        try {
+            gr = (Grille) super.clone();
+            gr.grille = new HashSet();
+            for (Case c : this.grille){
+                gr.grille.add(c.clone());
+            }
+        }
+        catch (CloneNotSupportedException e){
+            System.out.println("Clone fail");
+        }
+        return gr;
+    }
+    
+    
+    /**
+     * Réinitialise la grille.
+     * @return 
+     */
+    public Grille newGame(){
+        instance.valeurMax = 0;
+        instance.score = 0;
+        instance.grille.clear();
+        return instance;
+    }
+    
+    /**
+     * Réinitialise la grille et modifie le mode de jeu.
+     * @param modeJeu
+     * paramètre de type int
+     * @return 
+     */
+    public Grille newGame(int modeJeu){
+        instance.valeurMax = 0;
+        instance.score = 0;
+        instance.grille.clear();
+        instance.modeJeu = modeJeu;
+        return instance;
+    }
+    
+    
+    /**
+     * Renvoie la chaîne de caractère correspondant à une ligne d'une sous-grille.
+     * @param tab
+     * paramètre de type int[].
+     * @return 
+     */
     public String arraysToString(int[] tab){
         String resu = "[";
         for (int i = 0; i < tab.length - 1; i++){
@@ -135,54 +193,12 @@ public class Grille implements Parametres, Serializable, Cloneable {
         return resu;
     }
     
-    @Override
-    public String toString() {
-        int[][][] tableau = new int[TAILLE][TAILLE][TAILLE];
-        for (Case c : this.grille) {
-            tableau[c.getZ()][c.getY()][c.getX()] = c.getVal();
-        }
-        String result = "";
-        for (int i = 0; i < tableau.length; i++){
-            for (int k = 0; k < TAILLE; k++) {
-                result += arraysToString(tableau[k][i]) + "   ";
-            }
-            result += "\n";
-        }
-        return result;
-    }
     
-    @Override
-    public Grille clone(){
-        Grille gr = null;
-        try {
-            gr = (Grille) super.clone();
-            gr.grille = new HashSet();
-            for (Case c : this.grille){
-                gr.grille.add(c.clone());
-            }
-        }
-        catch (CloneNotSupportedException e){
-            System.out.println("Clone fail");
-        }
-        return gr;
-    }
-    
-//    public String toHTML() {
-//        int[][][] tableau = new int[TAILLE][TAILLE][TAILLE];
-//        for (Case c : this.grille) {
-//            tableau[c.getZ()][c.getY()][c.getX()] = c.getVal();
-//        }
-//        String result = "<html>";
-//        for (int i = 0; i < tableau.length; i++){
-//            for (int k = 0; k < TAILLE; k++) {
-//                result += Arrays.toString(tableau[k][i]) + "   ";
-//            }
-//            result += "<br/>";
-//        }
-//        result += "</html>";
-//        return result;
-//    }
-    
+    /**
+     * Modifie une case qui fusionne.
+     * @param c 
+     * Paramètre de type Case
+     */
     private void fusion(Case c) {
         c.setVal(c.getVal() * 2);
         if (this.valeurMax < c.getVal()) {
@@ -192,6 +208,10 @@ public class Grille implements Parametres, Serializable, Cloneable {
         this.score += c.getVal();
     }
     
+    /**
+     * Crée une case 2 ou 4 sur la grille.
+     * @return 
+     */
     public boolean nouvelleCase() {
         if (this.grille.size() < TAILLE * TAILLE * TAILLE) {
             ArrayList<Case> casesLibres = new ArrayList<>();
@@ -222,18 +242,26 @@ public class Grille implements Parametres, Serializable, Cloneable {
         }
     }
     
-    
+    /**
+     * Affiche le texte de victoire dans la console.
+     */
     public void victoire() {
         System.out.println("Bravo ! Vous avez atteint " + this.valeurMax + ".\nVotre score est " + this.score + ".");
 //        System.exit(0);
     }
 
+    /**
+     * Affiche le texte de défaite dans la console.
+     */
     public void defaite() {
         System.out.println("La partie est finie. Votre score est " + this.score + ".");
 //        System.exit(1);
     }
     
-    
+    /**
+     * Vérifie si une partie est finie.
+     * @return 
+     */
     public boolean partieFinie() {
         if (this.valeurMax == OBJECTIF){
             return true;
@@ -255,15 +283,29 @@ public class Grille implements Parametres, Serializable, Cloneable {
     }
 
     
-    
-     /*
-    * Si direction = HAUT : retourne les 3 cases qui sont le plus en haut (une pour chaque colonne) pour chaque sous-grille (9 cases au total, chaque ligne correspond à 1 sous-grille)
-    * Si direction = DROITE : retourne les 3 cases qui sont le plus à droite (une pour chaque ligne) pour chaque sous-grille (9 cases au total, chaque ligne correspond à 1 sous-grille)
-    * Si direction = BAS : retourne les 3 cases qui sont le plus en bas (une pour chaque colonne) pour chaque sous-grille (9 cases au total, chaque ligne correspond à 1 sous-grille)
-    * Si direction = GAUCHE : retourne les 3 cases qui sont le plus à gauche (une pour chaque ligne) pour chaque sous-grille (9 cases au total, chaque ligne correspond à 1 sous-grille)
-    * Si direction = SUPERIEUR : retourne les 9 cases qui sont le plus supérieures 
-    * Si direction = INFERIEUR : retourne les 9 cases qui sont le plus inférieures 
-    * Attention : le tableau retourné peut contenir des null si les lignes/colonnes/tours sont vides
+    /**
+     * Renvoie les cases les plus proches d'une extrémité.
+     * Si direction = HAUT : retourne les 3 cases qui sont le plus en haut 
+     * (une pour chaque colonne) pour chaque sous-grille (9 cases au total, 
+     * chaque ligne correspond à 1 sous-grille).
+     *  Si direction = HAUT : retourne les 3 cases qui sont le plus en haut 
+     * (une pour chaque colonne) pour chaque sous-grille (9 cases au total, 
+     * chaque ligne correspond à 1 sous-grille).
+     * Si direction = DROITE : retourne les 3 cases qui sont le plus à droite 
+     * (une pour chaque ligne) pour chaque sous-grille (9 cases au total, 
+     * chaque ligne correspond à 1 sous-grille).
+     * Si direction = BAS : retourne les 3 cases qui sont le plus en bas
+     * (une pour chaque colonne) pour chaque sous-grille (9 cases au total,
+     * chaque ligne correspond à 1 sous-grille).
+     * Si direction = GAUCHE : retourne les 3 cases qui sont le plus à gauche
+     * (une pour chaque ligne) pour chaque sous-grille (9 cases au total, 
+     * chaque ligne correspond à 1 sous-grille).
+     * Si direction = SUPERIEUR : retourne les 9 cases qui sont le plus supérieures.
+     * Si direction = INFERIEUR : retourne les 9 cases qui sont le plus inférieures.
+     * Attention : le tableau retourné peut contenir des null si les 
+     * lignes/colonnes/tours sont vides
+     * @param direction 
+     * Paramètre de type int
      */
     public Case[][] getCasesExtremites(int direction) {
         Case[][] result = new Case[TAILLE][TAILLE];
@@ -273,37 +315,31 @@ public class Grille implements Parametres, Serializable, Cloneable {
                     case HAUT:
                         if (c.getZ() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getY() > c.getY()))) { // si on n'avait pas encore de case pour cette rangée ou si on a trouvé un meilleur candidat
                             result[k][c.getX()] = c;
-//                            System.out.println("Enregistrer " + k + ", " + c.getX() + ": " + c);
                         }
                         break;
                     case BAS:
                         if (c.getZ() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getY() < c.getY()))) {
                             result[k][c.getX()] = c;
-//                            System.out.println("Enregistrer " + k + ", " + c.getX() + ": " + c);
                         }
                         break;
                     case GAUCHE:
                         if (c.getZ() == k && ((result[k][c.getY()] == null) || (result[k][c.getY()].getX() > c.getX()))) {
                             result[k][c.getY()] = c;
-//                            System.out.println("Enregistrer " + k + ", " + c.getY() + ": " + c);
                         }
                         break;
                     case DROITE:
                         if (c.getZ() == k && ((result[k][c.getY()] == null) || (result[k][c.getY()].getX() < c.getX()))) {
                             result[k][c.getY()] = c;
-//                            System.out.println("Enregistrer " + k + ", " + c.getY() + ": " + c);
                         }
                         break;
                     case SUPERIEUR:
                         if (c.getY() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getZ() > c.getZ()))) {
                             result[k][c.getX()] = c;
-//                            System.out.println("Enregistrer " + k + ", " + c.getX() + ": " + c);
                         }
                         break;
                     default: // case INFERIEUR
                         if (c.getY() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getZ() < c.getZ()))) {
                             result[k][c.getX()] = c;
-//                            System.out.println("Enregistrer " + k + ", " + c.getX() + ": " + c);
                         }
                         break;
                 }
@@ -315,7 +351,12 @@ public class Grille implements Parametres, Serializable, Cloneable {
     
     
     
-
+    /**
+     * Vérifie si un déplacement est possible dans la direction donnée.
+     * @param direction 
+     * Paramètre de type int
+     * @return 
+     */
     public boolean initialiserDeplacement(int direction) {
         Case[][] extremites = this.getCasesExtremites(direction);
         deplacement = false; // pour vérifier si on a bougé au moins une case après le déplacement, avant d'en rajouter une nouvelle
@@ -346,6 +387,19 @@ public class Grille implements Parametres, Serializable, Cloneable {
         return deplacement;
     }
     
+    /**
+     * Déplace les cases.
+     * @param extremites
+     * Paramètre de type Case[][].
+     * @param rangee
+     * Paramètre de type int.
+     * @param sousGrille
+     * Paramètre de type int.
+     * @param direction 
+     * Paramètre de type int.
+     * @param compteur
+     * Paramètre de type int.
+     */
     private void deplacerRecursif(Case[][] extremites, int rangee, int sousGrille, int direction, int compteur) {
         if (extremites[sousGrille][rangee] != null) {
             if ((direction == HAUT && extremites[sousGrille][rangee].getY() != compteur)
@@ -354,9 +408,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
                     || (direction == DROITE && extremites[sousGrille][rangee].getX() != TAILLE - 1 - compteur)
                     || (direction == SUPERIEUR && extremites[sousGrille][rangee].getZ() != compteur)
                     || (direction == INFERIEUR && extremites[sousGrille][rangee].getZ() != TAILLE - 1 - compteur)) {
-//                System.out.println("Avant effacage: " + grille);
                 this.grille.remove(extremites[sousGrille][rangee]);
-//                System.out.println("Apres effacage: " + grille);
                 switch (direction) {
                     case HAUT:
                         if (extremites[sousGrille][rangee].getGlisseY0() == -1){
@@ -364,9 +416,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
                             extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
                         }
                         extremites[sousGrille][rangee].setGrimpe(false);
-//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         extremites[sousGrille][rangee].setY(compteur);
-//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         break;
                     case BAS:
                         if (extremites[sousGrille][rangee].getGlisseY0() == -1){
@@ -374,9 +424,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
                             extremites[sousGrille][rangee].setGlisseX0(extremites[sousGrille][rangee].getX());
                         }
                         extremites[sousGrille][rangee].setGrimpe(false);
-//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         extremites[sousGrille][rangee].setY(TAILLE - 1 - compteur);
-//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         break;
                     case GAUCHE:
                         if (extremites[sousGrille][rangee].getGlisseX0() == -1){
@@ -384,9 +432,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
                             extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
                         }
                         extremites[sousGrille][rangee].setGrimpe(false);
-//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         extremites[sousGrille][rangee].setX(compteur);
-//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         break;
                     case DROITE:
                         if (extremites[sousGrille][rangee].getGlisseX0() == -1){
@@ -394,36 +440,27 @@ public class Grille implements Parametres, Serializable, Cloneable {
                             extremites[sousGrille][rangee].setGlisseY0(extremites[sousGrille][rangee].getY());
                         }
                         extremites[sousGrille][rangee].setGrimpe(false);
-//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         extremites[sousGrille][rangee].setX(TAILLE - 1 - compteur);
-//                        System.out.println("Changement " + extremites[sousGrille][rangee]);
                         break;
                     case SUPERIEUR:
                         if (compteur != extremites[sousGrille][rangee].getZ()){
-//                            System.out.println("Changement " + extremites[sousGrille][rangee]);
                             extremites[sousGrille][rangee].setZ(compteur);
-//                            System.out.println("Changement " + extremites[sousGrille][rangee]);
                             extremites[sousGrille][rangee].setGrimpe(true);
                         }
                         break;
                     default: // case INFERIEUR
                         if (compteur != extremites[sousGrille][rangee].getZ()){
-//                            System.out.println("Changement " + extremites[sousGrille][rangee]);
                             extremites[sousGrille][rangee].setZ(TAILLE - 1 - compteur);
-//                            System.out.println("Changement " + extremites[sousGrille][rangee]);
                             extremites[sousGrille][rangee].setGrimpe(true);
                         }
                         break;
                 }
                 this.grille.add(extremites[sousGrille][rangee]);
-//                System.out.println("Ajout " + extremites[sousGrille][rangee]);
                 deplacement = true;
             }
             Case voisin = extremites[sousGrille][rangee].getVoisinDirect(-direction);
-//            System.out.println("Voisin: " + voisin);
             if (voisin != null) {
                 if (extremites[sousGrille][rangee].valeurEgale(voisin)) {
-                    // Voisin est celui qui bouge, extremites[sousGrille][rangee] qui est augmenté
                     this.fusion(extremites[sousGrille][rangee]);
                     if (direction != SUPERIEUR && direction != INFERIEUR){
                         extremites[sousGrille][rangee].setFusionneX0(voisin.getX());

@@ -49,37 +49,28 @@ public class FXMLSaveDataBaseController implements Initializable {
     int tuileMax;
     String aAfficher;
     
-//    
     
-//     Recevoir le style de l'autre page
-    public void transferStyle(Style s){
-        perso = s;
-        if (perso.styleActuel.equals("css/perso.css")){
-            perso.applyCSS(fond);
-        } else {
-            fond.getStylesheets().clear();
-            fond.getStylesheets().add(perso.styleActuel);
-        }
-    }
     
-    // Recuperer le controller
-    public void giveObjects(FXMLDocumentController d) {
-        this.documentController = d;
-    }
-    
-    // Recuperer le score et la tuileMax
-    public void getData(int score, int tuileMax, String str) {
-        this.score = score;
-        this.tuileMax = tuileMax;
-        this.aAfficher = str;
-    }
-    
+     
+    /**
+     * Fonction quit
+     * Cette fonction permet de quitter la page des scores.
+     * @param event
+     * Paramètre de type ActionEvent
+     */
     @FXML
     public void quit(ActionEvent event) {
         fond.getScene().getWindow().hide();
         documentController.focus();
     }
     
+    /**
+     * Fonction valid
+     * Cette fonction permet de valider le pseudo choisi et d'essayer 
+     * d'enregistrer les résultats de la partie.
+     * @param event
+     * Paramètre de type ActionEvent
+     */
     @FXML
     public void valid(ActionEvent event) {
         if (!pseudo.getText().equals("")) {
@@ -96,11 +87,13 @@ public class FXMLSaveDataBaseController implements Initializable {
         }
     }
     
+    /**
+     * Fonction showAlertPseudoExists.
+     * Cette fonction permet d'afficher l'alerte demandant si le pseudo entré 
+     * est celui du joueur dans le cas où ce pseudo existe déjà dans la BDD.
+     */
     public void showAlertPseudoExists() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setOnCloseRequest(e -> {
-//            pour ne pas pouvoir fermer avec la croix
-//        });
         alert.setTitle("");
         alert.setHeaderText("Ce pseudo existe déjà.");
         alert.setContentText("Est-ce bien vous ?");
@@ -113,6 +106,7 @@ public class FXMLSaveDataBaseController implements Initializable {
         final Button btnOUI = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
         btnOUI.setOnAction( event -> {
             BDD reachBDD = new BDD();
+            reachBDD.deleteLine(pseudo.getText());
             reachBDD.save(pseudo.getText(), tuileMax, score);
             alert.close();
             fond.getScene().getWindow().hide();
@@ -129,7 +123,59 @@ public class FXMLSaveDataBaseController implements Initializable {
     
     
     /**
-     * Initializes the controller class.
+     * Fonction transferStyle
+     * Cette fonction permet d'initialiser l'interface graphique avec le bon 
+     * style et la base de donnée.
+     * @param s
+     * Paramètre de type Style
+     */
+    public void transferStyle(Style s){
+        perso = s;
+        if (perso.styleActuel.equals("css/perso.css")){
+            perso.applyCSS(fond);
+        } else {
+            fond.getStylesheets().clear();
+            fond.getStylesheets().add(perso.styleActuel);
+        }
+    }
+    
+    /**
+     * Fonction giveObjects
+     * Cette fonction permet de récupérer le DocumentController.
+     * @param d
+     * Paramètre de type FXMLDocumentController
+     */
+    public void giveObjects(FXMLDocumentController d) {
+        this.documentController = d;
+    }
+    
+    /**
+     * Fonction getData
+     * Cette fonction permet de récupérer la tuileMax, le score et le texte
+     * à afficher.
+     * @param score
+     * Paramètre de type int
+     * @param tuileMax 
+     * Paramètre de type int
+     * @param str 
+     * Paramètre de type String
+     */
+    public void getData(int score, int tuileMax, String str) {
+        this.score = score;
+        this.tuileMax = tuileMax;
+        this.aAfficher = str;
+        labelScore.setText(aAfficher);
+    }
+   
+    
+    /**
+     * Fonction initialize
+     * Cette fonction permet d'initialiser l'interface graphique avec le bon 
+     * style.
+     * @param url
+     * Paramètre de type URL
+     * @param rb 
+     * Paramètre de type ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -54,7 +54,9 @@ public class GestionClientCoop {
         this.joueur = c.joueur;
     }
     
-    
+    /**
+     * Lance la connexion au serveur.
+     */
     public void connect(){
         try {
             s = new Socket(host, port);
@@ -84,6 +86,10 @@ public class GestionClientCoop {
         }
     }
     
+    /**
+     * Vérifie si le client est connecté à un serveur.
+     * @return 
+     */
     public boolean isConnected(){
         if (s == null){
             return false;
@@ -92,6 +98,11 @@ public class GestionClientCoop {
         }
     }
     
+    /**
+     * Déconnecte le client du serveur.
+     * @param stopper
+     * paramètre de type boolean.
+     */
     public void disconnect(boolean stopper){
         System.out.println("Disconnect");
         if (stopper) {
@@ -99,7 +110,11 @@ public class GestionClientCoop {
         }
     }
     
-    
+    /**
+     * Met la grille à jour.
+     * @param gr
+     * paramètre de type Grille.
+     */
     public void updateGrille(Grille gr) {
 //        System.out.println("Gr: \n" + gr);
         aPartager = Grille.setInstance(gr);
@@ -108,8 +123,9 @@ public class GestionClientCoop {
         clientController.updateGrille(aPartager);
     }
     
-    
-    
+    /**
+     * Récupère les données du serveur.
+     */
     public void receive(){
         InputStream in = null;
         Object colis = null;

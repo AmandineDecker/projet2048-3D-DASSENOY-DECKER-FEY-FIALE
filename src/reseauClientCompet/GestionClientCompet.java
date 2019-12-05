@@ -53,6 +53,11 @@ public class GestionClientCompet {
         this.joueur = c.joueur;
     }
     
+    /**
+     * Met le joueur à jour.
+     * @param p
+     * paramètre de type Joueur.
+     */
     public void update(Joueur p){
         this.joueur.setScore(p.getScore());
         this.joueur.setTuileMax(p.getTuileMax());
@@ -61,6 +66,9 @@ public class GestionClientCompet {
         this.joueur.setTempsIni(p.getTempsIni());
     }
     
+    /**
+     * Lance la connexion au serveur.
+     */
     public void connect(){
         try {
             s = new Socket(host, port);
@@ -79,7 +87,7 @@ public class GestionClientCompet {
             // On récupère le jeu et le booleen Admin
             receive();
             receive();
-            System.out.println("Client connecté: " + aPartager);
+//            System.out.println("Client connecté: " + aPartager);
             if (aPartager != null){
                 aPartager.addJoueur(joueur);
                 share();
@@ -93,6 +101,10 @@ public class GestionClientCompet {
         }
     }
     
+    /**
+     * Vérifie si le client est connecté à un serveur.
+     * @return 
+     */
     public boolean isConnected(){
         if (s == null){
             return false;
@@ -101,6 +113,9 @@ public class GestionClientCompet {
         }
     }
     
+    /**
+     * Déconnecte le client du serveur.
+     */
     public void disconnect(){
         System.out.println("Disconnect");
         aPartager.removeJoueur(joueur);
@@ -115,7 +130,9 @@ public class GestionClientCompet {
         }
     }
     
-    
+    /**
+     * Partage l'état du joueur avec le serveur.
+     */
     public void share() {
         OutputStream out = null;
         try {
@@ -126,13 +143,13 @@ public class GestionClientCompet {
             objOut.writeObject(ListeJoueurs.getInstance());
             // On update
             objOut.flush();
-            System.out.println("Objet envoyé: " + aPartager);
-            System.out.println();
-            System.out.println();
+//            System.out.println("Objet envoyé: " + aPartager);
+//            System.out.println();
+//            System.out.println();
         } catch (NullPointerException | IOException e) { 
             try {
                 s.close();
-                System.out.println("Client: fermeture de " + s);
+//                System.out.println("Client: fermeture de " + s);
                 
                 clientController.quit();
                 
@@ -146,12 +163,15 @@ public class GestionClientCompet {
         } 
     }
     
+    /**
+     * Récupère les données du serveur.
+     */
     public void receive(){
         InputStream in = null;
         Object colis = null;
         try {
             colis = objIn.readObject();
-            System.out.println("Objet recu: " + colis);
+//            System.out.println("Objet recu: " + colis);
             if (colis instanceof ListeJoueurs){
                 aPartager = (ListeJoueurs) colis;
                 Joueur pRecu = aPartager.getJoueur(joueur.getID());
@@ -178,7 +198,7 @@ public class GestionClientCompet {
                             @Override
                             public void run() {
                                 try {
-                                    System.out.println("Compétition terminée");
+//                                    System.out.println("Compétition terminée");
                                     clientController.afficherScores(aPartager.afficherScore(), joueur.isAdmin());
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
@@ -187,15 +207,15 @@ public class GestionClientCompet {
                         });
                     } else if (aPartager.pretsAJouer() && joueur.getTempsIni() == null){
                         // Relancer une partie
-                        System.out.println("Relancer partie");
-                        System.out.println(joueur.getTempsIni());
+//                        System.out.println("Relancer partie");
+//                        System.out.println(joueur.getTempsIni());
                         if (joueur.isAdmin()) {
                             shareInfos("Start");
                         }
                     }
-                    System.out.println("Reception client: " + joueur);
-                    System.out.println();
-                    System.out.println();
+//                    System.out.println("Reception client: " + joueur);
+//                    System.out.println();
+//                    System.out.println();
                 }
             } else if (colis instanceof Boolean){
 //                System.out.println(colis);
@@ -234,7 +254,7 @@ public class GestionClientCompet {
             } else if (colis == null){
                 try {
                     in.close();
-                    System.out.println("Client: fermeture de " + s);
+//                    System.out.println("Client: fermeture de " + s);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                     in = null;
@@ -244,7 +264,7 @@ public class GestionClientCompet {
             if (s != null){
                 try {
                     s.close();
-                    System.out.println("Client: fermeture de " + s);
+//                    System.out.println("Client: fermeture de " + s);
                 } catch (IOException e) {
                     e.printStackTrace();
                     in = null;
@@ -254,6 +274,10 @@ public class GestionClientCompet {
         } 
     }
     
+    /**
+     * Affiche une alerte signifiant qu'une nouvelle partie va débuter. Le 
+     * joueur peut choisir d'y participer ou pas.
+     */
     public void showAlertNewGame() {
         System.out.println("New alert");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -290,9 +314,9 @@ public class GestionClientCompet {
         alert.show();
     }
     
-    
-    
-    
+    /**
+     * Affiche la liste de joueurs. 
+     */
     public void affiche() {
         String listeJoueurs = "";
         for (Joueur p : aPartager.getListe()){
@@ -301,6 +325,11 @@ public class GestionClientCompet {
         clientController.setTextAffichage(listeJoueurs);
     }
     
+    /**
+     * Partage des informations sous forme de String avec le serveur. 
+     * Peut partager "Start" ou "newGame?".
+     * @param str
+     */
     public void shareInfos(String str) {
         OutputStream out = null;
         try {
@@ -311,8 +340,6 @@ public class GestionClientCompet {
         } catch (NullPointerException | IOException e) { 
             try {
                 s.close();
-                System.out.println("Client: fermeture de " + s);
-                
                 clientController.quit();
                 
             } catch (IOException ex) {
@@ -325,9 +352,10 @@ public class GestionClientCompet {
         } 
     }
     
+    /**
+     * Lance la partie. 
+     */
     public void lancerPartie() {
-        System.out.println(joueur);
-        System.out.println(docController);
         aPartager.setCompetFinie(false);
         joueur.startGame();
         Platform.runLater(new Runnable() {

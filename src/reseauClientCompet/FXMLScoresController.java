@@ -35,12 +35,20 @@ public class FXMLScoresController implements Initializable {
     FXMLDocumentController documentController;
     FXMLClientCompetController clientController;
     
-    
+    /**
+     * Partage "newGame?" avec le serveur. Sert à proposer une nouvelle partie 
+     * aux autres joueurs.
+     * @param event 
+     */
     @FXML
     private void newPartie(ActionEvent event) {
         clientController.gare.shareInfos("newGame?");
     }
     
+    /**
+     *Déconnecte le client et réactive les champs/boutons nécessaires. 
+     * @param event 
+     */
     @FXML
     private void deconnect(ActionEvent event) {
         clientController.gare.disconnect();
@@ -55,8 +63,10 @@ public class FXMLScoresController implements Initializable {
     }
     
 
-    
-    // Recevoir le style de l'autre page
+    /**
+     * Récupère le style en cours d'utilisation et l'applique.
+     * @param s
+     */
     public void transferStyle(Style s) {
         perso = s;
         if (perso.styleActuel.equals("css/perso.css")){
@@ -67,27 +77,46 @@ public class FXMLScoresController implements Initializable {
         }
     }
     
+    /**
+     * Récupère le score de la partie en cours.
+     * @param scores
+     * paramètre de type String.
+     */
     // Recuperer le texte
     public void getScores(String scores) {
         txtScores.setText(scores);
     }
     
-    // Recuperer le controller
+    /**
+     * Récupère le DocumentController et le ClientCompetController.
+     * @param c
+     * paramètre de type FXMLClientCompetController.
+     * @param d
+     * paramètre de type FXMLDocumentController.
+     */
     public void giveObjects(FXMLClientCompetController c, FXMLDocumentController d) {
         this.clientController = c;
         this.documentController = d;
     }
     
+    /**
+     * Active le bouton nouvelle partie. 
+     */
     public void giveRights(){
         buttonNewPartie.setDisable(false);
     }
     
+    /**
+     * Ferme la page client. 
+     */
     public void close() {
         fond.getScene().getWindow().hide();
     }
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

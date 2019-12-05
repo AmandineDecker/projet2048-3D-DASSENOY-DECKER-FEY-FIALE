@@ -12,9 +12,10 @@ import java.util.ArrayList;
  * @author Wanda
  */
 public class Caretaker {
+    
     private int index = -1;
     
-    private ArrayList savedStates=new ArrayList();
+    private ArrayList savedStates = new ArrayList();
     
     public void setIndex(int ind){
         index=ind;
@@ -24,6 +25,11 @@ public class Caretaker {
         return index;
     }
     
+    /**
+     * Ajoute un état au memento.
+     * @param m
+     * paramètre de type Object.
+     */
     public void addMemento(Object m){
         int l = savedStates.size();
         if (index != l){
@@ -39,6 +45,12 @@ public class Caretaker {
         index++;
     }
     
+    /**
+     * Récupère un état du memento.
+     * @param i
+     * paramètre de type int.
+     * @return 
+     */
     public Object getMemento(int i){
         return savedStates.get(i);
     }

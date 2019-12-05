@@ -35,16 +35,45 @@ public class Style implements Serializable{
     
     public Style(){}
     
+    @Override
     public String toString(){
         return colFond + ", " + colTexte + ", " + colTuile2;
     }
     
+    /**
+     * Fonction makeCol
+     * Cette fonction permet de transformer une couleur du colorPicker en 
+     * couleur HTML.
+     * @param colorPic 
+     * Paramètre de type ColorPicker
+     * @return 
+     */
     public String makeCol(ColorPicker colorPic){
         Color c = colorPic.getValue();
         String col = c.toString().substring(2, 8);
         return col;
     }
     
+    /**
+     * Fonction makeCol.
+     * Cette fonction permet de sauvegarder les couleurs choisies sur la page 
+     * CSS du style perso.
+     * @param fondPicker
+     * @param infosPicker
+     * @param textePicker
+     * @param tuile2Picker 
+     * @param tuile4Picker 
+     * @param tuile8Picker 
+     * @param tuile16Picker 
+     * @param tuile32Picker 
+     * @param tuile64Picker 
+     * @param tuile128Picker 
+     * @param tuile256Picker 
+     * @param tuile512Picker 
+     * @param tuile1024Picker 
+     * @param tuile2048Picker 
+     * Paramètres de type ColorPicker.
+     */
     public void saveCSS(ColorPicker fondPicker, ColorPicker infosPicker, ColorPicker textePicker, ColorPicker tuile2Picker, ColorPicker tuile4Picker, ColorPicker tuile8Picker, ColorPicker tuile16Picker, ColorPicker tuile32Picker, ColorPicker tuile64Picker, ColorPicker tuile128Picker, ColorPicker tuile256Picker, ColorPicker tuile512Picker, ColorPicker tuile1024Picker, ColorPicker tuile2048Picker){
         
         PrintWriter writer = null;
@@ -323,6 +352,13 @@ public class Style implements Serializable{
         }
     }
     
+    /**
+     * Fonction applyCSS.
+     * Cette fonction permet d'appliquer le style perso. 
+     * couleur HTML.
+     * @param fond
+     * paramètre de type Pane.
+     */
     public void applyCSS(Pane fond) {
         try {
             fond.getStylesheets().clear();

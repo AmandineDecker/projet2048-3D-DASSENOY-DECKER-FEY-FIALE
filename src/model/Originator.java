@@ -5,44 +5,62 @@
  */
 package model;
 
-import java.util.ArrayList;
 
 /**
  *
  * @author Wanda
  */
 public class Originator {
+    
     private Grille state;
     
+    /**
+     * Met à jour state.
+     * @param state
+     */
     public void set(Grille state){
-        //System.out.println("Originator: etat affecte a: \n" + state);
         this.state=state;
     }
     
-    public Object saveToMemento(){
-        //System.out.println("Originator: sauvegarder dans le memento.");
+    /**
+     * Crée un memento pour l'état actuel.
+     * @return 
+     * @throws java.lang.CloneNotSupportedException
+     */
+    public Object saveToMemento() throws CloneNotSupportedException{
         return new Memento(state);
     }
     
-    public Grille restoreFromMemento(Object m){
+    /**
+     * Récupère l'objet sauvegardé dans le memento. 
+     * @param m
+     * @return 
+     * @throws java.lang.CloneNotSupportedException
+     */
+    public Grille restoreFromMemento(Object m) throws CloneNotSupportedException{
         if (m instanceof Memento){
             Memento memento = (Memento)m;
             state = memento.getSavedState();
-            //System.out.println("Originator: Etat après restauration: \n" + state);
         }
         return state;
     }
     
 
-private static class Memento{
-    private Grille state;
+    private static class Memento{
     
-    public Memento(Grille stateToSave){
-        state = stateToSave.clone();
+        private final Grille state;
+
+        public Memento(Grille stateToSave) throws CloneNotSupportedException{
+            state = stateToSave.clone();
+        }
+
+        /**
+         * Renvoie la grille sauvegardée.
+         * @return 
+         * @throws java.lang.CloneNotSupportedException
+         */
+        public Grille getSavedState() throws CloneNotSupportedException{
+            return state.clone();
+        }
     }
-    
-    public Grille getSavedState(){
-        return state.clone();
-    }
-}
 }

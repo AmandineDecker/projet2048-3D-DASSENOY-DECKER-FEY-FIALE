@@ -161,6 +161,12 @@ public class Case implements Parametres, Serializable, Cloneable {
         return c;
     }
     
+    /**
+     * Renvoie true si les cases ont la même valeur.
+     * @param c
+     * paramètre de type Case.
+     * @return 
+     */
     public boolean valeurEgale(Case c) {
         if (c != null) {
             return this.valeur == c.valeur;
@@ -169,55 +175,64 @@ public class Case implements Parametres, Serializable, Cloneable {
         }
     }
     
+    /**
+     * Renvoie la voisine d'une case dans une direction donnée.
+     * @param direction 
+     * Paramètre de type int
+     * @return 
+     */
     public Case getVoisinDirect(int direction) {
-        if (direction == HAUT) {
-            for (int i = this.y - 1; i >= 0; i--) {
-                for (Case c : grille.getGr()) {
-                    if (c.getX() == this.x && c.getZ() == this.z && c.getY() == i) {
-                        return c;
+        switch (direction) {
+            case HAUT:
+                for (int i = this.y - 1; i >= 0; i--) {
+                    for (Case c : grille.getGr()) {
+                        if (c.getX() == this.x && c.getZ() == this.z && c.getY() == i) {
+                            return c;
+                        }
                     }
-                }
-            }
-        } else if (direction == BAS) {
-            for (int i = this.y + 1; i < TAILLE; i++) {
-                for (Case c : grille.getGr()) {
-                    if (c.getX() == this.x && c.getZ() == this.z && c.getY() == i) {
-                        return c;
+                }   break;
+            case BAS:
+                for (int i = this.y + 1; i < TAILLE; i++) {
+                    for (Case c : grille.getGr()) {
+                        if (c.getX() == this.x && c.getZ() == this.z && c.getY() == i) {
+                            return c;
+                        }
                     }
-                }
-            }
-        } else if (direction == GAUCHE) {
-            for (int i = this.x - 1; i >= 0; i--) {
-                for (Case c : grille.getGr()) {
-                    if (c.getX() == i && c.getZ() == this.z && c.getY() == this.y) {
-                        return c;
+                }   break;
+            case GAUCHE:
+                for (int i = this.x - 1; i >= 0; i--) {
+                    for (Case c : grille.getGr()) {
+                        if (c.getX() == i && c.getZ() == this.z && c.getY() == this.y) {
+                            return c;
+                        }
                     }
-                }
-            }
-        } else if (direction == DROITE) {
-            for (int i = this.x + 1; i < TAILLE; i++) {
-                for (Case c : grille.getGr()) {
-                    if (c.getX() == i && c.getZ() == this.z && c.getY() == this.y) {
-                        return c;
+                }   break;
+            case DROITE:
+                for (int i = this.x + 1; i < TAILLE; i++) {
+                    for (Case c : grille.getGr()) {
+                        if (c.getX() == i && c.getZ() == this.z && c.getY() == this.y) {
+                            return c;
+                        }
                     }
-                }
-            }
-        } else if (direction == SUPERIEUR) {
-            for (int i = this.z - 1; i >= 0; i--) {
-                for (Case c : grille.getGr()) {
-                    if (c.getZ() == i && c.getX() == this.x && c.getY() == this.y) {
-                        return c;
+                }   break;
+            case SUPERIEUR:
+                for (int i = this.z - 1; i >= 0; i--) {
+                    for (Case c : grille.getGr()) {
+                        if (c.getZ() == i && c.getX() == this.x && c.getY() == this.y) {
+                            return c;
+                        }
                     }
-                }
-            }
-        } else if (direction == INFERIEUR) {
-            for (int i = this.z + 1; i < TAILLE; i++) {
-                for (Case c : grille.getGr()) {
-                    if (c.getZ() == i && c.getX() == this.x && c.getY() == this.y) {
-                        return c;
+                }   break;
+            case INFERIEUR:
+                for (int i = this.z + 1; i < TAILLE; i++) {
+                    for (Case c : grille.getGr()) {
+                        if (c.getZ() == i && c.getX() == this.x && c.getY() == this.y) {
+                            return c;
+                        }
                     }
-                }
-            }
+                }   break;
+            default:
+                break;
         }
         return null;
     }

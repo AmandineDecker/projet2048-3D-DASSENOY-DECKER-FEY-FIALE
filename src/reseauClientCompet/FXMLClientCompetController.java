@@ -62,7 +62,10 @@ public class FXMLClientCompetController implements Initializable {
     // Style
     Style perso;
     
-    
+    /**
+     * Lance la connexion au serveur.
+     * @param event 
+     */
     @FXML
     private void connect(ActionEvent event) throws UnknownHostException, IOException, ClassNotFoundException {
         if (txtHost.getText().length() > 0 && txtPort.getText().length() > 0 && txtPseudo.getText().length() > 0){
@@ -71,7 +74,7 @@ public class FXMLClientCompetController implements Initializable {
             Random rd = new Random();
             joueur.setID(rd.nextInt());
             // On se connecte au serveur
-            System.out.println("Client en cours de connexion");
+//            System.out.println("Client en cours de connexion");
             // On recupere les informations de connexion
             serverhost = txtHost.getText();
             port = Integer.parseInt(txtPort.getText());
@@ -79,7 +82,7 @@ public class FXMLClientCompetController implements Initializable {
             gare = new GestionClientCompet(listeAPartager, this, this.controlleur);
             gare.connect();
             if (gare.isConnected()){
-                System.out.println("Connexion effectuée, échanges en attente");
+//                System.out.println("Connexion effectuée, échanges en attente");
                 buttonDeconnexion.setDisable(false);
                 buttonConnexion.setDisable(true);
                 txtHost.setEditable(false);
@@ -87,15 +90,22 @@ public class FXMLClientCompetController implements Initializable {
                 txtPseudo.setEditable(false);
             }
             joueur = gare.joueur;
-//            System.out.println("Joueur du controller: " + joueur.isAdmin());
         }
     }
     
+    /**
+     *Déconnecte le client et réactive les champs/boutons nécessaires. 
+     * @param event 
+     */
     @FXML
     private void disconnect(ActionEvent event) {
         arreterClient();
     }
     
+    /**
+     * Partage "Start" au serveur. Sert à lancer une partie en multijoueur compétitif.
+     * @param event 
+     */
     @FXML
     private void lancerPartie(ActionEvent event) {
         // Play
@@ -104,6 +114,10 @@ public class FXMLClientCompetController implements Initializable {
     
     /* Méthodes */
     
+    /**
+     * Vérifie si le client est connecté à un serveur. 
+     * @return 
+     */
     public boolean isConnected() {
         if (gare == null) {
             return false;
@@ -112,12 +126,17 @@ public class FXMLClientCompetController implements Initializable {
         }
     }
     
+    /**
+     * Désactive buttonDeconnexion, active buttonConnexion.
+     */
     public void quit(){
         buttonConnexion.setDisable(false);
         buttonDeconnexion.setDisable(true);
     }
     
-    
+    /**
+     * Affiche une alerte signifiant que le serveur a été déconnecté.
+     */
     public void showAlertServeurClosed() {
         fond.getScene().getWindow().requestFocus();
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -138,18 +157,34 @@ public class FXMLClientCompetController implements Initializable {
         });
     }
     
+    /**
+     * Ferme la page client. 
+     */
     public void close() {
         fond.getScene().getWindow().hide();
     }
     
+    /**
+     * Active le bouton start. 
+     */
     public void giveRights(){
         buttonStart.setDisable(false);
     }
     
+    /**
+     * Modifie le texte de affichage.
+     * @param str
+     * paramètre de type String.
+     */
     public void setTextAffichage(String str) {
         affichage.setText(str);
     }
     
+    /**
+     * Affiche les données de connexion sur le client.
+     * @param p 
+     * paramètre de type int.
+     */
     public void setConnexion(int p) {
         try {
             txtHost.setText(InetAddress.getLocalHost().getHostAddress());
@@ -159,14 +194,21 @@ public class FXMLClientCompetController implements Initializable {
         }
     }
     
+    /**
+     * Récupère le DocumentController.
+     * @param c 
+     * paramètre de type FXMLDocumentController.
+     */
     public void giveObjects(FXMLDocumentController c) {
         this.controlleur = c;
     }
     
+    /**
+     * Déconnecte le client et réactive les champs/boutons nécessaires. 
+     */
     public void arreterClient() {
         gare.disconnect();
-        buttonConnexion.setDisable(false);
-        buttonDeconnexion.setDisable(true);
+        quit();
         buttonStart.setDisable(true);
         txtHost.setEditable(true);
         txtPort.setEditable(true);
@@ -174,7 +216,10 @@ public class FXMLClientCompetController implements Initializable {
         affichage.clear();
     }
     
-    // Recevoir le style de l'autre page
+    /**
+     * Récupère le style en cours d'utilisation et l'applique.
+     * @param s
+     */
     public void transferStyle(Style s){
         perso = s;
         if (perso.styleActuel.equals("css/perso.css")){
@@ -185,6 +230,15 @@ public class FXMLClientCompetController implements Initializable {
         }
     }
     
+    /**
+     * Affiche la page de scores de la partie multijoueur. Autorise l'admin à 
+     * appuyer sur le bouton qui lance une nouvelle partie.
+     * @param scores
+     * paramètre de type String.
+     * @param isAdmin
+     * paramètre de type boolean.
+     * @throws java.io.IOException
+     */
     public void afficherScores(String scores, boolean isAdmin) throws IOException {
         // Load fenetre de personnalisation
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLScores.fxml"));
@@ -198,9 +252,6 @@ public class FXMLClientCompetController implements Initializable {
         if (isAdmin) {
             scoresController.giveRights();
         }
-        //System.out.println(style.styleActuel);
-        // Afficher la fenetre
-        //Scene scene = new Scene(FXMLLoader.load(getClass().getResource("FXMLColorPicker.fxml")));
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         
@@ -228,6 +279,9 @@ public class FXMLClientCompetController implements Initializable {
         stage.show();
     }
     
+    /**
+     * Ferme la page de scores de la partie multijoueur.
+     */
     public void fermerScores() {
         if (scoresController != null) {
             scoresController.close();
@@ -236,11 +290,6 @@ public class FXMLClientCompetController implements Initializable {
     }
     
    
-    
-    
-    
-    
-    
     
     
     /**

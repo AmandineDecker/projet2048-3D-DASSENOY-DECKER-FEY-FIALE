@@ -59,7 +59,10 @@ public class FXMLClientCoopController implements Initializable {
     // Style
     Style perso;
     
-    
+    /**
+     * Lance la connexion au serveur.
+     * @param event 
+     */
     @FXML
     private void connect(ActionEvent event) throws UnknownHostException, IOException, ClassNotFoundException {
         if (txtHost.getText().length() > 0 && txtPort.getText().length() > 0 && txtPseudo.getText().length() > 0){
@@ -88,12 +91,20 @@ public class FXMLClientCoopController implements Initializable {
         }
     }
     
+    /**
+     *Déconnecte le client et réactive les champs/boutons nécessaires. 
+     * @param event 
+     */
     @FXML
     private void disconnect(ActionEvent event) {
         arreterClient();
         showAlertGameClosed();
     }
     
+    /**
+     * Partage "Start" au serveur. Sert à lancer une partie en multijoueur compétitif.
+     * @param event 
+     */
     @FXML
     private void lancerPartie(ActionEvent event) {
         // Play
@@ -102,7 +113,10 @@ public class FXMLClientCoopController implements Initializable {
     
     
     
-    // Recevoir le style de l'autre page
+    /**
+     * Récupère le style en cours d'utilisation et l'applique.
+     * @param s
+     */
     public void transferStyle(Style s){
         perso = s;
         if (perso.styleActuel.equals("css/perso.css")){
@@ -113,10 +127,18 @@ public class FXMLClientCoopController implements Initializable {
         }
     }
     
+    /**
+     * Active le bouton start. 
+     */
     public void giveRights(){
         buttonStart.setDisable(false);
     }
     
+    /**
+     * Affiche les données de connexion sur le client.
+     * @param p 
+     * paramètre de type int.
+     */
     public void setConnexion(int p) {
         try {
             txtHost.setText(InetAddress.getLocalHost().getHostAddress());
@@ -126,6 +148,10 @@ public class FXMLClientCoopController implements Initializable {
         }
     }
     
+    /**
+     * Vérifie si le client est connecté à un serveur. 
+     * @return 
+     */
     public boolean isConnected() {
         if (gare == null) {
             return false;
@@ -134,6 +160,11 @@ public class FXMLClientCoopController implements Initializable {
         }
     }
     
+    /**
+     * Récupère le DocumentController.
+     * @param c 
+     * paramètre de type FXMLDocumentController.
+     */
     public void giveObjects(FXMLDocumentController c) {
         this.controlleur = c;
     }
@@ -146,11 +177,18 @@ public class FXMLClientCoopController implements Initializable {
         }
     }
     
+    /**
+     * Met la grille à jour. 
+     * @param gr
+     * paramètre de type Grille.
+     */
     public void updateGrille(Grille gr) {
         grilleAPartager = Grille.setInstance(gr);
     }
     
-    
+    /**
+     * Déconnecte le client et réactive les champs/boutons nécessaires. 
+     */
     public void arreterClient() {
         gare.disconnect(true);
         buttonConnexion.setDisable(false);
@@ -163,6 +201,10 @@ public class FXMLClientCoopController implements Initializable {
         joueur2.setText("");
     }
     
+    /**
+     * Affiche une alerte signifiant que la connexion a été coupée. Relance 
+     * une partie SOLO.
+     */
     public void showAlertGameClosed() {
         fond.getScene().getWindow().requestFocus();
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -183,8 +225,12 @@ public class FXMLClientCoopController implements Initializable {
         });
     }
     
+    /**
+     * Affiche une alerte signifiant que la partie est terminée. Le joueur peut
+     * alors proposer de lancer une nouvelle partie.
+     * @param finJeu
+     */
     public void showPartieFinie(String finJeu) {
-        System.out.println("AFFICHAGE ALERTE");
         fond.getScene().getWindow().requestFocus();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Fin du jeu");
@@ -218,6 +264,10 @@ public class FXMLClientCoopController implements Initializable {
         alert.show();
     }
     
+    /**
+     * Affiche une alerte signifiant que la partie est terminée. Le joueur peut
+     * alors accepter de participer à une autre partie ou pas.
+     */
     public void showAlertNouvellePartie(String finJeu) {
         System.out.println("AFFICHAGE ALERTE");
         fond.getScene().getWindow().requestFocus();
@@ -254,8 +304,12 @@ public class FXMLClientCoopController implements Initializable {
         alert.show();
     }
     
+    /**
+     * Affiche une alerte signifiant que l'autre joueur a refusé la 
+     * nouvelle partie.
+     * @param finJeu
+     */
     public void showAlertFinJeu(String finJeu) {
-        System.out.println("AFFICHAGE ALERTE");
         fond.getScene().getWindow().requestFocus();
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Fin du jeu");
