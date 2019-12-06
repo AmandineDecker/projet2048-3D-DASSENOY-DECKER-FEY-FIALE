@@ -31,11 +31,22 @@ public class Glissement extends Task<Void> {
         this.tuile = c;
     }
     
-    
+    /**
+     * Renvoie la largeur que doit avoir une case.
+     * @param gr
+     * paramètre de typer GridPane.
+     * @return 
+     */
     public double getPaneWidth(GridPane gr){
         double w = gr.getWidth();
         return w/3;
     }
+    /**
+     * Renvoie la hauteur que doit avoir une case.
+     * @param gr
+     * paramètre de typer GridPane.
+     * @return 
+     */
     public double getPaneHeigth(GridPane gr){
         double h = gr.getHeight();
         return h/3;

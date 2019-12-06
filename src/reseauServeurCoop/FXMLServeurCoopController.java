@@ -59,6 +59,10 @@ public class FXMLServeurCoopController implements Initializable {
     
     
     /* Méthodes */
+    /**
+     * Vérifie si la partie a un admin.
+     * @return 
+     */
     public boolean hasAdmin() {
         return joueur1 != null;
     }
@@ -79,6 +83,9 @@ public class FXMLServeurCoopController implements Initializable {
         joueur2 = j;
     }
     
+    /**
+     * Lance le serveur. Les joueurs peuvent donc se connecter. 
+     */
     public void lancerServeur() {
         System.out.println("Serveur en attente de connexion");
         listeConnexions  = new GestionServeurCoop[2];
@@ -91,6 +98,12 @@ public class FXMLServeurCoopController implements Initializable {
         startButton.setDisable(true);
     }
     
+    /**
+     * Arrête le serveur. L'utilisateur spécifie si la page serveur doit être 
+     * fermée.
+     * @param fermer
+     * paramètre de type boolean.
+     */
     public void arreterServeur(boolean fermer) {
         try {
             if (listeConnexions != null) {
@@ -112,12 +125,19 @@ public class FXMLServeurCoopController implements Initializable {
         }
     }
     
+    /**
+     * Renvoie le port dédié aux échanges réseaux.
+     * @return 
+     */
     public int getConnexion() {
         return port;
     }
     
+    /**
+     * Vérifie si le serveur est connecté à au moins un joueur. 
+     * @return 
+     */
     public boolean isConnected() {
-        System.out.println(listeConnexions);
         if (ecoute == null || listeConnexions == null) {
             return false;
         } else {
@@ -125,7 +145,10 @@ public class FXMLServeurCoopController implements Initializable {
         }
     }
     
-    // Recevoir le style de l'autre page
+    /**
+     * Récupère le style en cours d'utilisation et l'applique.
+     * @param s
+     */
     public void transferStyle(Style s){
         perso = s;
         if (perso.styleActuel.equals("css/perso.css")){

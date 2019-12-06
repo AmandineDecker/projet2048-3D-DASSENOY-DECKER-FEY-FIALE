@@ -9,7 +9,7 @@
 
 <VBox fx:id="fond" alignment="CENTER" prefHeight="395.0" prefWidth="359.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bdd.FXMLSaveDataBaseController">
    <children>
-      <Label fx:id="labelScore" alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="42.0" text="Score" wrapText="true">
+      <Label fx:id="labelScore" alignment="CENTER" contentDisplay="CENTER" text="Score" textAlignment="CENTER" wrapText="true">
          <VBox.margin>
             <Insets bottom="50.0" />
          </VBox.margin>

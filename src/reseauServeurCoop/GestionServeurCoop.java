@@ -79,6 +79,9 @@ public class GestionServeurCoop implements Runnable {
         }
     }
     
+    /**
+     * Partage true ou false avec le serveur. true s'il n'y a pas encore d'admin.
+     */
     public void setAdmin(Boolean b){
         try {
             objOut.writeObject(b);
@@ -96,6 +99,9 @@ public class GestionServeurCoop implements Runnable {
         }
     }
     
+    /**
+     * Partage l'état de la grille avec le bon joueur.
+     */
     public void share(){
         try {
             // On partage
@@ -121,6 +127,11 @@ public class GestionServeurCoop implements Runnable {
         } 
     }
     
+    /**
+     * Partage un joueur.
+     * @param j
+     * paramètre de type Joueur.
+     */
     public void shareJoueur(Joueur j){
         try {
             // On partage
@@ -144,6 +155,12 @@ public class GestionServeurCoop implements Runnable {
         } 
     }
     
+    /**
+     * Partage des informations avec tout le monde. Peut partager "Start", "Stop",
+     * "PartieFinie", "FinJeu" ou "NouvellePartie".
+     * @param str
+     * paramètre de type String.
+     */
     public void shareInfos(String str) {
         try {
             // On partage
@@ -166,6 +183,9 @@ public class GestionServeurCoop implements Runnable {
         } 
     }
     
+    /**
+     * Récupère la grille.
+     */
     public void receive() {
         Object colis;
         try {

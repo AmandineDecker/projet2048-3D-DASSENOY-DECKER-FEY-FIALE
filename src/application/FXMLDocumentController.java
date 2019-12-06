@@ -10,7 +10,11 @@ import bdd.FXMLShowDataBaseController;
 import reseauServeurCompet.FXMLServeurCompetController;
 import reseauClientCompet.FXMLClientCompetController;
 import css.Style;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
@@ -32,7 +36,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
@@ -72,9 +80,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private MenuItem quitter, nouveauJeu, menuScores, changerStyle, aPropos, backMove, avancerUnCoup, newCompetMenu, joinCompetMenu, newCoopMenu, joinCoopMenu;
     @FXML
-    private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine, themeAmelie, themePerso, themeAme2, themeWVert;
+    private RadioMenuItem themeClassique, themeNuit, themeWanda, themeAmandine, themeAmelie, themePerso, themeAme2, themeWVert, ouvertureConsole, ouvertureInterface;
     @FXML
-    private ToggleGroup grStyle;
+    private ToggleGroup grStyle, grOuverture;
     @FXML
     private Label txtScore, score, logo, resultat, commande0, commande1, commande2, commande3, commande4, commande5, commande6;
     @FXML
@@ -103,7 +111,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     public void quitter(ActionEvent event) {
-        System.out.println("Au revoir!");
+//        System.out.println("Au revoir!");
         ObjectOutputStream oosGrille = null;
         ObjectOutputStream oosStyle = null;
         
@@ -112,11 +120,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 nouvellePartie(SOLO);
             }
             try{
-                final FileOutputStream fichierGrille = new FileOutputStream("../../model.ser");
+                final FileOutputStream fichierGrille = new FileOutputStream("data/model.ser");
                 oosGrille = new ObjectOutputStream(fichierGrille);
                 oosGrille.writeObject(modelGrille);
                 oosGrille.flush();
-                final FileOutputStream fichierStyle = new FileOutputStream("../../style.ser");
+                final FileOutputStream fichierStyle = new FileOutputStream("data/style.ser");
                 oosStyle = new ObjectOutputStream(fichierStyle);
                 oosStyle.writeObject(style);
                 oosStyle.flush();
@@ -155,7 +163,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void nouveauJeu(ActionEvent event) {
-        System.out.println("\n\n\nNouvelle partie!");
+//        System.out.println("\n\n\nNouvelle partie!");
         if (modelGrille.getModeJeu() == SOLO){
             nouvellePartie(SOLO);
         } else {
@@ -206,7 +214,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
             joue(dir);
         }
         afficheGrille(modelGrille);
-        System.out.println("IA joue" + "\n" + modelGrille);
+//        System.out.println("IA joue" + "\n" + modelGrille);
     }
     
     /** 
@@ -236,7 +244,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         else if (index >= 1) {
             backMove.setDisable(false);
         }
-        System.out.println(modelGrille);
+//        System.out.println(modelGrille);
     }
     
     /**
@@ -255,7 +263,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
             clientCompetController.gare.share();
         }
         afficheGrille(modelGrille);
-        System.out.println(modelGrille);
+//        System.out.println(modelGrille);
     }
     
     /**
@@ -265,7 +273,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void newCompet(ActionEvent event) throws IOException {
-        System.out.println("\n\n\nCréation d'une partie en mode compétitf");
+//        System.out.println("\n\n\nCréation d'une partie en mode compétitf");
         
         menuCompet.setDisable(true);
         menuCoop.setDisable(true);
@@ -320,7 +328,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private FXMLClientCompetController joinCompet(ActionEvent event) throws IOException {
-        System.out.println("\n\n\nRejoindre une partie en mode compétitif");
+//        System.out.println("\n\n\nRejoindre une partie en mode compétitif");
         
         newCompetMenu.setDisable(true);
         joinCompetMenu.setDisable(true);
@@ -368,7 +376,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void newCoop(ActionEvent event) throws IOException {
-        System.out.println("\n\n\nCréation d'une partie en mode coopératif");
+//        System.out.println("\n\n\nCréation d'une partie en mode coopératif");
         
         menuCompet.setDisable(true);
         menuCoop.setDisable(true);
@@ -423,7 +431,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private FXMLClientCoopController joinCoop(ActionEvent event) throws IOException {
-        System.out.println("\n\n\nRejoindre une partie en mode coopératif");
+//        System.out.println("\n\n\nRejoindre une partie en mode coopératif");
         
         newCoopMenu.setDisable(true);
         joinCoopMenu.setDisable(true);
@@ -466,7 +474,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         return clientCoopController;
     }
     
-   /**
+    /**
      * Cette fonction permet de changer le thème du jeu.
      * @param event 
      */ 
@@ -505,6 +513,39 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 break;
             case 7 :
                 style.applyCSS(fond);
+                break;
+            default:
+                break;
+        }
+    }
+    
+    /**
+     * Cette fonction permet de changer le thème du jeu.
+     * @param event 
+     */ 
+    @FXML
+    private void changeOuverture(ActionEvent event) {
+        switch(grOuverture.getToggles().indexOf(grOuverture.getSelectedToggle())){
+            // Les nombres sont dans l'ordre du menu
+            case 0 : // Console
+                try (PrintWriter writer = new PrintWriter("data/data.txt")) {
+                    // Si rien n'est spécifié, on joue avec interface
+                    writer.println("0");
+                    writer.flush();
+                    writer.close();
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+                break;
+            case 1 : // Interface graphique
+                try (PrintWriter writer = new PrintWriter("data/data.txt")) {
+                    // Si rien n'est spécifié, on joue avec interface
+                    writer.println("1");
+                    writer.flush();
+                    writer.close();
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
                 break;
             default:
                 break;
@@ -736,27 +777,27 @@ public class FXMLDocumentController implements Parametres, Initializable {
             int direction = 0;
             switch(ke.getText()){
                 case "z" :
-                    System.out.println("Vous vous déplacez vers le haut");
+//                    System.out.println("Vous vous déplacez vers le haut");
                     direction = HAUT;
                     break;
                 case "q":
-                    System.out.println("Vous vous déplacez vers la gauche");
+//                    System.out.println("Vous vous déplacez vers la gauche");
                     direction = GAUCHE;
                     break;
                 case "s":
-                    System.out.println("Vous vous déplacez vers le bas");
+//                    System.out.println("Vous vous déplacez vers le bas");
                     direction = BAS;
                     break;
                 case "d":
-                    System.out.println("Vous vous déplacez vers la droite");
+//                    System.out.println("Vous vous déplacez vers la droite");
                     direction = DROITE;
                     break; 
                 case "r":
-                    System.out.println("Vous vous déplacez sur la grille supérieure");
+//                    System.out.println("Vous vous déplacez sur la grille supérieure");
                     direction = SUPERIEUR;
                     break;
                 case "f":
-                    System.out.println("Vous vous déplacez sur la grille inférieur");
+//                    System.out.println("Vous vous déplacez sur la grille inférieur");
                     direction = INFERIEUR;
                     break;
             }
@@ -1006,7 +1047,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
             //Initialisation de la partie avec les deux premières cases aux hasard
             boolean b = modelGrille.nouvelleCase();
             b = modelGrille.nouvelleCase();
-            System.out.println(modelGrille);
+//            System.out.println(modelGrille);
             afficheGrille(modelGrille);
             originator=new Originator();
             caretaker=new Caretaker();
@@ -1058,7 +1099,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
             //Initialisation de la partie avec les deux premières cases aux hasard
             boolean b = modelGrille.nouvelleCase();
             b = modelGrille.nouvelleCase();
-            System.out.println(modelGrille);
+//            System.out.println(modelGrille);
             afficheGrille(modelGrille);
             originator=new Originator();
             caretaker=new Caretaker();
@@ -1105,7 +1146,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      * Paramètre de type int
      */
     public void joue(int direction){
-        System.out.println();
+//        System.out.println();
         if (direction != 0) {
             try {
                 boolean b2 = modelGrille.initialiserDeplacement(direction);
@@ -1170,7 +1211,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 caretaker.addMemento(originator.saveToMemento());
                 
                 afficheGrille(modelGrille);
-                System.out.println(modelGrille);
+//                System.out.println(modelGrille);
 //            if (modelGrille.getValeurMax()>=OBJECTIF){
 //                modelGrille.victoire();
 //                resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".");
@@ -1287,7 +1328,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         
         final Button btnOK = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
         btnOK.setOnAction( event -> {
-            System.out.println("OK");
+//            System.out.println("OK");
             clientCoopController.arreterClient();
             newCoopMenu.setDisable(false);
             joinCoopMenu.setDisable(false);
@@ -1298,7 +1339,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 s.close();
                 clientCoopController = null;
             } else {
-                System.out.println("Alert closed");
+//                System.out.println("Alert closed");
                 alert.close();
             }
         } );
@@ -1410,28 +1451,28 @@ public class FXMLDocumentController implements Parametres, Initializable {
         int index = caretaker.getIndex();
         modelGrille.initialiserDeplacement(INFERIEUR);
         index++;
-        System.out.println(modelGrille);
+//        System.out.println(modelGrille);
         scoretab[0]=modelGrille.getScore();
         modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
         caretaker.setIndex(index - 1);
         index--;
-        System.out.println(modelGrille);
+//        System.out.println(modelGrille);
         modelGrille.initialiserDeplacement(GAUCHE);
         index++;
-        System.out.println(modelGrille);
+//        System.out.println(modelGrille);
         scoretab[1]=modelGrille.getScore();
         modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
         caretaker.setIndex(index - 1);
         index--;
-        System.out.println(modelGrille);
+//        System.out.println(modelGrille);
         modelGrille.initialiserDeplacement(BAS);
         index++;
-        System.out.println(modelGrille);
+//        System.out.println(modelGrille);
         scoretab[2]=modelGrille.getScore();
         modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
         caretaker.setIndex(index - 1);
         index--;
-        System.out.println(modelGrille);
+//        System.out.println(modelGrille);
         for (int k=0; k<3 ;k++){
             if (scoretab[k]>scoreMax){
                 scoreMax = scoretab[k];
@@ -1458,7 +1499,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         try {
             // TODO
             
-            System.out.println("le contrôleur initialise la vue");
+//            System.out.println("le contrôleur initialise la vue");
             try {
                 fond.getStyleClass().add("pane");
                 gr1.getStyleClass().add("gridpane");
@@ -1477,6 +1518,40 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 commande6.getStyleClass().add("commandes");
             } catch (Exception e){}
             
+            
+            try {
+                if (!new File("data").exists()) {
+                    new File("data").mkdirs();
+                }
+                final InputStream fichierData = new FileInputStream("data/data.txt");
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(fichierData))) {
+                    String ouverture = reader.readLine();
+                    if (null == ouverture) {
+                        reader.close();
+                        try (PrintWriter writer = new PrintWriter("data/data.txt")) {
+                            // Si rien n'est spécifié, on joue avec interface
+                            writer.println("1");
+                            writer.close();
+                            ouvertureInterface.setSelected(true);
+                        }
+                    } else switch (ouverture) {
+                        case "0":
+                            // Jeu dans la console
+                            ouvertureConsole.setSelected(true);
+                            break;
+                        default:
+                            // Jeu dans la console
+                            ouvertureInterface.setSelected(true);
+                            break;
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                System.err.println(ex);
+            } catch (IOException ex) {
+                System.err.println(ex);
+            }
+            
+            
             ObjectOutputStream oosGrille = null;
             ObjectInputStream oisGrille = null;
             Grille gr = null;
@@ -1484,10 +1559,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
             ObjectInputStream oisStyle = null;
             Style st = null;
             try{
-                final FileInputStream fichierlnGrille = new FileInputStream("../../model.ser");
+                final FileInputStream fichierlnGrille = new FileInputStream("data/model.ser");
                 oisGrille = new ObjectInputStream(fichierlnGrille);
                 gr = (Grille)oisGrille.readObject();
-                final FileInputStream fichierlnStyle = new FileInputStream("../../style.ser");
+                final FileInputStream fichierlnStyle = new FileInputStream("data/style.ser");
                 oisStyle = new ObjectInputStream(fichierlnStyle);
                 st = (Style)oisStyle.readObject();
             } catch (final IOException e) {
@@ -1543,8 +1618,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
                             themeAmelie.setSelected(true);
                             break;
                         case "css/perso.css":
-//                        fond.getStylesheets().add("css/basePerso.css");
-//                        fond.getStylesheets().add("css/perso.css");
                             style.applyCSS(fond);
                             themePerso.setSelected(true);
                             break;
@@ -1560,15 +1633,17 @@ public class FXMLDocumentController implements Parametres, Initializable {
                             break;
                     }
                 } catch (Exception e){
-                    System.out.println("HAHAH");
+                    System.err.println(e);
                 }
             }
             
-            System.out.println(modelGrille);
+//            System.out.println(modelGrille);
             afficheGrille(modelGrille);
             
             originator.set(modelGrille.clone());
             caretaker.addMemento(originator.saveToMemento());
+            
+            
               
         } catch (CloneNotSupportedException ex){Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 }

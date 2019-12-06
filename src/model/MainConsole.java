@@ -5,6 +5,8 @@
  */
 package model;
 
+import application.MainInterface;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -12,38 +14,71 @@ import java.util.Scanner;
  * @author Amandine
  */
 public class MainConsole implements Parametres {
-
+    
+    static final String[] PHRASEPREMIEREPARTIE = {
+        "Alors c'est parti! Bon jeu à vous ;)",
+        "C'est noté! Bonne chance :)"
+    };
+    
+    static final String[] PHRASEMAUVAISEREPONSE = {
+        "Vous devez répondre 'Oui' ou 'Non'...",
+        "Mauvaise réponse... Un indice, il  faut répondre 'Oui' ou 'Non' (ou 'O' ou 'N' pour les personnes pressées)."
+    };
+    
+    static final String[] PHRASENOUVELLEPARTIE = {
+        "Alors c'est reparti! Amusez vous bien ;p",
+        "Alors on y retourne! Essayez de battre cotre record !"
+    };
+    
     /**
-     * @param args the command line arguments
+     * Renvoie une phrase signifiant que la première partie va commencer. 
+     * @return 
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        
-        
+    public static String getPhrasePremierePartie() {
+        int i = 0;
+        Random ra = new Random();
+        i = ra.nextInt(PHRASEPREMIEREPARTIE.length);
+        return PHRASEPREMIEREPARTIE[i];
+    }
+    
+    /**
+     * Renvoie une phrase signifiant que la réponse n'est pas appropriée.
+     * @return 
+     */
+    public static String getPhraseMauvaiseReponse() {
+        int i;
+        Random ra = new Random();
+        i = ra.nextInt(PHRASEMAUVAISEREPONSE.length);
+        return PHRASEMAUVAISEREPONSE[i];
+    }
+    
+    /**
+     * Renvoie une phrase signifiant qu'une nouvelle partie va commencer. 
+     * @return 
+     */
+    public static String getPhraseNouvellePartie() {
+        int i;
+        Random ra = new Random();
+        i = ra.nextInt(PHRASENOUVELLEPARTIE.length);
+        return PHRASENOUVELLEPARTIE[i];
+    }
+    
+    /**
+     * Fonction quitter.
+     * Cette fonction permet de quitter le jeu tout en sauvegardant la partie. 
+     */
+    public static void jouerPartie() {
         
         Grille g = Grille.getInstance();
         boolean b = g.nouvelleCase();
         b = g.nouvelleCase();
         System.out.println(g);
         
-        int e = 0xFE;
-        System.out.println(e);
-        
         Scanner sc = new Scanner(System.in);
-        /*System.out.println("X:");
-        int x= sc.nextInt();
-        System.out.println("Y:");
-        int y= sc.nextInt();
-        System.out.println("Valeur:");
-        int valeur= sc.nextInt();
-        Case c = new Case(x,y,valeur);
-        g.getGrille().remove(c);
-        System.out.println(g);*/
         
         while (!g.partieFinie()) {
             System.out.println("Déplacer vers la Droite (d), Gauche (q), Haut (z), Bas (s), Supérieur (r) ou Inférieur (f)?");
-            String s = sc.nextLine();
-            s.toLowerCase();
+            String s = sc.nextLine().toLowerCase();
             if (!(s.equals("d") || s.equals("droite")
                     || s.equals("q") || s.equals("gauche")
                     || s.equals("z") || s.equals("haut")
@@ -77,7 +112,60 @@ public class MainConsole implements Parametres {
         }
         g.defaite();
         
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
         
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("Lancer le main 1 ou 2 ?");
+//        String s = sc.nextLine().toLowerCase();
+//        if (s.equals("1")) {
+//            MainInterface.main(args);
+//        } else {
+//            System.out.println("console");
+//        }
+        
+        System.out.println("Bonjour! Bienvenue dans 2048-3D. Voulez-vous ouvrir l'interface graphique ?");
+        Scanner sc = new Scanner(System.in);
+        boolean start = false;
+        String s = null;
+        while (!start) {
+            s = sc.nextLine();
+            if (s.equalsIgnoreCase("O") || s.equalsIgnoreCase("OUI")) {
+                // Lancer interface graphique et fermer la console
+                String[] arg = {"1"};
+                MainInterface.main(arg);
+                System.exit(1);
+            } else if (s.equalsIgnoreCase("N") || s.equalsIgnoreCase("NON")) {
+                System.out.println(getPhrasePremierePartie());
+                start = true;
+            } else {
+                System.out.println(getPhraseMauvaiseReponse());
+            }
+        }
+        do {
+            jouerPartie();
+            System.out.println();
+            System.out.println();
+            System.out.println("Voulez-vous rejouer ?");
+            start = false;
+            while (!start) {
+                s = sc.nextLine();
+                if (s.equalsIgnoreCase("O") || s.equalsIgnoreCase("OUI")) {
+                    System.out.println(getPhraseNouvellePartie());
+                    start = true;
+                } else if (s.equalsIgnoreCase("N") || s.equalsIgnoreCase("NON")) {
+                    System.out.println("Au revoir !");
+                    System.exit(1);
+                } else {
+                    System.out.println(getPhraseMauvaiseReponse());
+                }
+            }
+        } while (true);
     }
     
 }

@@ -64,6 +64,11 @@ public class FXMLServeurCompetController implements Initializable {
     
     /* Méthodes */
     
+    /**
+     * Affiche une alerte signifiant que la déconnexion du serveur va couper la
+     * connexion avec les autres joueurs. L'utilisateur paut continuer quand 
+     * même ou annuler.
+     */
     public void showAlertCloseServeur(boolean fermer) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Attention!");
@@ -76,10 +81,18 @@ public class FXMLServeurCompetController implements Initializable {
         });
     }
     
+    /**
+     * Renvoie le port dédié aux échanges réseaux.
+     * @return 
+     */
     public int getConnexion() {
         return port;
     }
     
+    /**
+     * Vérifie si le serveur est connecté à au moins un joueur. 
+     * @return 
+     */
     public boolean isConnected() {
         System.out.println(listeConnexions);
         if (ecoute == null) {
@@ -89,8 +102,11 @@ public class FXMLServeurCompetController implements Initializable {
         }
     }
     
+    /**
+     * Lance le serveur. Les joueurs peuvent donc se connecter. 
+     */
     public void lancerServeur() {
-        System.out.println("Serveur en attente de connexion");
+//        System.out.println("Serveur en attente de connexion");
         listeConnexions = new HashSet();
         // On lance le thread de connexion (pour ne pas bloquer le serveur)
         WaitForConnection wait = new WaitForConnection(this);
@@ -101,6 +117,12 @@ public class FXMLServeurCompetController implements Initializable {
         startButton.setDisable(true);
     }
     
+    /**
+     * Arrête le serveur. L'utilisateur spécifie si la page serveur doit être 
+     * fermée.
+     * @param fermer
+     * paramètre de type boolean.
+     */
     public void arreterServeur(boolean fermer) {
         try {
             for (GestionServeurCompet quai : listeConnexions){
@@ -121,7 +143,10 @@ public class FXMLServeurCompetController implements Initializable {
     }
     
     
-    // Recevoir le style de l'autre page
+    /**
+     * Récupère le style en cours d'utilisation et l'applique.
+     * @param s
+     */
     public void transferStyle(Style s){
         perso = s;
         if (perso.styleActuel.equals("css/perso.css")){

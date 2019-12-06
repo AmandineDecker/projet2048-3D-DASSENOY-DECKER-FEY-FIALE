@@ -7,7 +7,7 @@ package css;
 
 
 import application.FXMLDocumentController;
-import application.Main;
+import application.MainInterface;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -83,8 +83,9 @@ public class Style implements Serializable{
         String col;
         
         try {
-            distPath = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent() + "\\" + cssFileName;
+            distPath = new File(MainInterface.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent() + "\\" + cssFileName;
             File f = new File(srcPath);
+            f.deleteOnExit();
             writer = new PrintWriter(f);
             
             // Reecrire le css

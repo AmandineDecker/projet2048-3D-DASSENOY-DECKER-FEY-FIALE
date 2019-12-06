@@ -29,6 +29,17 @@
           </Menu>
           <Menu id="menuEdit" fx:id="menuEdit" mnemonicParsing="false" text="Editer">
             <items>
+                  <SeparatorMenuItem mnemonicParsing="false" text="Démarrage" />
+                  <Menu mnemonicParsing="false" text="Jeu à l'ouverture">
+                    <items>
+                        <RadioMenuItem fx:id="ouvertureConsole" mnemonicParsing="false" onAction="#changeOuverture" text="Console">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="grOuverture" />
+                           </toggleGroup>
+                        </RadioMenuItem>
+                        <RadioMenuItem fx:id="ouvertureInterface" mnemonicParsing="false" onAction="#changeOuverture" text="Interface graphique" toggleGroup="$grOuverture" />
+                    </items>
+                  </Menu>
                   <SeparatorMenuItem mnemonicParsing="false" text="Style" />
                   <Menu mnemonicParsing="false" text="Style utilisé">
                     <items>

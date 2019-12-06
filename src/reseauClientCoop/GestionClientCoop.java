@@ -99,7 +99,8 @@ public class GestionClientCoop {
     }
     
     /**
-     * Déconnecte le client du serveur.
+     * Déconnecte le client du serveur et partage éventuellement "Stop" avec 
+     * le serveur. 
      * @param stopper
      * paramètre de type boolean.
      */
@@ -268,6 +269,9 @@ public class GestionClientCoop {
         } 
     }
     
+    /**
+     * Partage la grille avec le serveur.
+     */
     public void share() {
         OutputStream out = null;
         try {
@@ -294,6 +298,10 @@ public class GestionClientCoop {
         } 
     }
     
+    /**
+     * Partage le joueur avec le serveur. A utiliser lors de la connexion des 
+     * deux joueurs.
+     */
     public void shareJoueur(Joueur j) {
         OutputStream out = null;
         try {
@@ -319,6 +327,12 @@ public class GestionClientCoop {
         } 
     }
     
+    /**
+     * Partage des informations sous forme de String avec le serveur. 
+     * Peut partager "Start", "newGame?", "PartieFinie, "Stop", "FinJeu" ou 
+     * "NouvellePartie".
+     * @param str
+     */
     public void shareInfos(String str) {
         OutputStream out = null;
         try {
@@ -344,22 +358,27 @@ public class GestionClientCoop {
         } 
     }
     
+    /**
+     * Le joueur prend la main. Il peut donc jouer.
+     */
     public void prendreMain() {
         main = true;
     }
     
+    /**
+     * Le joueur donne la main. Il ne peut donc plus jouer.
+     */
     public void donnerMain() {
         main = false;
     }
     
+    /**
+     * Vérifie si le joueur a la main.
+     * @return 
+     */
     public boolean aLaMain() {
         return main;
     }
-    
-    
-    
-    
-    
     
     
     

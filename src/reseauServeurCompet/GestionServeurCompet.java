@@ -40,6 +40,7 @@ public class GestionServeurCompet implements Runnable {
         }
     }
     
+    @Override
     public String toString() {
         return "Quai " + s.toString() + aPartager.toString();
     }
@@ -65,21 +66,24 @@ public class GestionServeurCompet implements Runnable {
             while (!s.isClosed()){
                 receive();
             }
-            System.out.println("Serveur: socket " + s + " fermé");
+//            System.out.println("Serveur: socket " + s + " fermé");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
     
+    /**
+     * Partage true ou false avec le serveur. true s'il n'y a pas encore d'admin.
+     */
     public void setAdmin(Boolean b){
         try {
             objOut.writeObject(b);
             //objOut.flush();
-            System.out.println("Serveur (admin): colis " + b + " envoyé");
+//            System.out.println("Serveur (admin): colis " + b + " envoyé");
         } catch (IOException ex) {
             try {
                 s.close();
-                System.out.println("Serveur (admin): fermeture de " + s);
+//                System.out.println("Serveur (admin): fermeture de " + s);
             } catch (IOException e) {
                 e.printStackTrace();
                 out = null;
@@ -88,6 +92,9 @@ public class GestionServeurCompet implements Runnable {
         }
     }
     
+    /**
+     * Partage l'état des joueurs avec tout le monde.
+     */
     public void share(){
         try {
             // On partage
@@ -96,14 +103,14 @@ public class GestionServeurCompet implements Runnable {
             objOut.writeObject(ListeJoueurs.getInstance());
             // On update
             objOut.flush();
-            System.out.println("Serveur: colis " + aPartager + " envoyé");
-            System.out.println();
-            System.out.println();
+//            System.out.println("Serveur: colis " + aPartager + " envoyé");
+//            System.out.println();
+//            System.out.println();
         } catch (IOException ex) {
             try {
                 s.close();
                 controller.listeConnexions.remove(this);
-                System.out.println("Client: fermeture de " + s);
+//                System.out.println("Client: fermeture de " + s);
             } catch (IOException e) {
                 e.printStackTrace();
                 out = null;
@@ -112,20 +119,26 @@ public class GestionServeurCompet implements Runnable {
         } 
     }
     
+    /**
+     * Partage des informations avec tout le monde. Peut partager "disconnected"
+     * ou "newGame?".
+     * @param str
+     * paramètre de type String.
+     */
     public void shareInfos(String str) {
         try {
             // On partage
             objOut.writeObject(str);
             // On update
             objOut.flush();
-            System.out.println("Serveur: colis " + str + " envoyé");
-            System.out.println();
-            System.out.println();
+//            System.out.println("Serveur: colis " + str + " envoyé");
+//            System.out.println();
+//            System.out.println();
         } catch (IOException ex) {
             try {
                 s.close();
                 controller.listeConnexions.remove(this);
-                System.out.println("Client: fermeture de " + s);
+//                System.out.println("Client: fermeture de " + s);
             } catch (IOException e) {
                 e.printStackTrace();
                 out = null;
@@ -134,15 +147,18 @@ public class GestionServeurCompet implements Runnable {
         } 
     }
     
+    /**
+     * Récupère les données des joueurs.
+     */
     public void receive() {
         Object colis;
         try {
             colis = objIn.readObject();
             if (colis instanceof ListeJoueurs) {
                 this.aPartager = (ListeJoueurs) colis;
-                System.out.println("Serveur: colis recu, " + this.aPartager);
-                System.out.println();
-                System.out.println();
+//                System.out.println("Serveur: colis recu, " + this.aPartager);
+//                System.out.println();
+//                System.out.println();
                 if (this.aPartager != null){
                     //System.out.println("Serveur: colis stocké");
                     for (GestionServeurCompet quai : controller.listeConnexions){
@@ -153,7 +169,7 @@ public class GestionServeurCompet implements Runnable {
                 } else {
                     try {
                         s.close();
-                        System.out.println("Serveur: fermeture de " + s);
+//                        System.out.println("Serveur: fermeture de " + s);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                         s = null;
@@ -161,7 +177,7 @@ public class GestionServeurCompet implements Runnable {
                 }
             } else if (colis instanceof String) {
                 String str = (String) colis;
-                System.out.println(str);
+//                System.out.println(str);
                 if (str.equals("Start")){
                     // Lancer partie
                     for (GestionServeurCompet quai : controller.listeConnexions){
@@ -179,7 +195,7 @@ public class GestionServeurCompet implements Runnable {
             try {
                 s.close();
                 controller.listeConnexions.remove(this);
-                System.out.println("Client: fermeture de " + s);
+//                System.out.println("Client: fermeture de " + s);
             } catch (IOException e) {
                 e.printStackTrace();
                 in = null;
