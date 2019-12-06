@@ -97,7 +97,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     // Les événements
     
     /**
-     * Fonction quitter.
+     *
      * Cette fonction permet de quitter le jeu tout en sauvegardant la partie.
      * @param event 
      */
@@ -149,7 +149,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
 
     /**
-     * Fonction nouveauJeu.
+     *
      * Cette fonction permet de lancer une nouvelle partie.
      * @param event 
      */
@@ -172,7 +172,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-    * Fonction voirScores.
     * Cette fonction permet d'afficher la page des scores.
     * @param event 
     */
@@ -195,7 +194,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction jouerUnCoupIA
      * Cette fonction permet de faire jouer le prochain  coup par l'intelligence
      * artificielle.
      * @param event 
@@ -212,7 +210,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /** 
-     * Fonction revenirUnCoup.
      * Cette fonction permet de revenir un coup en arrière.
      * @param event 
      */
@@ -232,11 +229,17 @@ public class FXMLDocumentController implements Parametres, Initializable {
             clientCompetController.gare.share();
         }
         afficheGrille(modelGrille);
+        index = caretaker.getIndex();
+        if (index < 1){
+            backMove.setDisable(true);
+        }
+        else if (index >= 1) {
+            backMove.setDisable(false);
+        }
         System.out.println(modelGrille);
     }
     
     /**
-    * Fonction avancerUnCoup
     * Cette fonction permet de refaire un coup annulé.
     * @param event 
     */ 
@@ -251,13 +254,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
             clientCompetController.gare.update(joueur);
             clientCompetController.gare.share();
         }
-        
         afficheGrille(modelGrille);
         System.out.println(modelGrille);
     }
     
     /**
-     * Fonction newCompet.
      * Cette fonction permet de créer une nouvelle partie en mode compétition.
      * @param event
      * @throws IOException 
@@ -312,7 +313,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction joinCompet.
      * Cette fonction permet de rejoinre une partie en mode compétition.
      * @param event
      * @return ClientController
@@ -362,7 +362,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction newCoop.
      * Cette fonction permet la création d'une partie en mode coopératif.
      * @param event
      * @throws IOException 
@@ -417,7 +416,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction joinCoop.
      * Cette fonction permet de rejoindre une partie en mode coopératif.
      * @param event
      * @return clientCoopController
@@ -469,7 +467,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
    /**
-     * Fonction changeTheme.
      * Cette fonction permet de changer le thème du jeu.
      * @param event 
      */ 
@@ -515,7 +512,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
 
     /**
-     * Fonction fenetrePersonnalisation.
      * Cette fonction permet au joueur du changer les couleurs du jeu.
      * @param event
      * @throws IOException 
@@ -542,7 +538,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction clicHaut.
      * Cette fonction permet de déplacer les case vers le haut.
      * @param m 
      * Paramètre de type MouseEvent
@@ -575,7 +570,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
      /**
-     * Fonction clicBas.
      * Cette fonction permet de déplacer les cases vers le bas.
      * @param m 
      * Paramètre de type MouseEvent
@@ -606,7 +600,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
      /**
-     * Fonction clicGauche.
      * Cette fonction permet de déplcer les cases vers la gauche.
      * @param m 
      * Paramètre de type MouseEvent
@@ -637,7 +630,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction clicDroite.
      * Cette fonction permet de déplacer les cases vers la droite.
      * @param m 
      * Paramètre de type MouseEvent
@@ -668,7 +660,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction clicSup.
      * Cette fonction permet de déplacer les cases sur la grille supérieure.
      * @param m 
      * Paramètre de type MouseEvent
@@ -699,7 +690,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction clicInf.
      * Cette fonction permet de déplacer les cases sur la grille inférieure.
      * @param m 
      * Paramètre de type MouseEvent
@@ -730,7 +720,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction toucheClavier
      * Cette fonction permet de lancer le mouvement assigné à une touche:
      * z pour haut, s pour bas, q pour gauche, d pour droite, r pour supérieur 
      * et f pour inférieur.
@@ -794,7 +783,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     // Les méthodes
     
     /**
-     * Fonction getModeJeu
      * Cette fonction renvoie le mode de jeu de la partie en cours
      * @return mode de jeu
      */
@@ -803,7 +791,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction placeCase
      * Cette fonction permet de placer la case sur la fenêtre graphique sans effet
      * @param c 
      * Paramètre de type Case
@@ -836,7 +823,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction afficheCase
      * Cette fonction permet d'afficher une case sur la fenêtre graphique avec effet
      * @param c 
      * Paramètre de type Case
@@ -872,7 +858,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
 
     /**
-     * Fonction glisseCase
      * Cette fonction permet de faire gisser les cases sur la fenêtre graphique.
      * @param c
      * Paramètre de type Case
@@ -949,7 +934,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
 
     /**
-     * Fonction afficherGrille
      * Cette fonction permet d'afficher la grille sur la fenêtre graphique.
      * @param gr 
      * Paramètre de type Grille
@@ -985,7 +969,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
 
     /**
-     * Fonction nouvellePartie.
      * Cette fonction permet de débuter une nouvelle partie selon le mode de jeu.
      * @param modeJeu 
      * Paramètre de type int
@@ -1040,7 +1023,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
         
     }
     /**
-     * Fonction nouvellePartie.
      * Cette fonction permet de débuter une nouvelle partie selon le mode de jeu
      * et de spécifier le joueur.
      * @param j
@@ -1093,7 +1075,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction fenetreBDD.
      * Cette fonction permet d'afficher la page de scores.
      * @param aAfficher
      * Paramètre de type String
@@ -1119,7 +1100,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
    
     /**
-     * Fonction joue
      * Cette fonction permet de déplacer les cases dans une direction.
      * @param direction 
      * Paramètre de type int
@@ -1212,7 +1192,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction afficherListeJoueurs
      * Cette fonction permet de d'afficher la listes de joueurs.
      * @param liste 
      * Paramètre de type ListeJoueurs
@@ -1226,7 +1205,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction showAlertCloseServeurs
      * Cette fonction permet d'alerter le joueur qu'il va couper la connexion 
      * avec d'autres joueurs quand il est en mode compétition.
      * @param fermer 
@@ -1249,7 +1227,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction showAlertCloseClient
      * Cette fonction permet d'alerter le joueur qu'il va se déconnecter du 
      * serveur.
      * @param s 
@@ -1275,7 +1252,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction showAlertCloseServeursCoop
      * Cette fonction permet d'alerter le joueur qu'il va couper la connexion 
      * avec d'autres joueurs quand il est en mode coopératif.
      * @param fermer 
@@ -1298,7 +1274,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction showAlertCloseClientCoop
      * Cette fonction permet d'alerter le joueur, en mode coopératif, qu'il va 
      * se déconnecter du serveur et couper la connexion à l'autre joueur .
      * @param s 
@@ -1335,7 +1310,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction reactiveMenuCompet.
      * Cette fonction permet de réactiver le menu qui permet de lancer une 
      * nouvelle partie en compétition.
      */
@@ -1345,7 +1319,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
         joinCompetMenu.setDisable(false);
     }
     /**
-     * Fonction reactiveMenuCoop.
      * Cette fonction permet de réactiver le menu qui permet de lancer une 
      * nouvelle partie en mode coopératif.
      */
@@ -1356,7 +1329,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction fermerReseau.
      * Cette fonction permet de couper la connexion avec le serveur client.
      */
     public void fermerReseau() {
@@ -1376,7 +1348,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction setInfos.
      * Cette fonction permet de modifier la valeur du resultat sur l'interface 
      * graphique .
      * @param str 
@@ -1387,7 +1358,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction focus.
      * Cette fonction permet d'afficher une fenêtre en avant sur l'écran
      */
     public void focus() {
@@ -1395,7 +1365,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction updateGrille.
      * Cette fonction permet de mettre la grille à jour
      * @param gr 
      * Paramètre de type Grille
@@ -1405,7 +1374,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction effacerGrille.
      * Cette fonction permet d'afficher des grilles vides sur l'écran
      */
     public void effacerGrille() {
@@ -1423,7 +1391,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction placeStageNE.
      * Cette fonction permet de placer une fenêtre dans le coin supérieur droit de l'écran
      */
     public void placeStageNE(Stage stage) {
@@ -1433,7 +1400,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Fonction unCoupIA.
      * Cette fonction permet de déterminer le coup qui donne le meilleur score.
      * @return int
      */
@@ -1480,7 +1446,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
 
     /**
-     * Fonction initialize
      * Cette fonction permet d'initialiser l'interface graphique avec le bon 
      * style et la grille sauvegardée le cas échéant.
      * @param url
