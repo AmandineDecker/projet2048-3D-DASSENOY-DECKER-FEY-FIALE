@@ -6,8 +6,6 @@
 package application;
 
 import css.Style;
-import java.io.*;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -21,9 +19,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
 /**
- * FXML Controller class
- *
- * @author Valou
+ * Gère la page de modification du style personnalisable.
+ * FXML ColorPickerController class.
  */
 public class FXMLColorPickerController implements Initializable {
     
@@ -36,15 +33,11 @@ public class FXMLColorPickerController implements Initializable {
     @FXML
     Label labelFond, labelInfos, labelTexte, labelTuile2, labelTuile4, labelTuile8, labelTuile16, labelTuile32, labelTuile64, labelTuile128, labelTuile256, labelTuile512, labelTuile1024, labelTuile2048;
     
-    //(ColorPicker fondPicker, ColorPicker textePicker, ColorPicker tuile2Picker, ColorPicker tuile4Picker, ColorPicker tuile8Picker, ColorPicker tuile16Picker, ColorPicker tuile32Picker, ColorPicker tuile64Picker, ColorPicker tuile128Picker, ColorPicker tuile256Picker, ColorPicker tuile512Picker, ColorPicker tuile1024Picker, ColorPicker tuile2048Picker)
-    
     Style perso;
     AnchorPane fondPrincipal;
     
     /**
-     * Fonction transferStyle.
-     * Cette fonction permet de récupérer le style en cours sur la page 
-     * principale et de l'appliquer.
+     * Récupère le style en cours sur la page principale et l'applique.
      * @param s 
      * paramètre de type Style
      * @param p 
@@ -53,7 +46,7 @@ public class FXMLColorPickerController implements Initializable {
     public void transferStyle(Style s, AnchorPane p){
         perso = s;
         fondPrincipal = p;
-        if (perso.styleActuel.equals("css/perso.css")){
+        if (perso.styleActuel.equals("data/perso.css")){
             perso.applyCSS(fond);
         } else {
             fond.getStylesheets().clear();
@@ -80,9 +73,8 @@ public class FXMLColorPickerController implements Initializable {
     }
     
     /**
-     * Fonction saveStyle.
-     * Cette fonction permet d'enregistrer le style personnalisé et de 
-     * l'appliquer s'il est en cours d'utilisation.
+     * Anregistre le style personnalisé et l'applique s'il est en cours 
+     * d'utilisation.
      * @param event 
      * paramètre de type ActionEvent
      */
@@ -90,7 +82,7 @@ public class FXMLColorPickerController implements Initializable {
     public void saveStyle(ActionEvent event) {
         perso.saveCSS(fondPicker, infosPicker, textePicker, tuile2Picker, tuile4Picker, tuile8Picker, tuile16Picker, tuile32Picker, tuile64Picker, tuile128Picker, tuile256Picker, tuile512Picker, tuile1024Picker, tuile2048Picker);
         
-        if (perso.styleActuel.equals("css/perso.css")){
+        if (perso.styleActuel.equals("data/perso.css")){
             perso.applyCSS(fondPrincipal);
             perso.applyCSS(fond);
         }
@@ -98,8 +90,7 @@ public class FXMLColorPickerController implements Initializable {
     }
     
     /**
-     * Fonction initialize.
-     * Cette fonction permet d'initialiser l'interface graphique.
+     * Initialise l'interface graphique.
      * @param url
      * paramètre de type URL.
      * @param rb

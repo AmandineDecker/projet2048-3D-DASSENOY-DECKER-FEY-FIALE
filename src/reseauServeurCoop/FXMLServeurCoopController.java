@@ -22,9 +22,8 @@ import model.*;
 import static model.Parametres.COOPERATION;
 
 /**
- * FXML Controller class
- *
- * @author Amandine
+ * Gère la connexion avec les joueurs en compétition.
+ * FXML ServeurCoopController class
  */
 public class FXMLServeurCoopController implements Initializable {
     @FXML
@@ -62,6 +61,7 @@ public class FXMLServeurCoopController implements Initializable {
     /**
      * Vérifie si la partie a un admin.
      * @return 
+     * Renvoie True si c'est le cas.
      */
     public boolean hasAdmin() {
         return joueur1 != null;
@@ -87,7 +87,7 @@ public class FXMLServeurCoopController implements Initializable {
      * Lance le serveur. Les joueurs peuvent donc se connecter. 
      */
     public void lancerServeur() {
-        System.out.println("Serveur en attente de connexion");
+//        System.out.println("Serveur en attente de connexion");
         listeConnexions  = new GestionServeurCoop[2];
         // On lance le thread de connexion (pour ne pas bloquer le serveur)
         WaitForConnection wait = new WaitForConnection(this);
@@ -107,10 +107,14 @@ public class FXMLServeurCoopController implements Initializable {
     public void arreterServeur(boolean fermer) {
         try {
             if (listeConnexions != null) {
-                listeConnexions[0].shareInfos("disconnected");
-                listeConnexions[1].shareInfos("disconnected");
-                listeConnexions[0] = null;
-                listeConnexions[1] = null;
+                if (listeConnexions[0] != null) {
+                    listeConnexions[0].shareInfos("disconnected");
+                    listeConnexions[0] = null;
+                }
+                if (listeConnexions[1] != null) {
+                    listeConnexions[1].shareInfos("disconnected");
+                    listeConnexions[1] = null;
+                }
             }
             ecoute.close();
             ecoute = new ServerSocket(port);
@@ -128,6 +132,7 @@ public class FXMLServeurCoopController implements Initializable {
     /**
      * Renvoie le port dédié aux échanges réseaux.
      * @return 
+     * Renvoie l'entier représentant le port.
      */
     public int getConnexion() {
         return port;
@@ -136,22 +141,26 @@ public class FXMLServeurCoopController implements Initializable {
     /**
      * Vérifie si le serveur est connecté à au moins un joueur. 
      * @return 
+     * Renvoie True si c'est le cas.
      */
     public boolean isConnected() {
         if (ecoute == null || listeConnexions == null) {
             return false;
         } else {
-            return listeConnexions[0] == null && listeConnexions[1] == null;
+//            System.out.println(listeConnexions[0]);
+//            System.out.println(listeConnexions[1]);
+            return !(listeConnexions[0] == null && listeConnexions[1] == null);
         }
     }
     
     /**
      * Récupère le style en cours d'utilisation et l'applique.
      * @param s
+     * Paramètre de type Style. Celui qui sera appliqué.
      */
     public void transferStyle(Style s){
         perso = s;
-        if (perso.styleActuel.equals("css/perso.css")){
+        if (perso.styleActuel.equals("data/perso.css")){
             perso.applyCSS(fond);
         } else {
             fond.getStylesheets().clear();

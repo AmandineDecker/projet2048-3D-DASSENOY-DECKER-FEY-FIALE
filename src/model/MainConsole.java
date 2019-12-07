@@ -10,8 +10,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- *
- * @author Amandine
+ * Main du jeu dans la console. Possibilité de lancer l'interface graphique.
  */
 public class MainConsole implements Parametres {
     
@@ -33,6 +32,7 @@ public class MainConsole implements Parametres {
     /**
      * Renvoie une phrase signifiant que la première partie va commencer. 
      * @return 
+     * Format String.
      */
     public static String getPhrasePremierePartie() {
         int i = 0;
@@ -44,6 +44,7 @@ public class MainConsole implements Parametres {
     /**
      * Renvoie une phrase signifiant que la réponse n'est pas appropriée.
      * @return 
+     * Format String.
      */
     public static String getPhraseMauvaiseReponse() {
         int i;
@@ -55,6 +56,7 @@ public class MainConsole implements Parametres {
     /**
      * Renvoie une phrase signifiant qu'une nouvelle partie va commencer. 
      * @return 
+     * Format String.
      */
     public static String getPhraseNouvellePartie() {
         int i;

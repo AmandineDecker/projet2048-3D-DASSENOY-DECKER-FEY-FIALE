@@ -18,8 +18,8 @@ import javafx.stage.Modality;
 import static model.Parametres.COMPETITION;
 
 /**
- *
- * @author Amandine
+ * Gère la connexion côté client en compétition.
+ * Fonctionne avec FXMLClientCompetController.
  */
 public class GestionClientCompet {
     
@@ -104,6 +104,7 @@ public class GestionClientCompet {
     /**
      * Vérifie si le client est connecté à un serveur.
      * @return 
+     * Renvoie True s'il l'est.
      */
     public boolean isConnected(){
         if (s == null){
@@ -329,6 +330,8 @@ public class GestionClientCompet {
      * Partage des informations sous forme de String avec le serveur. 
      * Peut partager "Start" ou "newGame?".
      * @param str
+     * Paramètre de type String. Seuls "Start" ou "newGame?" auront un effet sur
+     * le serveur.
      */
     public void shareInfos(String str) {
         OutputStream out = null;

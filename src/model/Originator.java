@@ -7,8 +7,7 @@ package model;
 
 
 /**
- *
- * @author Wanda
+ * Gestion du Caretaker.
  */
 public class Originator {
     
@@ -17,6 +16,7 @@ public class Originator {
     /**
      * Met à jour state.
      * @param state
+     * Paramètre de type Grille. Celle à enregistrer.
      */
     public void set(Grille state){
         this.state=state;
@@ -25,7 +25,9 @@ public class Originator {
     /**
      * Crée un memento pour l'état actuel.
      * @return 
+     * Paramètre de type Object.
      * @throws java.lang.CloneNotSupportedException
+     * Si le clonage échoue.
      */
     public Object saveToMemento() throws CloneNotSupportedException{
         return new Memento(state);
@@ -34,8 +36,11 @@ public class Originator {
     /**
      * Récupère l'objet sauvegardé dans le memento. 
      * @param m
+     * Paramètre de type Object (Memento demandé).
      * @return 
+     * Transforme l'object du memento en Grille.
      * @throws java.lang.CloneNotSupportedException
+     * Si le clonage échoue.
      */
     public Grille restoreFromMemento(Object m) throws CloneNotSupportedException{
         if (m instanceof Memento){

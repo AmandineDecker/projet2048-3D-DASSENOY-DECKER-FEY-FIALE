@@ -18,9 +18,8 @@ import javafx.scene.layout.BorderPane;
 import static model.Parametres.SOLO;
 
 /**
- * FXML Controller class
- *
- * @author Amandine
+ * Affichage des scores en fin de compétition.
+ * FXML ScoresController class
  */
 public class FXMLScoresController implements Initializable {
     
@@ -52,7 +51,7 @@ public class FXMLScoresController implements Initializable {
     @FXML
     private void deconnect(ActionEvent event) {
         clientController.gare.disconnect();
-        documentController.reactiverMenuCompet();
+        documentController.activerMenuCompet(false);
         // Fermer score
         fond.getScene().getWindow().hide();
         // Fermer Client
@@ -66,10 +65,11 @@ public class FXMLScoresController implements Initializable {
     /**
      * Récupère le style en cours d'utilisation et l'applique.
      * @param s
+     * Paramètre de type Style. Celui qui sera appliqué.
      */
     public void transferStyle(Style s) {
         perso = s;
-        if (perso.styleActuel.equals("css/perso.css")){
+        if (perso.styleActuel.equals("data/perso.css")){
             perso.applyCSS(fond);
         } else {
             fond.getStylesheets().clear();
@@ -116,7 +116,9 @@ public class FXMLScoresController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url
+     * Paramètre de type URL.
      * @param rb
+     * Paramètre de type ResourceBundle.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

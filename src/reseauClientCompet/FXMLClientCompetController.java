@@ -28,9 +28,8 @@ import javafx.stage.Stage;
 import static model.Parametres.SOLO;
 
 /**
- * FXML Controller class
- *
- * @author Amandine
+ * Gère la connexion au serveur côté client en compétition.
+ * FXML ClientCompetController class
  */
 public class FXMLClientCompetController implements Initializable {
 
@@ -117,6 +116,7 @@ public class FXMLClientCompetController implements Initializable {
     /**
      * Vérifie si le client est connecté à un serveur. 
      * @return 
+     * Renvoie True s'il l'est.
      */
     public boolean isConnected() {
         if (gare == null) {
@@ -145,8 +145,8 @@ public class FXMLClientCompetController implements Initializable {
         alert.setContentText("Retour au jeu en solo.");
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
-                controlleur.reactiverMenuCompet();
-                controlleur.reactiverMenuCoop();
+                controlleur.activerMenuCompet(false);
+                controlleur.activerMenuCoop(false);
                 fond.getScene().getWindow().hide();
                 if (controlleur.getModeJeu() != SOLO){
                     controlleur.nouvellePartie(SOLO);
@@ -219,10 +219,11 @@ public class FXMLClientCompetController implements Initializable {
     /**
      * Récupère le style en cours d'utilisation et l'applique.
      * @param s
+     * Paramètre de type Style. Celui qui sera appliqué.
      */
     public void transferStyle(Style s){
         perso = s;
-        if (perso.styleActuel.equals("css/perso.css")){
+        if (perso.styleActuel.equals("data/perso.css")){
             perso.applyCSS(fond);
         } else {
             fond.getStylesheets().clear();
@@ -238,6 +239,7 @@ public class FXMLClientCompetController implements Initializable {
      * @param isAdmin
      * paramètre de type boolean.
      * @throws java.io.IOException
+     * Si échec du load.
      */
     public void afficherScores(String scores, boolean isAdmin) throws IOException {
         // Load fenetre de personnalisation
@@ -295,7 +297,9 @@ public class FXMLClientCompetController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url
+     * Paramètre de type URL.
      * @param rb
+     * Paramètre de type ResourceBundle.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

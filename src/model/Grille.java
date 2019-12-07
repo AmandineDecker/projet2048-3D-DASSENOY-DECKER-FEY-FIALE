@@ -11,8 +11,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 /**
- *
- * @author Amandine
+ * Le constituant principal du jeu.
  */
 public class Grille implements Parametres, Serializable, Cloneable {
     
@@ -22,6 +21,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
     private int score = 0;
     private transient boolean deplacement;
     private int modeJeu = 0;
+    private int nbMvts = 0;
     
     private static Grille instance = new Grille();
     
@@ -37,6 +37,10 @@ public class Grille implements Parametres, Serializable, Cloneable {
     
     public void setModeJeu(int modeJeu) {
         this.modeJeu = modeJeu;
+    }
+    
+    public void setNbMvts(int nbMvts) {
+        this.nbMvts = nbMvts;
     }
     
     public static Grille setInstance(Grille gr){
@@ -69,6 +73,10 @@ public class Grille implements Parametres, Serializable, Cloneable {
         return this.modeJeu;
     }
     
+    public int getNbMvts() {
+        return this.nbMvts;
+    }
+    
     public static Grille getInstance() {
         //System.out.println("An instance is returned");
         return instance;
@@ -79,7 +87,12 @@ public class Grille implements Parametres, Serializable, Cloneable {
     
     /**
      * Reconstitue un objet sérializé. Appelé automatiquement.
-     * @return 
+     * @param ois
+     * Paramètre de type ObjectInputStream. Celui à lire pour récupérer l'objet.
+     * @throws IOException
+     * Si la lecture échoue.
+     * @throws ClassNotFoundException
+     * Si la classe est mauvaise.
      */
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
@@ -89,6 +102,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
     /**
      * Reconstitue un objet sérializé. Appelé automatiquement.
      * @return 
+     * Renvoie la Grille reconstituée au format Object.
      */
     public Object readResolve() {
         return instance;
@@ -131,10 +145,12 @@ public class Grille implements Parametres, Serializable, Cloneable {
     /**
      * Réinitialise la grille.
      * @return 
+     * Renvoie la grille réinitialisée.
      */
     public Grille newGame(){
         instance.valeurMax = 0;
         instance.score = 0;
+        instance.nbMvts = 0;
         instance.grille.clear();
         return instance;
     }
@@ -144,10 +160,12 @@ public class Grille implements Parametres, Serializable, Cloneable {
      * @param modeJeu
      * paramètre de type int
      * @return 
+     * Renvoie la grille réinitialisée.
      */
     public Grille newGame(int modeJeu){
         instance.valeurMax = 0;
         instance.score = 0;
+        instance.nbMvts = 0;
         instance.grille.clear();
         instance.modeJeu = modeJeu;
         return instance;
@@ -159,6 +177,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
      * @param tab
      * paramètre de type int[].
      * @return 
+     * Format [  _  ,  __ , ___ ].
      */
     public String arraysToString(int[] tab){
         String resu = "[";
@@ -195,6 +214,13 @@ public class Grille implements Parametres, Serializable, Cloneable {
     
     
     /**
+     * Augmente le nombre de mouvements de 1.
+     */
+    public void addMvt() {
+        nbMvts++;
+    }
+    
+    /**
      * Modifie une case qui fusionne.
      * @param c 
      * Paramètre de type Case
@@ -211,6 +237,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
     /**
      * Crée une case 2 ou 4 sur la grille.
      * @return 
+     * Renvoie true si la case a été créée.
      */
     public boolean nouvelleCase() {
         if (this.grille.size() < TAILLE * TAILLE * TAILLE) {
@@ -261,6 +288,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
     /**
      * Vérifie si une partie est finie.
      * @return 
+     * Renvoie true si elle l'est.
      */
     public boolean partieFinie() {
         if (this.valeurMax == OBJECTIF){
@@ -306,6 +334,8 @@ public class Grille implements Parametres, Serializable, Cloneable {
      * lignes/colonnes/tours sont vides
      * @param direction 
      * Paramètre de type int
+     * @return 
+     * Renvoie une matrice de taille 3x3 avec les cases en question ou null.
      */
     public Case[][] getCasesExtremites(int direction) {
         Case[][] result = new Case[TAILLE][TAILLE];
@@ -352,10 +382,12 @@ public class Grille implements Parametres, Serializable, Cloneable {
     
     
     /**
-     * Vérifie si un déplacement est possible dans la direction donnée.
+     * Vérifie si un déplacement est possible dans la direction donnée et lance 
+     * le déplacement.
      * @param direction 
      * Paramètre de type int
      * @return 
+     * Renvoie True s'il l'est.
      */
     public boolean initialiserDeplacement(int direction) {
         Case[][] extremites = this.getCasesExtremites(direction);

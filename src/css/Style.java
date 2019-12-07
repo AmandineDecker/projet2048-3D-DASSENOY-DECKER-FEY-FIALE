@@ -6,17 +6,10 @@
 package css;
 
 
-import application.FXMLDocumentController;
-import application.MainInterface;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.ColorPicker;
@@ -24,8 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
- *
- * @author Amandine
+ * Gère le style personnalisable.
  */
 public class Style implements Serializable{
     
@@ -41,12 +33,11 @@ public class Style implements Serializable{
     }
     
     /**
-     * Fonction makeCol
-     * Cette fonction permet de transformer une couleur du colorPicker en 
-     * couleur HTML.
+     * Transforme une couleur du colorPicker en couleur HTML.
      * @param colorPic 
      * Paramètre de type ColorPicker
      * @return 
+     * Renvoie une couleur au format HTML.
      */
     public String makeCol(ColorPicker colorPic){
         Color c = colorPic.getValue();
@@ -55,37 +46,49 @@ public class Style implements Serializable{
     }
     
     /**
-     * Fonction makeCol.
-     * Cette fonction permet de sauvegarder les couleurs choisies sur la page 
-     * CSS du style perso.
+     * Sauvegarde les couleurs choisies sur la page CSS du style perso.
      * @param fondPicker
+     * La couleur du fond.
      * @param infosPicker
+     * La couleur des informations.
      * @param textePicker
+     * La couleur du texte sur les tuiles.
      * @param tuile2Picker 
+     * La couleur du fond des tuiles 2.
      * @param tuile4Picker 
+     * La couleur du fond des tuiles 4.
      * @param tuile8Picker 
+     * La couleur du fond des tuiles 8.
      * @param tuile16Picker 
+     * La couleur du fond des tuiles 16.
      * @param tuile32Picker 
+     * La couleur du fond des tuiles 32.
      * @param tuile64Picker 
+     * La couleur du fond des tuiles 64.
      * @param tuile128Picker 
+     * La couleur du fond des tuiles 128.
      * @param tuile256Picker 
+     * La couleur du fond des tuiles 256.
      * @param tuile512Picker 
+     * La couleur du fond des tuiles 512.
      * @param tuile1024Picker 
+     * La couleur du fond des tuiles 1024.
      * @param tuile2048Picker 
+     * La couleur du fond des tuiles 2048.
      * Paramètres de type ColorPicker.
      */
     public void saveCSS(ColorPicker fondPicker, ColorPicker infosPicker, ColorPicker textePicker, ColorPicker tuile2Picker, ColorPicker tuile4Picker, ColorPicker tuile8Picker, ColorPicker tuile16Picker, ColorPicker tuile32Picker, ColorPicker tuile64Picker, ColorPicker tuile128Picker, ColorPicker tuile256Picker, ColorPicker tuile512Picker, ColorPicker tuile1024Picker, ColorPicker tuile2048Picker){
         
         PrintWriter writer = null;
-        String cssFileName = "perso.css", distPath=null, srcPath = "src/css/" + cssFileName, buildPath = "build/classes/css/" + cssFileName;
+//        String cssFileName = "perso.css", distPath=null, srcPath = "src/css/" + cssFileName, buildPath = "build/classes/css/" + cssFileName;
         Color c = null;
         
         String col;
         
         try {
-            distPath = new File(MainInterface.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent() + "\\" + cssFileName;
-            File f = new File(srcPath);
-            f.deleteOnExit();
+//            distPath = new File(MainInterface.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent() + "\\" + cssFileName;
+            File f = new File("data/perso.css");
+//            f.deleteOnExit();
             writer = new PrintWriter(f);
             
             // Reecrire le css
@@ -331,53 +334,68 @@ public class Style implements Serializable{
             // Classe style
             colTexte = col;
             
-
-        } catch (URISyntaxException | IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (URISyntaxException | IOException ex) {
+//            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Style.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (writer != null) {
                 writer.close();
-                // copie du fichier style modifié dans build vers src pour la prochaine exécution
             }
-            if (distPath != null) {
-                Path dist = Paths.get(distPath);
-                Path src = Paths.get(srcPath);
-                Path build = Paths.get(buildPath);
-                try {
-                    Files.copy(src, dist, StandardCopyOption.REPLACE_EXISTING);
-                    Files.copy(src, build, StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+//            if (distPath != null) {
+//                Path dist = Paths.get(distPath);
+//                Path src = Paths.get(srcPath);
+//                Path build = Paths.get(buildPath);
+//                try {
+//                    Files.copy(src, dist, StandardCopyOption.REPLACE_EXISTING);
+//                    Files.copy(src, build, StandardCopyOption.REPLACE_EXISTING);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
         }
     }
     
     /**
-     * Fonction applyCSS.
-     * Cette fonction permet d'appliquer le style perso. 
-     * couleur HTML.
+     * Applique le style perso.
      * @param fond
      * paramètre de type Pane.
      */
     public void applyCSS(Pane fond) {
-        try {
+//        try {
             fond.getStylesheets().clear();
             fond.getStylesheets().add("css/basePerso.css");
-            styleActuel = "css/perso.css";
-            String distCSSFile = new File(FXMLDocumentController.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent() + "\\", cssFileName = "perso.css";
-            if (new File(distCSSFile + cssFileName).exists()) {
+            styleActuel = "data/perso.css";
+//            String distCSSFile = new File(FXMLDocumentController.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent() + "\\", cssFileName = "perso.css";
+//            if (new File(distCSSFile + cssFileName).exists()) {
+////                System.out.println("css modifié");
+//                File f = new File(distCSSFile + cssFileName);
+//                String fileURI = f.toURI().toString();
+//                boolean add = fond.getStylesheets().add(fileURI);
+//            if (new File("data/stylePersoTemp.css").exists()) {
+////                System.out.println("css modifié");
+//                File f = new File("data/stylePersoTemp.css");
+//                String fileURI = f.toURI().toString();
+//                boolean add = fond.getStylesheets().add(fileURI);
+            if (!new File("data/perso.css").exists()) {
 //                System.out.println("css modifié");
-                File f = new File(distCSSFile + cssFileName);
-                String fileURI = f.toURI().toString();
-                boolean add = fond.getStylesheets().add(fileURI);
+                try (PrintWriter writer = new PrintWriter("data/perso.css")) {
+                    writer.close();
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Style.class.getName()).log(Level.SEVERE, null, ex);
+                }
+//                File f = new File("data/perso.css");
+//                String fileURI = f.toURI().toString();
+//                boolean add = fond.getStylesheets().add(fileURI);
             } else {
 //                System.out.println("css d'origine");
-                boolean add = fond.getStylesheets().add("css/perso.css");
+                File f = new File("data/perso.css");
+                String fileURI = f.toURI().toString();
+                boolean add = fond.getStylesheets().add(fileURI);
             }
-        } catch (URISyntaxException ex) {
-            ex.printStackTrace();
-        }
+//        } catch (URISyntaxException ex) {
+//            ex.printStackTrace();
+//        }
     }
     
 }

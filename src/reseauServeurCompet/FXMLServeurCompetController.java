@@ -23,9 +23,9 @@ import javafx.scene.layout.BorderPane;
 import model.*;
 
 /**
- * FXML Controller class
- *
- * @author Amandine
+ * Gère la connexion côté serveur des joueurs en compétition.
+ * Serveur multithread, fonctionne avec GestionServeurCompet.
+ * FXML ServeurCompetController class
  */
 public class FXMLServeurCompetController implements Initializable {
 
@@ -68,6 +68,8 @@ public class FXMLServeurCompetController implements Initializable {
      * Affiche une alerte signifiant que la déconnexion du serveur va couper la
      * connexion avec les autres joueurs. L'utilisateur paut continuer quand 
      * même ou annuler.
+     * @param fermer
+     * Paramètre de type boolean. Spécifie s'il faut fermer la page du serveur.
      */
     public void showAlertCloseServeur(boolean fermer) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -83,7 +85,8 @@ public class FXMLServeurCompetController implements Initializable {
     
     /**
      * Renvoie le port dédié aux échanges réseaux.
-     * @return 
+     * @return
+     * Renvoie l'entier désignant le port.
      */
     public int getConnexion() {
         return port;
@@ -92,6 +95,7 @@ public class FXMLServeurCompetController implements Initializable {
     /**
      * Vérifie si le serveur est connecté à au moins un joueur. 
      * @return 
+     * Paramètre de type booleen. True si au moins un joueur est connecté.
      */
     public boolean isConnected() {
         System.out.println(listeConnexions);
@@ -146,10 +150,11 @@ public class FXMLServeurCompetController implements Initializable {
     /**
      * Récupère le style en cours d'utilisation et l'applique.
      * @param s
+     * Paramètre de type Style. Celui qui sera appliqué.
      */
     public void transferStyle(Style s){
         perso = s;
-        if (perso.styleActuel.equals("css/perso.css")){
+        if (perso.styleActuel.equals("data/perso.css")){
             perso.applyCSS(fond);
         } else {
             fond.getStylesheets().clear();
@@ -164,7 +169,9 @@ public class FXMLServeurCompetController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url
+     * Paramètre de type URL.
      * @param rb
+     * Paramètre de type ResourceBundle.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

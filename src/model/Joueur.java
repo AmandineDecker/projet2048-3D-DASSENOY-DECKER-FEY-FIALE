@@ -11,8 +11,7 @@ import java.util.Objects;
 import static model.Parametres.OBJECTIF;
 
 /**
- *
- * @author Amandine
+ * Les données à partager en multijoueur.
  */
 public class Joueur implements Serializable {
     private int id;
@@ -171,6 +170,7 @@ public class Joueur implements Serializable {
     /**
      * Vérifie si le joueur a atteint l'objectif.
      * @return 
+     * Renvoie True si le joueur a atteint l'objectif.
      */
     public boolean aGagne() {
         return tuileMax == OBJECTIF;

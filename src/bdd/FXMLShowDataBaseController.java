@@ -10,14 +10,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 
 /**
- * FXML Controller class
- *
- * @author Amandine
+ * Gère l'affichage de la page de score.
+ * FXML ShowDataBaseController class
  */
 public class FXMLShowDataBaseController implements Initializable {
 
@@ -29,14 +27,13 @@ public class FXMLShowDataBaseController implements Initializable {
     Style perso;
     
     /**
-     * Fonction transferStyle
-     * Cette fonction permet de récupérer le style en cours d'utilisation.
+     * Récupère le style en cours d'utilisation.
      * @param s
      * Paramètre de type Style
      */
     public void transferStyle(Style s){
         perso = s;
-        if (perso.styleActuel.equals("css/perso.css")){
+        if (perso.styleActuel.equals("data/perso.css")){
             perso.applyCSS(fond);
         } else {
             fond.getStylesheets().clear();
@@ -45,9 +42,7 @@ public class FXMLShowDataBaseController implements Initializable {
     }
     
     /**
-     * Fonction initialize
-     * Cette fonction permet d'initialiser l'interface graphique avec le bon 
-     * style et la base de donnée.
+     * Initialise l'interface graphique avec le bon style et la base de donnée.
      * @param url
      * Paramètre de type URL
      * @param rb 

@@ -10,7 +10,6 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,8 +17,9 @@ import javafx.stage.Stage;
 import model.MainConsole;
 
 /**
- *
- * @author Valou
+ * Main: lancement du jeu.
+ * Lancement de l'interface graphique par défault, mais une option permet de 
+ * choisir la console.
  */
 public class MainInterface extends Application {
     
@@ -48,7 +48,8 @@ public class MainInterface extends Application {
                 if (new File(distCSSFile + cssFileName).exists()) {
                     File f = new File(distCSSFile + cssFileName);
                     f.delete();
-                }   controller.quitter(new ActionEvent());
+                    
+                }   controller.quitter();
             } catch (URISyntaxException ex) {
                 Logger.getLogger(MainInterface.class.getName()).log(Level.SEVERE, null, ex);
             }

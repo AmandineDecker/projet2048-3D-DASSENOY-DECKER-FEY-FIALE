@@ -11,8 +11,7 @@ import java.util.Iterator;
 import java.time.Duration;
 
 /**
- *
- * @author Amandine
+ * Regroupe les joueurs lors d'une partie en compétition.
  */
 public class ListeJoueurs implements Serializable {
     private HashSet<Joueur> liste;
@@ -78,6 +77,7 @@ public class ListeJoueurs implements Serializable {
      * @param tps
      * paramètre de type Duration.
      * @return 
+     * Format hh:mm:ss.
      */
     public String durationToString(Duration tps) {
         long heures = tps.toHours();
@@ -89,7 +89,12 @@ public class ListeJoueurs implements Serializable {
     
     /**
      * Reconstitue un objet sérializé. Appelé automatiquement.
-     * @return 
+     * @param ois
+     * Paramètre de type ObjectInputStream. Celui à lire pour récupérer l'objet.
+     * @throws IOException
+     * Si la lecture échoue.
+     * @throws ClassNotFoundException
+     * Si la classe est mauvaise.
      */
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
@@ -99,6 +104,7 @@ public class ListeJoueurs implements Serializable {
     /**
      * Reconstitue un objet sérializé. Appelé automatiquement.
      * @return 
+     * Renvoie la liste reconstituée au format Object.
      */
     public Object readResolve() {
         return instance; // FIXME
@@ -115,6 +121,7 @@ public class ListeJoueurs implements Serializable {
     /**
      * Vérifie s'il y a un admin parmi les joueurs.
      * @return 
+     * Renvoie True s'il y en a un.
      */
     public Boolean hasAdmin(){
         return admin != null;
@@ -136,6 +143,7 @@ public class ListeJoueurs implements Serializable {
     /**
      * Détermine si les joueurs sont tous prêts à relancer une partie.
      * @return 
+     * Renvoie True s'ils sont tous prêts.
      */
     public boolean pretsAJouer() {
         int compteur = 0;
@@ -196,6 +204,9 @@ public class ListeJoueurs implements Serializable {
     /**
      * Renvoie le texte à afficher en fin de partie.
      * @return 
+     * S'il y a un (ou des) gagnant(s), donne celui (ceux) qui a (ont) fait le 
+     * meilleur temps et celui (ceux) qui a (ont) fait le meilleur score.
+     * Sinon juste celui (ceux) qui a (ont) fait le meilleur score.
      */
     public String afficherScore() {
         HashSet<Joueur> meilleurTemps = new HashSet();

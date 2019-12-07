@@ -16,8 +16,7 @@ import static model.Parametres.TPSSLEEP;
 import static model.Parametres.X;
 
 /**
- *
- * @author Amandine
+ * Thread d'apparition avec effet des cases.
  */
 public class Apparition extends Task<Void> {
     AnchorPane anchor;
@@ -33,10 +32,11 @@ public class Apparition extends Task<Void> {
     /**
      * Renvoie la largeur que doit avoir une case.
      * @param gr
-     * paramètre de typer GridPane.
-     * @return 
+     * Paramètre de type GridPane. La grille à l'écran.
+     * @return
+     * Le double spécifiant la largeur conseillée.
      */
-    public double getPaneWidth(GridPane gr){
+    private double getPaneWidth(GridPane gr){
         double w = gr.getWidth();
         return w/3;
     }
@@ -45,6 +45,7 @@ public class Apparition extends Task<Void> {
      * @param gr
      * paramètre de typer GridPane.
      * @return 
+     * Le double spécifiant la hauteur conseillée.
      */
     public double getPaneHeigth(GridPane gr){
         double h = gr.getHeight();

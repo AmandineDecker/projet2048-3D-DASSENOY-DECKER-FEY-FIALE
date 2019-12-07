@@ -11,8 +11,7 @@ import model.*;
 import static model.Parametres.COOPERATION;
 
 /**
- *
- * @author Amandine
+ * Gère la connexion des joueurs en coopération.
  */
 public class GestionServeurCoop implements Runnable {
     // Le controller
@@ -80,7 +79,9 @@ public class GestionServeurCoop implements Runnable {
     }
     
     /**
-     * Partage true ou false avec le serveur. true s'il n'y a pas encore d'admin.
+     * Partage true ou false avec le serveur. 
+     * @param b
+     * Le booleen à partager (true s'il n'y a pas encore d'admin).
      */
     public void setAdmin(Boolean b){
         try {

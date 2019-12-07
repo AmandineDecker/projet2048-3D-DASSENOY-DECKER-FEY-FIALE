@@ -10,8 +10,8 @@ import java.net.*;
 import model.*;
 
 /**
- *
- * @author Amandine
+ * Gère une connexion au serveur en compétition (serveur Multithread). 
+ * Fonctionne avec FXMLGestionServeurCompetController.
  */
 public class GestionServeurCompet implements Runnable {
     // Le controller
@@ -73,7 +73,9 @@ public class GestionServeurCompet implements Runnable {
     }
     
     /**
-     * Partage true ou false avec le serveur. true s'il n'y a pas encore d'admin.
+     * Partage un booleen avec le serveur.
+     * @param b
+     * Paramètre de type Boolean. True s'il n'y a pas encore d'admin.
      */
     public void setAdmin(Boolean b){
         try {

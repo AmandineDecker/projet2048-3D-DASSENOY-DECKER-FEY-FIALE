@@ -11,7 +11,6 @@ import reseauServeurCompet.FXMLServeurCompetController;
 import reseauClientCompet.FXMLClientCompetController;
 import css.Style;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,7 +18,6 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -29,7 +27,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -39,7 +36,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,8 +56,8 @@ import reseauServeurCoop.FXMLServeurCoopController;
 import threads.*;
 
 /**
- *
- * @author Valou
+ * Gestion du jeu.
+ * FXML DocumentController class.
  */
 public class FXMLDocumentController implements Parametres, Initializable {
     
@@ -106,11 +102,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     /**
      *
-     * Cette fonction permet de quitter le jeu tout en sauvegardant la partie.
-     * @param event 
+     * Cette fonction permet de quitter le jeu tout en sauvegardant la partie. 
      */
     @FXML
-    public void quitter(ActionEvent event) {
+    public void quitter() {
 //        System.out.println("Au revoir!");
         ObjectOutputStream oosGrille = null;
         ObjectOutputStream oosStyle = null;
@@ -159,10 +154,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     /**
      *
      * Cette fonction permet de lancer une nouvelle partie.
-     * @param event 
      */
     @FXML
-    private void nouveauJeu(ActionEvent event) {
+    private void nouveauJeu() {
 //        System.out.println("\n\n\nNouvelle partie!");
         if (modelGrille.getModeJeu() == SOLO){
             nouvellePartie(SOLO);
@@ -181,10 +175,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     /**
     * Cette fonction permet d'afficher la page des scores.
-    * @param event 
     */
     @FXML
-    private void voirScores(ActionEvent event) throws IOException {
+    private void voirScores() throws IOException {
         FXMLLoader loaderServeur = new FXMLLoader(getClass().getResource("FXMLShowDataBase.fxml"));
         Parent rootServeur = loaderServeur.load();
         // Recupérer le controller
@@ -197,17 +190,16 @@ public class FXMLDocumentController implements Parametres, Initializable {
         Scene sceneScores = new Scene(rootServeur);
         stageScores.setScene(sceneScores);
 
-        sceneScores.getStylesheets().add(style.styleActuel);
+//        sceneScores.getStylesheets().add(style.styleActuel);
         stageScores.show();
     }
     
     /**
      * Cette fonction permet de faire jouer le prochain  coup par l'intelligence
      * artificielle.
-     * @param event 
      */
     @FXML
-    private void jouerUnCoupIA(ActionEvent event) throws CloneNotSupportedException{
+    private void jouerUnCoupIA() throws CloneNotSupportedException{
         int dir = unCoupIA();
         System.out.println("IA joue dans la direction " + dir);
         if (!modelGrille.partieFinie()){
@@ -219,12 +211,13 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     /** 
      * Cette fonction permet de revenir un coup en arrière.
-     * @param event 
      */
     @FXML
-    private void revenirUnCoup(ActionEvent event) throws CloneNotSupportedException {
+    private void revenirUnCoup() throws CloneNotSupportedException {
         int index = caretaker.getIndex();
+        int nbMvts = modelGrille.getNbMvts();
         modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
+        modelGrille.setNbMvts(nbMvts + 1);
 //        System.out.println("On récupère " + (index - 1));
 //        for (Case c : modelGrille.getGr()){
 //            System.out.println(c);
@@ -249,12 +242,13 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     /**
     * Cette fonction permet de refaire un coup annulé.
-    * @param event 
     */ 
     @FXML
-    private void avancerUnCoup(ActionEvent event) throws CloneNotSupportedException {
+    private void avancerUnCoup() throws CloneNotSupportedException {
         int index = caretaker.getIndex();
+        int nbMvts = modelGrille.getNbMvts();
         modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index + 1)));
+        modelGrille.setNbMvts(nbMvts + 1);
         caretaker.setIndex(index + 1);
         if (modelGrille.getModeJeu() == COMPETITION) {
             this.joueur.setScore(modelGrille.getScore());
@@ -268,11 +262,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     /**
      * Cette fonction permet de créer une nouvelle partie en mode compétition.
-     * @param event
      * @throws IOException 
      */
     @FXML
-    private void newCompet(ActionEvent event) throws IOException {
+    private void newCompet() throws IOException {
 //        System.out.println("\n\n\nCréation d'une partie en mode compétitf");
         
         menuCompet.setDisable(true);
@@ -311,23 +304,23 @@ public class FXMLDocumentController implements Parametres, Initializable {
         stageServeur.setX(0);
         stageServeur.setScene(sceneServeur);
 //        stage.initModality(Modality.WINDOW_MODAL);
-        sceneServeur.getStylesheets().add(style.styleActuel);
+//        sceneServeur.getStylesheets().add(style.styleActuel);
         stageServeur.show();
         
         // Le client
-        clientCompetController = this.joinCompet(event);
+        clientCompetController = this.joinCompet();
         clientCompetController.setConnexion(serveurCompetController.getConnexion());
         clientCompetController.giveObjects(this);
     }
     
     /**
      * Cette fonction permet de rejoinre une partie en mode compétition.
-     * @param event
      * @return ClientController
+     * Renvoie le ClientController pour un usage futur.
      * @throws IOException 
      */
     @FXML
-    private FXMLClientCompetController joinCompet(ActionEvent event) throws IOException {
+    private FXMLClientCompetController joinCompet() throws IOException {
 //        System.out.println("\n\n\nRejoindre une partie en mode compétitif");
         
         newCompetMenu.setDisable(true);
@@ -357,6 +350,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 showAlertCloseClientCompet(stageClient);
             } else {
                 clientCompetController = null;
+                newCoopMenu.setDisable(false);
+                joinCoopMenu.setDisable(false);
                 newCompetMenu.setDisable(false);
                 joinCompetMenu.setDisable(false);
             }
@@ -364,18 +359,17 @@ public class FXMLDocumentController implements Parametres, Initializable {
         
         stageClient.setScene(sceneClient);
         stageClient.initModality(Modality.NONE);
-        sceneClient.getStylesheets().add(style.styleActuel);
+//        sceneClient.getStylesheets().add(style.styleActuel);
         stageClient.show();
         return clientCompetController;
     }
     
     /**
      * Cette fonction permet la création d'une partie en mode coopératif.
-     * @param event
      * @throws IOException 
      */
     @FXML
-    private void newCoop(ActionEvent event) throws IOException {
+    private void newCoop() throws IOException {
 //        System.out.println("\n\n\nCréation d'une partie en mode coopératif");
         
         menuCompet.setDisable(true);
@@ -402,10 +396,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 e.consume();
                 showAlertCloseServeurCoop(true);
             } else {
-                serveurCoopController.arreterServeur(true);
-                serveurCoopController = null;
                 menuCompet.setDisable(false);
                 menuCoop.setDisable(false);
+                serveurCoopController.arreterServeur(true);
+                serveurCoopController = null;
             }
         });
         
@@ -414,23 +408,22 @@ public class FXMLDocumentController implements Parametres, Initializable {
         stageServeur.setX(0);
         stageServeur.setScene(sceneServeur);
 //        stage.initModality(Modality.WINDOW_MODAL);
-        sceneServeur.getStylesheets().add(style.styleActuel);
+//        sceneServeur.getStylesheets().add(style.styleActuel);
         stageServeur.show();
         
         // Le client
-        clientCoopController = this.joinCoop(event);
+        clientCoopController = this.joinCoop();
         clientCoopController.setConnexion(serveurCoopController.getConnexion());
         clientCoopController.giveObjects(this);
     }
     
     /**
      * Cette fonction permet de rejoindre une partie en mode coopératif.
-     * @param event
      * @return clientCoopController
      * @throws IOException 
      */
     @FXML
-    private FXMLClientCoopController joinCoop(ActionEvent event) throws IOException {
+    private FXMLClientCoopController joinCoop() throws IOException {
 //        System.out.println("\n\n\nRejoindre une partie en mode coopératif");
         
         newCoopMenu.setDisable(true);
@@ -469,17 +462,16 @@ public class FXMLDocumentController implements Parametres, Initializable {
         
         stageClient.setScene(sceneClient);
         stageClient.initModality(Modality.NONE);
-        sceneClient.getStylesheets().add(style.styleActuel);
+//        sceneClient.getStylesheets().add(style.styleActuel);
         stageClient.show();
         return clientCoopController;
     }
     
     /**
      * Cette fonction permet de changer le thème du jeu.
-     * @param event 
      */ 
     @FXML
-    private void changeTheme(ActionEvent event) {
+    private void changeTheme() {
         fond.getStylesheets().clear();
         switch(grStyle.getToggles().indexOf(grStyle.getSelectedToggle())){
             // Les nombres sont dans l'ordre du menu
@@ -521,10 +513,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     /**
      * Cette fonction permet de changer le thème du jeu.
-     * @param event 
      */ 
     @FXML
-    private void changeOuverture(ActionEvent event) {
+    private void changeOuverture() {
         switch(grOuverture.getToggles().indexOf(grOuverture.getSelectedToggle())){
             // Les nombres sont dans l'ordre du menu
             case 0 : // Console
@@ -554,11 +545,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
 
     /**
      * Cette fonction permet au joueur du changer les couleurs du jeu.
-     * @param event
      * @throws IOException 
      */
     @FXML 
-    private void fenetrePersonnalisation(ActionEvent event) throws IOException {
+    private void fenetrePersonnalisation() throws IOException {
         // Load fenetre de personnalisation
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLColorPicker.fxml"));
         Parent root = loader.load();
@@ -574,17 +564,15 @@ public class FXMLDocumentController implements Parametres, Initializable {
         stage.setScene(scene);
         stage.setTitle("Fenetre de personnalisation");
         stage.initModality(Modality.WINDOW_MODAL);
-        scene.getStylesheets().add(style.styleActuel);
+//        scene.getStylesheets().add(style.styleActuel);
         stage.show();
     }
     
     /**
      * Cette fonction permet de déplacer les case vers le haut.
-     * @param m 
-     * Paramètre de type MouseEvent
      */
     @FXML
-    private void clicHaut(MouseEvent m){
+    private void clicHaut(){
 //        System.out.println(modelGrille.getModeJeu() == COOPERATION);
 //        System.out.println(clientCoopController.gare.aLaMain());
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
@@ -612,11 +600,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
      /**
      * Cette fonction permet de déplacer les cases vers le bas.
-     * @param m 
-     * Paramètre de type MouseEvent
      */
     @FXML
-    private void clicBas(MouseEvent m){
+    private void clicBas(){
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
             // Ce n'est pas à ce joueur de jouer
         } else if (!modelGrille.partieFinie()){
@@ -642,11 +628,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
      /**
      * Cette fonction permet de déplcer les cases vers la gauche.
-     * @param m 
-     * Paramètre de type MouseEvent
      */
     @FXML
-    private void clicGauche(MouseEvent m){
+    private void clicGauche(){
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
             // Ce n'est pas à ce joueur de jouer
         } else if (!modelGrille.partieFinie()){
@@ -672,11 +656,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     /**
      * Cette fonction permet de déplacer les cases vers la droite.
-     * @param m 
-     * Paramètre de type MouseEvent
      */
     @FXML
-    private void clicDroite(MouseEvent m){
+    private void clicDroite(){
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
             // Ce n'est pas à ce joueur de jouer
         } else if (!modelGrille.partieFinie()){
@@ -702,11 +684,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     /**
      * Cette fonction permet de déplacer les cases sur la grille supérieure.
-     * @param m 
-     * Paramètre de type MouseEvent
      */
     @FXML
-    private void clicSup(MouseEvent m){
+    private void clicSup(){
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
             // Ce n'est pas à ce joueur de jouer
         } else if (!modelGrille.partieFinie()){
@@ -732,11 +712,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     /**
      * Cette fonction permet de déplacer les cases sur la grille inférieure.
-     * @param m 
-     * Paramètre de type MouseEvent
      */
     @FXML
-    private void clicInf(MouseEvent m){
+    private void clicInf(){
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
             // Ce n'est pas à ce joueur de jouer
         } else if (!modelGrille.partieFinie()){
@@ -761,11 +739,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction permet de lancer le mouvement assigné à une touche:
+     * Cette fonction permet de lancer le mouvement assigné à une touche.
      * z pour haut, s pour bas, q pour gauche, d pour droite, r pour supérieur 
      * et f pour inférieur.
      * @param ke 
-     * Paramètre de type KeyEvent
+     * Paramètre de type KeyEvent. Permet de déterminer la direction.
      */
     @FXML
     public void toucheClavier(KeyEvent ke) {
@@ -1133,7 +1111,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
             stage.setScene(scene);
             stage.setTitle("Enregistrer score");
             stage.initModality(Modality.WINDOW_MODAL);
-            scene.getStylesheets().add(style.styleActuel);
+//            scene.getStylesheets().add(style.styleActuel);
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -1150,7 +1128,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         if (direction != 0) {
             try {
                 boolean b2 = modelGrille.initialiserDeplacement(direction);
-                
+                modelGrille.addMvt();
                 if (b2) {
                     
                     if (modelGrille.getValeurMax()>=OBJECTIF){
@@ -1351,22 +1329,26 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction permet de réactiver le menu qui permet de lancer une 
+     * Cette fonction permet de (dés)activer le menu qui permet de lancer une 
      * nouvelle partie en compétition.
+     * @param activer
+     * Paramètre de type boolean. True pour désactiver.
      */
-    public void reactiverMenuCompet() {
-        menuCompet.setDisable(false);
-        newCompetMenu.setDisable(false);
-        joinCompetMenu.setDisable(false);
+    public void activerMenuCompet(boolean activer) {
+        menuCompet.setDisable(activer);
+        newCompetMenu.setDisable(activer);
+        joinCompetMenu.setDisable(activer);
     }
     /**
-     * Cette fonction permet de réactiver le menu qui permet de lancer une 
+     * Cette fonction permet de (dés)activer le menu qui permet de lancer une 
      * nouvelle partie en mode coopératif.
+     * @param activer
+     * Paramètre de type boolean. True pour désactiver.
      */
-    public void reactiverMenuCoop() {
-        menuCoop.setDisable(false);
-        newCoopMenu.setDisable(false);
-        joinCoopMenu.setDisable(false);
+    public void activerMenuCoop(boolean activer) {
+        menuCoop.setDisable(activer);
+        newCoopMenu.setDisable(activer);
+        joinCoopMenu.setDisable(activer);
     }
     
     /**
@@ -1433,6 +1415,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     /**
      * Cette fonction permet de placer une fenêtre dans le coin supérieur droit de l'écran
+     * @param stage
+     * Paramètre de type Stage. La fenêtre à positionner.
      */
     public void placeStageNE(Stage stage) {
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -1443,6 +1427,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
     /**
      * Cette fonction permet de déterminer le coup qui donne le meilleur score.
      * @return int
+     * La direction la plus avantageuse.
+     * @throws java.lang.CloneNotSupportedException
+     * Si le clonage échoue.
      */
     public int unCoupIA() throws CloneNotSupportedException{
         int dir = 0;
@@ -1617,7 +1604,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                             fond.getStylesheets().add("css/amelie.css");
                             themeAmelie.setSelected(true);
                             break;
-                        case "css/perso.css":
+                        case "data/perso.css":
                             style.applyCSS(fond);
                             themePerso.setSelected(true);
                             break;

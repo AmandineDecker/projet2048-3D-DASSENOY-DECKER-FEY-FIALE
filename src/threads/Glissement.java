@@ -16,8 +16,7 @@ import static model.Parametres.TPSSLEEP;
 import static model.Parametres.X;
 
 /**
- *
- * @author Amandine
+ * Glissement des cases avec effet.
  */
 public class Glissement extends Task<Void> {
     
@@ -34,8 +33,9 @@ public class Glissement extends Task<Void> {
     /**
      * Renvoie la largeur que doit avoir une case.
      * @param gr
-     * paramètre de typer GridPane.
+     * Paramètre de type GridPane.
      * @return 
+     * Le double spécifiant la largeur conseillée.
      */
     public double getPaneWidth(GridPane gr){
         double w = gr.getWidth();
@@ -44,8 +44,9 @@ public class Glissement extends Task<Void> {
     /**
      * Renvoie la hauteur que doit avoir une case.
      * @param gr
-     * paramètre de typer GridPane.
+     * Paramètre de type GridPane.
      * @return 
+     * Le double spécifiant la hauteur conseillée.
      */
     public double getPaneHeigth(GridPane gr){
         double h = gr.getHeight();

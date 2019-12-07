@@ -8,8 +8,7 @@ package model;
 import java.io.Serializable;
 
 /**
- *
- * @author Amandine
+ * Place et valeurs dans la grille et éventuellement mouvements à faire.
  */
 public class Case implements Parametres, Serializable, Cloneable {
     
@@ -162,10 +161,11 @@ public class Case implements Parametres, Serializable, Cloneable {
     }
     
     /**
-     * Renvoie true si les cases ont la même valeur.
+     * Vérifie si les cases ont la même valeur.
      * @param c
      * paramètre de type Case.
      * @return 
+     * Renvoie true si elles ont la même valeur.
      */
     public boolean valeurEgale(Case c) {
         if (c != null) {
@@ -180,6 +180,7 @@ public class Case implements Parametres, Serializable, Cloneable {
      * @param direction 
      * Paramètre de type int
      * @return 
+     * Renvoie la case voisine.
      */
     public Case getVoisinDirect(int direction) {
         switch (direction) {

@@ -8,14 +8,13 @@ package model;
 import java.util.ArrayList;
 
 /**
- *
- * @author Wanda
+ * Caretaker: garde en mémoire les différents états de la Grille.
  */
 public class Caretaker {
     
     private int index = -1;
     
-    private ArrayList savedStates = new ArrayList();
+    private final ArrayList savedStates = new ArrayList();
     
     public void setIndex(int ind){
         index=ind;
@@ -50,6 +49,7 @@ public class Caretaker {
      * @param i
      * paramètre de type int.
      * @return 
+     * Renvoie l'état en question au format Object.
      */
     public Object getMemento(int i){
         return savedStates.get(i);

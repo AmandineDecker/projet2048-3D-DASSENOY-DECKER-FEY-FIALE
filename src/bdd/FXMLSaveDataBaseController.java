@@ -10,7 +10,6 @@ import css.Style;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import java.sql.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -22,9 +21,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 
 /**
- * FXML Controller class
- *
- * @author Amandine
+ * Gère l'affichage de la page de sauvegarde de score.
+ * FXML SaveDataBaseController class
  */
 public class FXMLSaveDataBaseController implements Initializable {
 
@@ -47,14 +45,14 @@ public class FXMLSaveDataBaseController implements Initializable {
     // Donnees de jeu
     int score;
     int tuileMax;
+    int nbMvts;
     String aAfficher;
     
     
     
      
     /**
-     * Fonction quit
-     * Cette fonction permet de quitter la page des scores.
+     * Quitte la page des scores.
      * @param event
      * Paramètre de type ActionEvent
      */
@@ -65,9 +63,8 @@ public class FXMLSaveDataBaseController implements Initializable {
     }
     
     /**
-     * Fonction valid
-     * Cette fonction permet de valider le pseudo choisi et d'essayer 
-     * d'enregistrer les résultats de la partie.
+     * Valide le pseudo choisi et d'essaye d'enregistrer les résultats 
+     * de la partie.
      * @param event
      * Paramètre de type ActionEvent
      */
@@ -80,7 +77,7 @@ public class FXMLSaveDataBaseController implements Initializable {
                 // Alert pseudo existe déjà
                 showAlertPseudoExists();
             } else {
-                reachBDD.save(pseudo.getText(), tuileMax, score);
+                reachBDD.save(pseudo.getText(), tuileMax, score, nbMvts);
                 fond.getScene().getWindow().hide();
             }
         } else {
@@ -88,9 +85,8 @@ public class FXMLSaveDataBaseController implements Initializable {
     }
     
     /**
-     * Fonction showAlertPseudoExists.
-     * Cette fonction permet d'afficher l'alerte demandant si le pseudo entré 
-     * est celui du joueur dans le cas où ce pseudo existe déjà dans la BDD.
+     * Affiche l'alerte demandant si le pseudo entré  est celui du joueur dans 
+     * le cas où ce pseudo existe déjà dans la BDD.
      */
     public void showAlertPseudoExists() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -107,7 +103,7 @@ public class FXMLSaveDataBaseController implements Initializable {
         btnOUI.setOnAction( event -> {
             BDD reachBDD = new BDD();
             reachBDD.deleteLine(pseudo.getText());
-            reachBDD.save(pseudo.getText(), tuileMax, score);
+            reachBDD.save(pseudo.getText(), tuileMax, score, nbMvts);
             alert.close();
             fond.getScene().getWindow().hide();
         } );
@@ -123,15 +119,13 @@ public class FXMLSaveDataBaseController implements Initializable {
     
     
     /**
-     * Fonction transferStyle
-     * Cette fonction permet d'initialiser l'interface graphique avec le bon 
-     * style et la base de donnée.
+     * Initialise l'interface graphique avec le bon style et la base de donnée.
      * @param s
      * Paramètre de type Style
      */
     public void transferStyle(Style s){
         perso = s;
-        if (perso.styleActuel.equals("css/perso.css")){
+        if (perso.styleActuel.equals("data/perso.css")){
             perso.applyCSS(fond);
         } else {
             fond.getStylesheets().clear();
@@ -140,8 +134,7 @@ public class FXMLSaveDataBaseController implements Initializable {
     }
     
     /**
-     * Fonction giveObjects
-     * Cette fonction permet de récupérer le DocumentController.
+     * Récupère le DocumentController.
      * @param d
      * Paramètre de type FXMLDocumentController
      */
@@ -150,9 +143,7 @@ public class FXMLSaveDataBaseController implements Initializable {
     }
     
     /**
-     * Fonction getData
-     * Cette fonction permet de récupérer la tuileMax, le score et le texte
-     * à afficher.
+     * Récupère la tuileMax, le score et le texte à afficher.
      * @param score
      * Paramètre de type int
      * @param tuileMax 
@@ -169,9 +160,7 @@ public class FXMLSaveDataBaseController implements Initializable {
    
     
     /**
-     * Fonction initialize
-     * Cette fonction permet d'initialiser l'interface graphique avec le bon 
-     * style.
+     * Initialise l'interface graphique avec le bon style.
      * @param url
      * Paramètre de type URL
      * @param rb 

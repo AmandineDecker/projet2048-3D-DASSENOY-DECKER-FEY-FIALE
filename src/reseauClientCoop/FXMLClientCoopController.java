@@ -28,9 +28,8 @@ import model.Joueur;
 import static model.Parametres.SOLO;
 
 /**
- * FXML Controller class
- *
- * @author Amandine
+ * Gère la vue liée à la connexion côté client en coopération.
+ * FXML ClientCoopController class, fonctionne avec GestionClientCoop.
  */
 public class FXMLClientCoopController implements Initializable {
 
@@ -116,10 +115,11 @@ public class FXMLClientCoopController implements Initializable {
     /**
      * Récupère le style en cours d'utilisation et l'applique.
      * @param s
+     * Paramètre de type Style. Celui qui sera appliqué.
      */
     public void transferStyle(Style s){
         perso = s;
-        if (perso.styleActuel.equals("css/perso.css")){
+        if (perso.styleActuel.equals("data/perso.css")){
             perso.applyCSS(fond);
         } else {
             fond.getStylesheets().clear();
@@ -151,6 +151,7 @@ public class FXMLClientCoopController implements Initializable {
     /**
      * Vérifie si le client est connecté à un serveur. 
      * @return 
+     * Renvoie True s'il l'est.
      */
     public boolean isConnected() {
         if (gare == null) {
@@ -163,7 +164,7 @@ public class FXMLClientCoopController implements Initializable {
     /**
      * Récupère le DocumentController.
      * @param c 
-     * paramètre de type FXMLDocumentController.
+     * Paramètre de type FXMLDocumentController.
      */
     public void giveObjects(FXMLDocumentController c) {
         this.controlleur = c;
@@ -213,8 +214,8 @@ public class FXMLClientCoopController implements Initializable {
         alert.setContentText("Retour au jeu en solo.");
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
-                controlleur.reactiverMenuCompet();
-                controlleur.reactiverMenuCoop();
+                controlleur.activerMenuCompet(false);
+                controlleur.activerMenuCoop(false);
                 fond.getScene().getWindow().hide();
                 if (controlleur.getModeJeu() != SOLO){
                     controlleur.nouvellePartie(SOLO);
@@ -229,6 +230,7 @@ public class FXMLClientCoopController implements Initializable {
      * Affiche une alerte signifiant que la partie est terminée. Le joueur peut
      * alors proposer de lancer une nouvelle partie.
      * @param finJeu
+     * Paramètre de type String. Le texte qui sera affiché.
      */
     public void showPartieFinie(String finJeu) {
         fond.getScene().getWindow().requestFocus();
@@ -254,8 +256,8 @@ public class FXMLClientCoopController implements Initializable {
             gare.shareInfos("FinJeu");
             gare.disconnect(false);
             // Retour au jeu solo
-            controlleur.reactiverMenuCompet();
-            controlleur.reactiverMenuCoop();
+            controlleur.activerMenuCompet(false);
+            controlleur.activerMenuCoop(false);
             fond.getScene().getWindow().hide();
             controlleur.nouvellePartie(SOLO);
         } );
@@ -267,6 +269,8 @@ public class FXMLClientCoopController implements Initializable {
     /**
      * Affiche une alerte signifiant que la partie est terminée. Le joueur peut
      * alors accepter de participer à une autre partie ou pas.
+     * @param finJeu
+     * Paramètre de type String. Le texte qui sera affiché.
      */
     public void showAlertNouvellePartie(String finJeu) {
         System.out.println("AFFICHAGE ALERTE");
@@ -294,8 +298,8 @@ public class FXMLClientCoopController implements Initializable {
             gare.shareInfos("FinJeu");
             gare.disconnect(false);
             // Retour au jeu solo
-            controlleur.reactiverMenuCompet();
-            controlleur.reactiverMenuCoop();
+            controlleur.activerMenuCompet(false);
+            controlleur.activerMenuCoop(false);
             fond.getScene().getWindow().hide();
             controlleur.nouvellePartie(SOLO);
         } );
@@ -308,6 +312,7 @@ public class FXMLClientCoopController implements Initializable {
      * Affiche une alerte signifiant que l'autre joueur a refusé la 
      * nouvelle partie.
      * @param finJeu
+     * Paramètre de type String. Le texte qui sera affiché.
      */
     public void showAlertFinJeu(String finJeu) {
         fond.getScene().getWindow().requestFocus();
@@ -317,8 +322,8 @@ public class FXMLClientCoopController implements Initializable {
         alert.setContentText("L'autre joueur ne souhaite pas participer à une nouvelle partie. \nRetour au jeu en solo.");
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
-                controlleur.reactiverMenuCompet();
-                controlleur.reactiverMenuCoop();
+                controlleur.activerMenuCompet(false);
+                controlleur.activerMenuCoop(false);
                 fond.getScene().getWindow().hide();
                 if (controlleur.getModeJeu() != SOLO){
                     controlleur.nouvellePartie(SOLO);

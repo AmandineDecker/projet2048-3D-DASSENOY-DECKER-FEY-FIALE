@@ -7,7 +7,6 @@ package threads;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -17,8 +16,7 @@ import static model.Parametres.TPSSLEEP;
 import static model.Parametres.X;
 
 /**
- *
- * @author Amandine
+ * Fusion des cases avec effet.
  */
 public class Fusion extends Task<Void> {
     // Attributs
@@ -36,8 +34,9 @@ public class Fusion extends Task<Void> {
     /**
      * Renvoie la largeur que doit avoir une case.
      * @param gr
-     * paramètre de typer GridPane.
+     * Paramètre de type GridPane.
      * @return 
+     * Le double spécifiant la largeur conseillée.
      */
     public double getPaneWidth(GridPane gr){
         double w = gr.getWidth();
@@ -46,8 +45,9 @@ public class Fusion extends Task<Void> {
     /**
      * Renvoie la hauteur que doit avoir une case.
      * @param gr
-     * paramètre de typer GridPane.
+     * Paramètre de type GridPane.
      * @return 
+     * Le double spécifiant la hauteur conseillée.
      */
     public double getPaneHeigth(GridPane gr){
         double h = gr.getHeight();

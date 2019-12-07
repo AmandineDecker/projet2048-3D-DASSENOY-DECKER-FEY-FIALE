@@ -18,8 +18,8 @@ import static model.Parametres.COOPERATION;
 import static model.Parametres.OBJECTIF;
 
 /**
- *
- * @author Amandine
+ * Gère la connexion au serveur en coopération.
+ * Fonctionne avec FXMLClientCoopController.
  */
 public class GestionClientCoop {
     
@@ -89,6 +89,7 @@ public class GestionClientCoop {
     /**
      * Vérifie si le client est connecté à un serveur.
      * @return 
+     * Renvoie True s'il l'est.
      */
     public boolean isConnected(){
         if (s == null){
@@ -301,6 +302,8 @@ public class GestionClientCoop {
     /**
      * Partage le joueur avec le serveur. A utiliser lors de la connexion des 
      * deux joueurs.
+     * @param j
+     * Paramètre de type Joueur. Le joueur à partager.
      */
     public void shareJoueur(Joueur j) {
         OutputStream out = null;
@@ -332,6 +335,8 @@ public class GestionClientCoop {
      * Peut partager "Start", "newGame?", "PartieFinie, "Stop", "FinJeu" ou 
      * "NouvellePartie".
      * @param str
+     * Paramètre de type String. Seuls "Start", "newGame?", "PartieFinie, 
+     * "Stop", "FinJeu" ou "NouvellePartie" auront un effet sur le serveur.
      */
     public void shareInfos(String str) {
         OutputStream out = null;
@@ -375,6 +380,7 @@ public class GestionClientCoop {
     /**
      * Vérifie si le joueur a la main.
      * @return 
+     * Renvoie True s'il l'a. Il peut donc jouer.
      */
     public boolean aLaMain() {
         return main;

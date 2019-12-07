@@ -18,8 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.util.Callback;
 
 /**
- *
- * @author Amandine
+ * Gestion des échanges avec la BDD.
  */
 public class BDD {
     
@@ -37,12 +36,14 @@ public class BDD {
      * Paramètre de type int
      * @param score 
      * Paramètre de type int
+     * @param nbMvts 
+     * Paramètre de type int
      */
-    public void save(String pseudo, int tuileMax, int score) {
+    public void save(String pseudo, int tuileMax, int score, int nbMvts) {
         try {
             Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP);
             
-            String requete = "INSERT INTO scores VALUES ('" + pseudo + "', " + Integer.toString(tuileMax) + ", " + Integer.toString(score) + ")";
+            String requete = "INSERT INTO scores VALUES ('" + pseudo + "', " + Integer.toString(tuileMax) + ", " + Integer.toString(score) + ", " + Integer.toString(nbMvts) + ")";
             
             Statement stmt = con.createStatement();
             stmt.executeUpdate(requete);
@@ -59,6 +60,7 @@ public class BDD {
      * @param pseudo
      * Paramètre de type String
      * @return 
+     * Renvoie True si le pseudo esxiste déjà dns la BDD.
      */
     public boolean pseudoAlreadyExists(String pseudo) {
         try {
