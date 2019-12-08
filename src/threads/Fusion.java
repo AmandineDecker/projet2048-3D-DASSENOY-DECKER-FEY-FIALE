@@ -13,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import model.Case;
 import static model.Parametres.TPSSLEEP;
-import static model.Parametres.X;
 
 /**
  * Fusion des cases avec effet.
@@ -100,7 +99,7 @@ public class Fusion extends Task<Void> {
                 double yProche = h * tuile.getGlisseY0();
                 
                 if (tuile.getFusionneX0() > tuile.getX()){ // Glissement vers la gauche
-                    while ((int) xProche > (int) x2+X){
+                    while ((int) xProche > (int) x2){
                         xProche -= 1;
                         xLoin -= 1;
                         double posXProche = xProche;
@@ -118,7 +117,7 @@ public class Fusion extends Task<Void> {
                         });
                         Thread.sleep(TPSSLEEP);
                     }
-                    while ((int) xLoin > (int) x2+X){
+                    while ((int) xLoin > (int) x2){
                         xLoin -= 1;
                         double posXLoin = xLoin;
                         double posYLoin = yLoin;
@@ -133,7 +132,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneX0() < tuile.getX()){ // Glissement vers la droite
-                    while ((int) xProche < (int) x2-X){
+                    while ((int) xProche < (int) x2){
                         xProche += 1;
                         xLoin += 1;
                         double posXProche = xProche;
@@ -151,7 +150,7 @@ public class Fusion extends Task<Void> {
                         });
                         Thread.sleep(TPSSLEEP);
                     }
-                    while ((int) xLoin < (int) x2-X){
+                    while ((int) xLoin < (int) x2){
                         xLoin += 1;
                         double posXLoin = xLoin;
                         double posYLoin = yLoin;
@@ -166,7 +165,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneY0() > tuile.getY()){ // Glissement vers le haut
-                    while ((int)yProche > (int)y2+X){
+                    while ((int)yProche > (int)y2){
                         yProche -= 1;
                         yLoin -= 1;
                         double posXProche = xProche;
@@ -184,7 +183,7 @@ public class Fusion extends Task<Void> {
                         });
                         Thread.sleep(TPSSLEEP);
                     }
-                    while ((int) yLoin > (int) y2+X){
+                    while ((int) yLoin > (int) y2){
                         yLoin -= 1;
                         double posXLoin = xLoin;
                         double posYLoin = yLoin;
@@ -199,7 +198,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneY0() < tuile.getY()){ // Glissement vers le bas
-                    while ((int)yProche < (int)y2-X){
+                    while ((int)yProche < (int)y2){
                         yProche += 1;
                         yLoin += 1;
                         double posXProche = xProche;
@@ -217,7 +216,7 @@ public class Fusion extends Task<Void> {
                         });
                         Thread.sleep(TPSSLEEP);
                     }
-                    while ((int) yLoin < (int) y2-X){
+                    while ((int) yLoin < (int) y2){
                         yLoin += 1;
                         double posXLoin = xLoin;
                         double posYLoin = yLoin;
@@ -285,7 +284,7 @@ public class Fusion extends Task<Void> {
                 });
             
                 if (tuile.getFusionneX0() > tuile.getX()){ // Glissement vers la gauche
-                    while ((int) x > (int) x2+X){
+                    while ((int) x > (int) x2){
                         x -= 1;
                         double posX = x;
                         double posY = y;
@@ -300,7 +299,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneX0() < tuile.getX()){ // Glissement vers la droite
-                    while ((int) x < (int) x2-X){
+                    while ((int) x < (int) x2){
                         x += 1;
                         double posX = x;
                         double posY = y;
@@ -315,7 +314,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneY0() > tuile.getY()){ // Glissement vers le haut
-                    while ((int)y > (int)y2+X){
+                    while ((int)y > (int)y2){
                         y -= 1;
                         double posX = x;
                         double posY = y;
@@ -330,7 +329,7 @@ public class Fusion extends Task<Void> {
                     }
                 }
                 else if (tuile.getFusionneY0() < tuile.getY()){ // Glissement vers le bas
-                    while ((int)y < (int)y2 -X){
+                    while ((int)y < (int)y2){
                         y += 1;
                         double posX = x;
                         double posY = y;

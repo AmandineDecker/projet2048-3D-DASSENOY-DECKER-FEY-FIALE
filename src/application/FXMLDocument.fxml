@@ -18,13 +18,16 @@
             <items>
               <MenuItem id="quitter" fx:id="quitter" mnemonicParsing="false" onAction="#quitter" text="Quitter">
                      <accelerator>
-                        <KeyCodeCombination alt="UP" code="Q" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                        <KeyCodeCombination alt="UP" code="X" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator></MenuItem>
                   <MenuItem id="nouveauJeu" fx:id="nouveauJeu" mnemonicParsing="false" onAction="#nouveauJeu" text="Nouvelle partie">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator></MenuItem>
-                  <MenuItem fx:id="menuScores" mnemonicParsing="false" onAction="#voirScores" text="Scores" />
+                  <MenuItem fx:id="menuScores" mnemonicParsing="false" onAction="#voirScores" text="Scores">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="B" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
           <Menu id="menuEdit" fx:id="menuEdit" mnemonicParsing="false" text="Editer">
@@ -61,7 +64,7 @@
                   <SeparatorMenuItem mnemonicParsing="false" text="Jeu" />
                   <MenuItem fx:id="backMove" mnemonicParsing="false" onAction="#revenirUnCoup" text="Annuler le coup">
                      <accelerator>
-                        <KeyCodeCombination alt="UP" code="Z" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                        <KeyCodeCombination alt="UP" code="A" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator></MenuItem>
                   <MenuItem fx:id="avancerUnCoup" mnemonicParsing="false" onAction="#avancerUnCoup" text="Rejouer le coup">
                      <accelerator>
@@ -87,7 +90,10 @@
             </Menu>
             <Menu mnemonicParsing="false" text="IA">
               <items>
-                <MenuItem fx:id="jouer1IA" mnemonicParsing="false" onAction="#jouerUnCoupIA" text="Jouer un coup" />
+                <MenuItem fx:id="jouer1IA" mnemonicParsing="false" onAction="#jouerUnCoupIA" text="Jouer un coup">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="ENTER" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                     </accelerator></MenuItem>
               </items>
             </Menu>
           <Menu id="menuAide" fx:id="menuAide" mnemonicParsing="false" text="Aide">

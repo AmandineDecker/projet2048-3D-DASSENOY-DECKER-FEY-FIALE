@@ -13,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import model.Case;
 import static model.Parametres.TPSSLEEP;
-import static model.Parametres.X;
 
 /**
  * Glissement des cases avec effet.
@@ -85,7 +84,7 @@ public class Glissement extends Task<Void> {
             });
             
             if (tuile.getGlisseX0() > tuile.getX()){ // Glissement vers la gauche
-                while ((int) x > (int) x2+X){
+                while ((int) x > (int) x2){
                     x -= 1;
                     double posX = x;
                     double posY = y;
@@ -100,7 +99,7 @@ public class Glissement extends Task<Void> {
                 }
             }
             else if (tuile.getGlisseX0() < tuile.getX()){ // Glissement vers la droite
-                while ((int) x < (int) x2-X){
+                while ((int) x < (int) x2){
                     x += 1;
                     double posX = x;
                     double posY = y;
@@ -115,7 +114,7 @@ public class Glissement extends Task<Void> {
                 }
             }
             else if (tuile.getGlisseY0() > tuile.getY()){ // Glissement vers le haut
-                while ((int)y > (int)y2+X){
+                while ((int)y > (int)y2){
                     y -= 1;
                     double posX = x;
                     double posY = y;
@@ -130,7 +129,7 @@ public class Glissement extends Task<Void> {
                 }
             }
             else if (tuile.getGlisseY0() < tuile.getY()){ // Glissement vers le bas
-                while ((int)y < (int)y2-X){
+                while ((int)y < (int)y2){
                     y += 1;
                     double posX = x;
                     double posY = y;

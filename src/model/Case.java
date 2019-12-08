@@ -238,4 +238,16 @@ public class Case implements Parametres, Serializable, Cloneable {
         return null;
     }
     
+    /**
+     * Modifie la case pour que lors de l'affichage elle apparaisse sans effet.
+     */
+    public void fige() {
+        this.apparue = true;
+        this.grimpe = false;
+        this.fusionneX0 = -1;
+        this.fusionneY0 = -1;
+        this.glisseX0 = -1;
+        this.glisseY0 = -1;
+    }
+    
 }

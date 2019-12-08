@@ -13,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import model.Case;
 import static model.Parametres.TPSSLEEP;
-import static model.Parametres.X;
 
 /**
  * Thread d'apparition avec effet des cases.
@@ -84,7 +83,7 @@ public class Apparition extends Task<Void> {
             double h2 = 0;
             
             int augmente = 1;
-            while (((int) w2 < (int) w-X) || ((int) h2 < (int) h-X)){
+            while (((int) w2 < (int) w) || ((int) h2 < (int) h)){
                 if (augmente == 0){
                     w2 += 1;
                     h2 += 1;

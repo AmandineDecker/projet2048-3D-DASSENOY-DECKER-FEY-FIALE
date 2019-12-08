@@ -48,7 +48,6 @@ public class Grille implements Parametres, Serializable, Cloneable {
         instance.score = gr.score;
         instance.modeJeu = gr.getModeJeu();
         instance.grille = gr.getGr();
-        System.out.println("LA GRILLE: \n" + instance);
         return instance;
     }
     
@@ -340,6 +339,9 @@ public class Grille implements Parametres, Serializable, Cloneable {
     public Case[][] getCasesExtremites(int direction) {
         Case[][] result = new Case[TAILLE][TAILLE];
         for (int k = 0; k < TAILLE; k++){
+//            System.out.println("Ligne " + k);
+//            System.out.println(Arrays.toString(result[k]));
+//            System.out.println();
             for (Case c : this.grille) {
                 switch (direction) {
                     case HAUT:
@@ -367,14 +369,26 @@ public class Grille implements Parametres, Serializable, Cloneable {
                             result[k][c.getX()] = c;
                         }
                         break;
-                    default: // case INFERIEUR
+                    case INFERIEUR: // case INFERIEUR
                         if (c.getY() == k && ((result[k][c.getX()] == null) || (result[k][c.getX()].getZ() < c.getZ()))) {
                             result[k][c.getX()] = c;
+//                            System.out.println(c);
+//                            System.out.println(Arrays.toString(result[k]));
+//                            System.out.println();
                         }
+                        break;
+                    default:
                         break;
                 }
             }
         }
+//        if (direction == INFERIEUR) {
+//            System.out.println();
+//            System.out.println();
+//            System.out.println(Arrays.toString(result[0]));
+//            System.out.println(Arrays.toString(result[1]));
+//            System.out.println(Arrays.toString(result[2]));
+//        }
         return result;
     }
 
@@ -394,26 +408,27 @@ public class Grille implements Parametres, Serializable, Cloneable {
         deplacement = false; // pour vérifier si on a bougé au moins une case après le déplacement, avant d'en rajouter une nouvelle
         for (int j = 0; j < TAILLE; j++) {
             for (int i = 0; i < TAILLE; i++) {
-                switch (direction) {
-                    case HAUT:
-                        this.deplacerRecursif(extremites, i, j, direction, 0);
-                        break;
-                    case BAS:
-                        this.deplacerRecursif(extremites, i, j, direction, 0);
-                        break;
-                    case GAUCHE:
-                        this.deplacerRecursif(extremites, i, j, direction, 0);
-                        break;
-                    case DROITE:
-                        this.deplacerRecursif(extremites, i, j, direction, 0);
-                        break;
-                    case SUPERIEUR:
-                        this.deplacerRecursif(extremites, i, j, direction, 0);
-                        break;
-                    default: // case INFERIEUR
-                        this.deplacerRecursif(extremites, i, j, direction, 0);
-                        break;
-                }
+                this.deplacerRecursif(extremites, i, j, direction, 0);
+//                switch (direction) {
+//                    case HAUT:
+//                        this.deplacerRecursif(extremites, i, j, direction, 0);
+//                        break;
+//                    case BAS:
+//                        this.deplacerRecursif(extremites, i, j, direction, 0);
+//                        break;
+//                    case GAUCHE:
+//                        this.deplacerRecursif(extremites, i, j, direction, 0);
+//                        break;
+//                    case DROITE:
+//                        this.deplacerRecursif(extremites, i, j, direction, 0);
+//                        break;
+//                    case SUPERIEUR:
+//                        this.deplacerRecursif(extremites, i, j, direction, 0);
+//                        break;
+//                    default: // case INFERIEUR
+//                        this.deplacerRecursif(extremites, i, j, direction, 0);
+//                        break;
+//                }
             }
         }
         return deplacement;
@@ -481,7 +496,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
                         }
                         break;
                     default: // case INFERIEUR
-                        if (compteur != extremites[sousGrille][rangee].getZ()){
+                        if (TAILLE - 1 - compteur != extremites[sousGrille][rangee].getZ()){
                             extremites[sousGrille][rangee].setZ(TAILLE - 1 - compteur);
                             extremites[sousGrille][rangee].setGrimpe(true);
                         }
@@ -507,6 +522,16 @@ public class Grille implements Parametres, Serializable, Cloneable {
                 }
             }
         }
+    }
+    
+    /**
+     * Modifie les cases pour que lors de l'affichage elles apparaissent sans 
+     * effet.
+     */
+    public void fige() {
+        this.grille.forEach((c) -> {
+            c.fige();
+        });
     }
     
 }

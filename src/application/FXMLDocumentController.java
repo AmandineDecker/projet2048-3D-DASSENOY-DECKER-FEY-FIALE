@@ -14,8 +14,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -35,12 +33,12 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.PrintWriter;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -48,7 +46,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.*;
 import reseauClientCoop.FXMLClientCoopController;
@@ -106,39 +103,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     public void quitter() {
-//        System.out.println("Au revoir!");
-        ObjectOutputStream oosGrille = null;
-        ObjectOutputStream oosStyle = null;
-        
         if (modelGrille.getModeJeu() == SOLO) {
             if (modelGrille.partieFinie()){
                 nouvellePartie(SOLO);
             }
-            try{
-                final FileOutputStream fichierGrille = new FileOutputStream("data/model.ser");
-                oosGrille = new ObjectOutputStream(fichierGrille);
-                oosGrille.writeObject(modelGrille);
-                oosGrille.flush();
-                final FileOutputStream fichierStyle = new FileOutputStream("data/style.ser");
-                oosStyle = new ObjectOutputStream(fichierStyle);
-                oosStyle.writeObject(style);
-                oosStyle.flush();
-            }catch (final IOException e){
-                e.printStackTrace();
-            }finally{
-                try{
-                    if(oosGrille != null){
-                        oosGrille.flush();
-                        oosGrille.close();
-                    }
-                    if(oosStyle != null){
-                        oosStyle.flush();
-                        oosStyle.close();
-                    }
-                }catch(final IOException ex){
-                    ex.printStackTrace();
-                }
-            }
+            Serialization.saveGrille(modelGrille);
+            Serialization.saveStyle(style);
         } else {
             if (serveurCompetController != null) {
                 serveurCompetController.arreterServeur(true);
@@ -147,7 +117,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 clientCompetController.arreterClient();
             }
         }
-            
         System.exit(0);
     }
 
@@ -157,7 +126,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void nouveauJeu() {
-//        System.out.println("\n\n\nNouvelle partie!");
         if (modelGrille.getModeJeu() == SOLO){
             nouvellePartie(SOLO);
         } else {
@@ -201,12 +169,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
     @FXML
     private void jouerUnCoupIA() throws CloneNotSupportedException{
         int dir = unCoupIA();
-        System.out.println("IA joue dans la direction " + dir);
+//        System.out.println("IA joue dans la direction " + dir);
+//        System.out.println("IA Test jouerait dans la direction " + unCoupIATest());
         if (!modelGrille.partieFinie()){
+            modelGrille.fige();
             joue(dir);
         }
-        afficheGrille(modelGrille);
-//        System.out.println("IA joue" + "\n" + modelGrille);
     }
     
     /** 
@@ -216,7 +184,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     private void revenirUnCoup() throws CloneNotSupportedException {
         int index = caretaker.getIndex();
         int nbMvts = modelGrille.getNbMvts();
-        modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
+        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
         modelGrille.setNbMvts(nbMvts + 1);
 //        System.out.println("On récupère " + (index - 1));
 //        for (Case c : modelGrille.getGr()){
@@ -247,7 +215,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     private void avancerUnCoup() throws CloneNotSupportedException {
         int index = caretaker.getIndex();
         int nbMvts = modelGrille.getNbMvts();
-        modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index + 1)));
+        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index + 1)));
         modelGrille.setNbMvts(nbMvts + 1);
         caretaker.setIndex(index + 1);
         if (modelGrille.getModeJeu() == COMPETITION) {
@@ -266,8 +234,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void newCompet() throws IOException {
-//        System.out.println("\n\n\nCréation d'une partie en mode compétitf");
-        
         menuCompet.setDisable(true);
         menuCoop.setDisable(true);
         
@@ -303,8 +269,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
         stageServeur.setX(0);
         stageServeur.setX(0);
         stageServeur.setScene(sceneServeur);
-//        stage.initModality(Modality.WINDOW_MODAL);
-//        sceneServeur.getStylesheets().add(style.styleActuel);
         stageServeur.show();
         
         // Le client
@@ -321,8 +285,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private FXMLClientCompetController joinCompet() throws IOException {
-//        System.out.println("\n\n\nRejoindre une partie en mode compétitif");
-        
         newCompetMenu.setDisable(true);
         joinCompetMenu.setDisable(true);
         newCoopMenu.setDisable(true);
@@ -358,8 +320,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
         });
         
         stageClient.setScene(sceneClient);
-        stageClient.initModality(Modality.NONE);
-//        sceneClient.getStylesheets().add(style.styleActuel);
         stageClient.show();
         return clientCompetController;
     }
@@ -407,8 +367,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
         stageServeur.setX(0);
         stageServeur.setX(0);
         stageServeur.setScene(sceneServeur);
-//        stage.initModality(Modality.WINDOW_MODAL);
-//        sceneServeur.getStylesheets().add(style.styleActuel);
         stageServeur.show();
         
         // Le client
@@ -461,8 +419,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
         });
         
         stageClient.setScene(sceneClient);
-        stageClient.initModality(Modality.NONE);
-//        sceneClient.getStylesheets().add(style.styleActuel);
         stageClient.show();
         return clientCoopController;
     }
@@ -556,15 +512,11 @@ public class FXMLDocumentController implements Parametres, Initializable {
         FXMLColorPickerController personnalisationController = loader.getController();
         // Transmettre ce qu'on veut
         personnalisationController.transferStyle(style, fond);
-        //System.out.println(style.styleActuel);
-        // Afficher la fenetre
-        //Scene scene = new Scene(FXMLLoader.load(getClass().getResource("FXMLColorPicker.fxml")));
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Fenetre de personnalisation");
         stage.initModality(Modality.WINDOW_MODAL);
-//        scene.getStylesheets().add(style.styleActuel);
         stage.show();
     }
     
@@ -573,29 +525,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void clicHaut(){
-//        System.out.println(modelGrille.getModeJeu() == COOPERATION);
-//        System.out.println(clientCoopController.gare.aLaMain());
-        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
-            // Ce n'est pas à ce joueur de jouer
-        } else if (!modelGrille.partieFinie()){
-            joue(HAUT);
-        }
-        else {
-            if (modelGrille.getModeJeu() == SOLO) {
-                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
-                resultat.setText(aAfficher);
-                this.fenetreBDD(aAfficher);
-            } else if (modelGrille.getModeJeu() == COMPETITION) {
-                if (!this.joueur.getFini()){
-                    this.joueur.setFini(true);
-                    this.joueur.stopTemps();
-                    this.joueur.setScore(modelGrille.getScore());
-                    this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientCompetController.gare.update(joueur);
-                    clientCompetController.gare.share();
-                }
-            }
-        }
+        joueApresClic(HAUT);
     }
     
      /**
@@ -603,27 +533,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void clicBas(){
-        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
-            // Ce n'est pas à ce joueur de jouer
-        } else if (!modelGrille.partieFinie()){
-            joue(BAS);
-        }
-        else {
-            if (modelGrille.getModeJeu() == SOLO) {
-                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
-                resultat.setText(aAfficher);
-                this.fenetreBDD(aAfficher);
-            } else if (modelGrille.getModeJeu() == COMPETITION) {
-                if (!this.joueur.getFini()){
-                    this.joueur.setFini(true);
-                    this.joueur.stopTemps();
-                    this.joueur.setScore(modelGrille.getScore());
-                    this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientCompetController.gare.update(joueur);
-                    clientCompetController.gare.share();
-                }
-            }
-        }
+        joueApresClic(BAS);
     }
     
      /**
@@ -631,27 +541,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void clicGauche(){
-        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
-            // Ce n'est pas à ce joueur de jouer
-        } else if (!modelGrille.partieFinie()){
-            joue(GAUCHE);
-        }
-        else {
-            if (modelGrille.getModeJeu() == SOLO) {
-                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
-                resultat.setText(aAfficher);
-                this.fenetreBDD(aAfficher);
-            } else if (modelGrille.getModeJeu() == COMPETITION) {
-                if (!this.joueur.getFini()){
-                    this.joueur.setFini(true);
-                    this.joueur.stopTemps();
-                    this.joueur.setScore(modelGrille.getScore());
-                    this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientCompetController.gare.update(joueur);
-                    clientCompetController.gare.share();
-                }
-            }
-        }
+        joueApresClic(GAUCHE);
     }
     
     /**
@@ -659,27 +549,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void clicDroite(){
-        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
-            // Ce n'est pas à ce joueur de jouer
-        } else if (!modelGrille.partieFinie()){
-            joue(DROITE);
-        }
-        else {
-            if (modelGrille.getModeJeu() == SOLO) {
-                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
-                resultat.setText(aAfficher);
-                this.fenetreBDD(aAfficher);
-            } else if (modelGrille.getModeJeu() == COMPETITION) {
-                if (!this.joueur.getFini()){
-                    this.joueur.setFini(true);
-                    this.joueur.stopTemps();
-                    this.joueur.setScore(modelGrille.getScore());
-                    this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientCompetController.gare.update(joueur);
-                    clientCompetController.gare.share();
-                }
-            }
-        }
+        joueApresClic(DROITE);
     }
     
     /**
@@ -687,27 +557,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void clicSup(){
-        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
-            // Ce n'est pas à ce joueur de jouer
-        } else if (!modelGrille.partieFinie()){
-            joue(SUPERIEUR);
-        }
-        else {
-            if (modelGrille.getModeJeu() == SOLO) {
-                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
-                resultat.setText(aAfficher);
-                this.fenetreBDD(aAfficher);
-            } else if (modelGrille.getModeJeu() == COMPETITION) {
-                if (!this.joueur.getFini()){
-                    this.joueur.setFini(true);
-                    this.joueur.stopTemps();
-                    this.joueur.setScore(modelGrille.getScore());
-                    this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientCompetController.gare.update(joueur);
-                    clientCompetController.gare.share();
-                }
-            }
-        }
+        joueApresClic(SUPERIEUR);
     }
     
     /**
@@ -715,27 +565,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void clicInf(){
-        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
-            // Ce n'est pas à ce joueur de jouer
-        } else if (!modelGrille.partieFinie()){
-            joue(INFERIEUR);
-        }
-        else {
-            if (modelGrille.getModeJeu() == SOLO) {
-                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
-                resultat.setText(aAfficher);
-                this.fenetreBDD(aAfficher);
-            } else if (modelGrille.getModeJeu() == COMPETITION) {
-                if (!this.joueur.getFini()){
-                    this.joueur.setFini(true);
-                    this.joueur.stopTemps();
-                    this.joueur.setScore(modelGrille.getScore());
-                    this.joueur.setTuileMax(modelGrille.getValeurMax());
-                    clientCompetController.gare.update(joueur);
-                    clientCompetController.gare.share();
-                }
-            }
-        }
+        joueApresClic(INFERIEUR);
     }
     
     /**
@@ -747,8 +577,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     public void toucheClavier(KeyEvent ke) {
-//        System.out.println(modelGrille.getModeJeu());
-//        System.out.println(clientCoopController.gare.aLaMain());
         if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
             // Ce n'est pas à ce joueur de jouer
         } else if (!modelGrille.partieFinie()){
@@ -775,7 +603,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     direction = SUPERIEUR;
                     break;
                 case "f":
-//                    System.out.println("Vous vous déplacez sur la grille inférieur");
+//                    System.out.println("Vous vous déplacez sur la grille inférieure");
                     direction = INFERIEUR;
                     break;
             }
@@ -783,8 +611,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
         } else {
             if (modelGrille.getModeJeu() == SOLO) {
                 String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
-                resultat.setText(aAfficher);
-                this.fenetreBDD(aAfficher);
+                if (!resultat.getText().equals(aAfficher)) {
+                    resultat.setText(aAfficher);
+                    this.fenetreBDD(aAfficher);
+                }
             } else if (modelGrille.getModeJeu() == COMPETITION) {
                 if (!this.joueur.getFini()){
                     this.joueur.setFini(true);
@@ -800,6 +630,37 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     
     // Les méthodes
+    
+    /**
+     * Effectue le coup choisi.
+     * @param direction
+     * Paramètre de type int. La direction choisie.
+     */
+    public void joueApresClic(int direction) {
+        if (modelGrille.getModeJeu() == COOPERATION && !clientCoopController.gare.aLaMain()) {
+            // Ce n'est pas à ce joueur de jouer
+        } else if (!modelGrille.partieFinie()){
+            joue(direction);
+        }
+        else {
+            if (modelGrille.getModeJeu() == SOLO) {
+                String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
+                if (!resultat.getText().equals(aAfficher)) {
+                    resultat.setText(aAfficher);
+                    this.fenetreBDD(aAfficher);
+                }
+            } else if (modelGrille.getModeJeu() == COMPETITION) {
+                if (!this.joueur.getFini()){
+                    this.joueur.setFini(true);
+                    this.joueur.stopTemps();
+                    this.joueur.setScore(modelGrille.getScore());
+                    this.joueur.setTuileMax(modelGrille.getValeurMax());
+                    clientCompetController.gare.update(joueur);
+                    clientCompetController.gare.share();
+                }
+            }
+        }
+    }
     
     /**
      * Cette fonction renvoie le mode de jeu de la partie en cours
@@ -975,7 +836,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 glisseCase(c);
             }
 //            else if (c.getGrimpe()){
-//                placeCase(c); // On peut mettre affiche aussi, a discuter
+//                afficheCase(c); // On peut mettre affiche aussi, a discuter
 //            }
             else if (!c.getApparue()){
                 afficheCase(c);
@@ -1105,7 +966,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
             FXMLSaveDataBaseController databaseController = loader.getController();
             databaseController.transferStyle(style);
             databaseController.giveObjects(this);
-            databaseController.getData(modelGrille.getScore(), modelGrille.getValeurMax(), aAfficher);
+            databaseController.getData(modelGrille.getScore(), modelGrille.getValeurMax(), modelGrille.getNbMvts(), aAfficher);
             Stage stage = new Stage();
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -1132,18 +993,22 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 if (b2) {
                     
                     if (modelGrille.getValeurMax()>=OBJECTIF){
-                        modelGrille.victoire();
+//                        modelGrille.victoire();
                         String aAfficher = "Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".";
-                        resultat.setText(aAfficher);
                         switch (modelGrille.getModeJeu()) {
                             case SOLO:
-                                this.fenetreBDD(aAfficher);
+                                if (!resultat.getText().equals(aAfficher)) {
+                                    resultat.setText(aAfficher);
+                                    this.fenetreBDD(aAfficher);
+                                }
                                 break;
                             case COMPETITION:
                                 this.joueur.setFini(true);
                                 this.joueur.stopTemps();
+                                resultat.setText(aAfficher);
                                 break;
                             case COOPERATION:
+                                resultat.setText(aAfficher);
                                 clientCoopController.gare.updateGrille(modelGrille);
                                 clientCoopController.gare.share();
                                 clientCoopController.gare.shareInfos("PartieFinie");
@@ -1157,18 +1022,22 @@ public class FXMLDocumentController implements Parametres, Initializable {
                         if (!b) {
                             modelGrille.defaite();
                             String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
-                            resultat.setText(aAfficher);
                             switch (modelGrille.getModeJeu()) {
                                 case SOLO:
-                                    this.fenetreBDD(aAfficher);
+                                    if (!resultat.getText().equals(aAfficher)) {
+                                        resultat.setText(aAfficher);
+                                        this.fenetreBDD(aAfficher);
+                                    }
                                     break;
                                 case COMPETITION:
+                                    resultat.setText(aAfficher);
                                     this.joueur.setFini(true);
                                     this.joueur.stopTemps();
                                     break;
                                 case COOPERATION:
                                     clientCoopController.gare.updateGrille(modelGrille);
                                     clientCoopController.gare.share();
+                                    resultat.setText(aAfficher);
                                     clientCoopController.gare.shareInfos("PartieFinie");
                                     clientCoopController.gare.donnerMain();
                                     break;
@@ -1176,8 +1045,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
                                     break;
                             }
                         } else if (modelGrille.getModeJeu() == COOPERATION) {
-                            // update grille
-                            //                System.out.println("COOPERATION");
                             resultat.setText("A l'autre joueur");
                             clientCoopController.gare.updateGrille(modelGrille);
                             clientCoopController.gare.share();
@@ -1189,15 +1056,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 caretaker.addMemento(originator.saveToMemento());
                 
                 afficheGrille(modelGrille);
-//                System.out.println(modelGrille);
-//            if (modelGrille.getValeurMax()>=OBJECTIF){
-//                modelGrille.victoire();
-//                resultat.setText("Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".");
-//                if (modelGrille.getModeJeu() == COMPETITION) {
-//                    this.joueur.setFini(true);
-//                    this.joueur.stopTemps();
-//                }
-//            }
             } catch (CloneNotSupportedException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1414,14 +1272,13 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction permet de placer une fenêtre dans le coin supérieur droit de l'écran
+     * Cette fonction permet de placer une fenêtre à gauche de l'écran.
      * @param stage
      * Paramètre de type Stage. La fenêtre à positionner.
      */
     public void placeStageNE(Stage stage) {
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX(primaryScreenBounds.getMaxX());
-        stage.setY(primaryScreenBounds.getMinY());
+        stage.setX(0);
+        stage.setY(150);
     }
     
     /**
@@ -1434,38 +1291,80 @@ public class FXMLDocumentController implements Parametres, Initializable {
     public int unCoupIA() throws CloneNotSupportedException{
         int dir = 0;
         int[] scoretab = new int[3];
-        int scoreMax = 0;
+        int scoreMax = modelGrille.getScore();
         int index = caretaker.getIndex();
         modelGrille.initialiserDeplacement(INFERIEUR);
-        index++;
-//        System.out.println(modelGrille);
-        scoretab[0]=modelGrille.getScore();
-        modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
-        caretaker.setIndex(index - 1);
-        index--;
-//        System.out.println(modelGrille);
+        scoretab[0] = modelGrille.getScore();
+        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+        caretaker.setIndex(index);
         modelGrille.initialiserDeplacement(GAUCHE);
-        index++;
-//        System.out.println(modelGrille);
-        scoretab[1]=modelGrille.getScore();
-        modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
-        caretaker.setIndex(index - 1);
-        index--;
-//        System.out.println(modelGrille);
+        scoretab[1] = modelGrille.getScore();
+        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+        caretaker.setIndex(index);
         modelGrille.initialiserDeplacement(BAS);
-        index++;
-//        System.out.println(modelGrille);
-        scoretab[2]=modelGrille.getScore();
-        modelGrille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index - 1)));
-        caretaker.setIndex(index - 1);
-        index--;
-//        System.out.println(modelGrille);
+        scoretab[2] = modelGrille.getScore();
+        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+        caretaker.setIndex(index);
         for (int k=0; k<3 ;k++){
             if (scoretab[k]>scoreMax){
                 scoreMax = scoretab[k];
                 dir = k-3;
             }
         }
+        // Si c'est 0, hasard
+        if (dir == 0) {
+            Random r = new Random();
+            int d = r.nextInt(3);
+            if (r.nextInt(2) == 0) {
+                dir = d + 1;
+            } else {
+                dir = -(d + 1);
+            }
+        }
+        return dir;
+    }
+    
+    public int unCoupIATest() throws CloneNotSupportedException{
+        int dir = 0;
+        int[] scoretab = new int[6];
+        int scoreMax = modelGrille.getScore();
+        int index = caretaker.getIndex();
+        
+        modelGrille.initialiserDeplacement(INFERIEUR);
+        scoretab[0] = modelGrille.getScore();
+        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+        caretaker.setIndex(index);
+        modelGrille.initialiserDeplacement(GAUCHE);
+        scoretab[1] = modelGrille.getScore();
+        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+        caretaker.setIndex(index);
+        modelGrille.initialiserDeplacement(BAS);
+        scoretab[2] = modelGrille.getScore();
+        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+        caretaker.setIndex(index);
+        modelGrille.initialiserDeplacement(SUPERIEUR);
+        scoretab[5] = modelGrille.getScore();
+        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+        caretaker.setIndex(index);
+        modelGrille.initialiserDeplacement(DROITE);
+        scoretab[4] = modelGrille.getScore();
+        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+        caretaker.setIndex(index);
+        modelGrille.initialiserDeplacement(HAUT);
+        scoretab[3] = modelGrille.getScore();
+        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+        caretaker.setIndex(index);
+        for (int k=0; k<6 ;k++){
+            if (scoretab[k]>scoreMax){
+                scoreMax = scoretab[k];
+                if (k < 3) {
+                    dir = k-3;
+                } else {
+                    dir = k-2;
+                }
+            }
+        }
+        System.out.println("IA Test: " + dir);
         return dir;
     }
     
@@ -1483,157 +1382,131 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            // TODO
-            
+        
+        // TODO
 //            System.out.println("le contrôleur initialise la vue");
-            try {
-                fond.getStyleClass().add("pane");
-                gr1.getStyleClass().add("gridpane");
-                gr2.getStyleClass().add("gridpane");
-                gr3.getStyleClass().add("gridpane");
-                score.getStyleClass().add("score");
-                txtScore.getStyleClass().add("score");
-                resultat.getStyleClass().add("resultat");
-                logo.getStyleClass().add("logo");
-                commande0.getStyleClass().add("commandes");
-                commande1.getStyleClass().add("commandes");
-                commande2.getStyleClass().add("commandes");
-                commande3.getStyleClass().add("commandes");
-                commande4.getStyleClass().add("commandes");
-                commande5.getStyleClass().add("commandes");
-                commande6.getStyleClass().add("commandes");
-            } catch (Exception e){}
-            
-            
-            try {
-                if (!new File("data").exists()) {
-                    new File("data").mkdirs();
-                }
-                final InputStream fichierData = new FileInputStream("data/data.txt");
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(fichierData))) {
-                    String ouverture = reader.readLine();
-                    if (null == ouverture) {
-                        reader.close();
-                        try (PrintWriter writer = new PrintWriter("data/data.txt")) {
-                            // Si rien n'est spécifié, on joue avec interface
-                            writer.println("1");
-                            writer.close();
-                            ouvertureInterface.setSelected(true);
-                        }
-                    } else switch (ouverture) {
-                        case "0":
-                            // Jeu dans la console
-                            ouvertureConsole.setSelected(true);
-                            break;
-                        default:
-                            // Jeu dans la console
-                            ouvertureInterface.setSelected(true);
-                            break;
-                    }
-                }
-            } catch (FileNotFoundException ex) {
-                System.err.println(ex);
-            } catch (IOException ex) {
-                System.err.println(ex);
+        // Le style de la page
+        try {
+            fond.getStyleClass().add("pane");
+            gr1.getStyleClass().add("gridpane");
+            gr2.getStyleClass().add("gridpane");
+            gr3.getStyleClass().add("gridpane");
+            score.getStyleClass().add("score");
+            txtScore.getStyleClass().add("score");
+            resultat.getStyleClass().add("resultat");
+            logo.getStyleClass().add("logo");
+            commande0.getStyleClass().add("commandes");
+            commande1.getStyleClass().add("commandes");
+            commande2.getStyleClass().add("commandes");
+            commande3.getStyleClass().add("commandes");
+            commande4.getStyleClass().add("commandes");
+            commande5.getStyleClass().add("commandes");
+            commande6.getStyleClass().add("commandes");
+        } catch (Exception e){}
+
+        // Le mode de jeu Console ou Interface graphique.
+        try {
+            if (!new File("data").exists()) {
+                new File("data").mkdirs();
             }
-            
-            
-            ObjectOutputStream oosGrille = null;
-            ObjectInputStream oisGrille = null;
-            Grille gr = null;
-            ObjectOutputStream oosStyle = null;
-            ObjectInputStream oisStyle = null;
-            Style st = null;
+            final InputStream fichierData = new FileInputStream("data/data.txt");
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(fichierData))) {
+                String ouverture = reader.readLine();
+                if (null == ouverture) {
+                    reader.close();
+                    try (PrintWriter writer = new PrintWriter("data/data.txt")) {
+                        // Si rien n'est spécifié, on joue avec interface
+                        writer.println("1");
+                        writer.close();
+                        ouvertureInterface.setSelected(true);
+                    }
+                } else switch (ouverture) {
+                    case "0":
+                        // Jeu dans la console
+                        ouvertureConsole.setSelected(true);
+                        break;
+                    default:
+                        // Jeu dans la console
+                        ouvertureInterface.setSelected(true);
+                        break;
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            System.err.println(ex);
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
+
+        // On récupère la dernière grille
+        Grille gr = (Grille) Serialization.deserialize("data/model.ser");
+        if(gr == null){
+            //Initialisation de la partie avec les deux premières cases aux hasard
+            boolean b = modelGrille.nouvelleCase();
+            b = modelGrille.nouvelleCase();
+        }else{
+            modelGrille = gr;
+        }
+
+        // On récupère le style
+        Style st = (Style) Serialization.deserialize("data/style.ser");
+        if (st != null){
+            style = st;
             try{
-                final FileInputStream fichierlnGrille = new FileInputStream("data/model.ser");
-                oisGrille = new ObjectInputStream(fichierlnGrille);
-                gr = (Grille)oisGrille.readObject();
-                final FileInputStream fichierlnStyle = new FileInputStream("data/style.ser");
-                oisStyle = new ObjectInputStream(fichierlnStyle);
-                st = (Style)oisStyle.readObject();
-            } catch (final IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            } finally{
-                try{
-                    if(oisGrille != null){
-                        oisGrille.close();
-                    }
-                    if(oisStyle != null){
-                        oisStyle.close();
-                    }
-                }catch (final IOException exc){
-                    exc.printStackTrace();
+                // On met le bon style
+                fond.getStylesheets().clear();
+                grStyle.getSelectedToggle().setSelected(false);
+                // On coche le bon style dans le menu
+                switch(st.styleActuel){
+                    case "css/styles.css":
+                        fond.getStylesheets().add("css/styles.css");
+                        themeClassique.setSelected(true);
+                        break;
+                    case "css/modeNuit.css":
+                        fond.getStylesheets().add("css/modeNuit.css");
+                        themeNuit.setSelected(true);
+                        break;
+                    case "css/wanda.css":
+                        fond.getStylesheets().add("css/wanda.css");
+                        themeWanda.setSelected(true);
+                        break;
+                    case "css/amandine.css":
+                        fond.getStylesheets().add("css/amandine.css");
+                        themeAmandine.setSelected(true);
+                        break;
+                    case "css/amelie.css":
+                        fond.getStylesheets().add("css/amelie.css");
+                        themeAmelie.setSelected(true);
+                        break;
+                    case "data/perso.css":
+                        style.applyCSS(fond);
+                        themePerso.setSelected(true);
+                        break;
+                    case "css/ame.css":
+                        fond.getStylesheets().add("css/ame.css");
+                        themeAme2.setSelected(true);
+                        break;
+                    case "css/wvert.css":
+                        fond.getStylesheets().add("css/wvert.css");
+                        themePerso.setSelected(true);
+                        break;
+                    default:
+                        break;
                 }
+            } catch (Exception e){
+                System.err.println(e);
             }
-            
-            if(gr == null){
-                //Initialisation de la partie avec les deux premières cases aux hasard
-                boolean b = modelGrille.nouvelleCase();
-                b = modelGrille.nouvelleCase();
-            }else{
-                modelGrille = gr;
-            }
-            if (st != null){
-                style = st;
-                try{
-                    // On met le bon style
-                    fond.getStylesheets().clear();
-                    grStyle.getSelectedToggle().setSelected(false);
-                    // On coche le bon style dans le menu
-                    switch(st.styleActuel){
-                        case "css/styles.css":
-                            fond.getStylesheets().add("css/styles.css");
-                            themeClassique.setSelected(true);
-                            break;
-                        case "css/modeNuit.css":
-                            fond.getStylesheets().add("css/modeNuit.css");
-                            themeNuit.setSelected(true);
-                            break;
-                        case "css/wanda.css":
-                            fond.getStylesheets().add("css/wanda.css");
-                            themeWanda.setSelected(true);
-                            break;
-                        case "css/amandine.css":
-                            fond.getStylesheets().add("css/amandine.css");
-                            themeAmandine.setSelected(true);
-                            break;
-                        case "css/amelie.css":
-                            fond.getStylesheets().add("css/amelie.css");
-                            themeAmelie.setSelected(true);
-                            break;
-                        case "data/perso.css":
-                            style.applyCSS(fond);
-                            themePerso.setSelected(true);
-                            break;
-                        case "css/ame.css":
-                            fond.getStylesheets().add("css/ame.css");
-                            themeAme2.setSelected(true);
-                            break;
-                        case "css/wvert.css":
-                            fond.getStylesheets().add("css/wvert.css");
-                            themePerso.setSelected(true);
-                            break;
-                        default:
-                            break;
-                    }
-                } catch (Exception e){
-                    System.err.println(e);
-                }
-            }
-            
-//            System.out.println(modelGrille);
-            afficheGrille(modelGrille);
-            
+        }
+
+        // On affiche
+        afficheGrille(modelGrille);
+        
+        try {    
+            // On enregistre l'état de la grille
             originator.set(modelGrille.clone());
             caretaker.addMemento(originator.saveToMemento());
-            
-            
-              
-        } catch (CloneNotSupportedException ex){Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-}
+        } catch (CloneNotSupportedException ex) {
+            ex.printStackTrace();
+        }
         
     }
     

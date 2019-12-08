@@ -102,8 +102,10 @@ public class FXMLSaveDataBaseController implements Initializable {
         final Button btnOUI = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
         btnOUI.setOnAction( event -> {
             BDD reachBDD = new BDD();
-            reachBDD.deleteLine(pseudo.getText());
-            reachBDD.save(pseudo.getText(), tuileMax, score, nbMvts);
+            if (reachBDD.meilleurResultat(pseudo.getText(), score, tuileMax, nbMvts)) {
+                reachBDD.deleteLine(pseudo.getText());
+                reachBDD.save(pseudo.getText(), tuileMax, score, nbMvts);
+            }
             alert.close();
             fond.getScene().getWindow().hide();
         } );
@@ -145,15 +147,18 @@ public class FXMLSaveDataBaseController implements Initializable {
     /**
      * Récupère la tuileMax, le score et le texte à afficher.
      * @param score
-     * Paramètre de type int
+     * Paramètre de type int, le score du joueur.
      * @param tuileMax 
-     * Paramètre de type int
+     * Paramètre de type int, la tuile maximale sur la grille.
+     * @param nbMvts
+     * Paramètre de type int, le nombre de mouvements pour terminer.
      * @param str 
-     * Paramètre de type String
+     * Paramètre de type String, le texte à afficher.
      */
-    public void getData(int score, int tuileMax, String str) {
+    public void getData(int score, int tuileMax, int nbMvts, String str) {
         this.score = score;
         this.tuileMax = tuileMax;
+        this.nbMvts = nbMvts;
         this.aAfficher = str;
         labelScore.setText(aAfficher);
     }

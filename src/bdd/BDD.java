@@ -27,9 +27,8 @@ public class BDD {
     private static final String MDP = "juxje5-maQkum-pacrim";
     
     /**
-     * Fonction save
-     * Cette fonction permet de sauvegarder les résultats de la partie (pseudo,
-     * tuileMax, score) dans la BDD.
+     * Sauvegarde les résultats de la partie (pseudo, tuileMax, score) dans la 
+     * BDD.
      * @param pseudo
      * Paramètre de type String
      * @param tuileMax 
@@ -41,22 +40,20 @@ public class BDD {
      */
     public void save(String pseudo, int tuileMax, int score, int nbMvts) {
         try {
-            Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP);
-            
-            String requete = "INSERT INTO scores VALUES ('" + pseudo + "', " + Integer.toString(tuileMax) + ", " + Integer.toString(score) + ", " + Integer.toString(nbMvts) + ")";
-            
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate(requete);
-            stmt.close();
-            con.close();
+            try (Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP)) {
+                String requete = "INSERT INTO scores VALUES ('" + pseudo + "', " + Integer.toString(tuileMax) + ", " + Integer.toString(score) + ", " + Integer.toString(nbMvts) + ")";
+                
+                Statement stmt = con.createStatement();
+                stmt.executeUpdate(requete);
+                stmt.close();
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
     
      /**
-     * Fonction pseudoAlreadyExists
-     * Cette fonction permet de déterminer si un pseudo existe déjà dans la BDD.
+     * Détermine si un pseudo existe déjà dans la BDD.
      * @param pseudo
      * Paramètre de type String
      * @return 
@@ -64,18 +61,66 @@ public class BDD {
      */
     public boolean pseudoAlreadyExists(String pseudo) {
         try {
-            Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP);
-            
-            String requete = "SELECT pseudo FROM scores WHERE pseudo = '" + pseudo + "'";
-            
-            Statement stmt = con.createStatement();
-            ResultSet res = stmt.executeQuery(requete);
-            
-            if (res.next()) {
-                con.close();
-                return true;
-            } 
-            con.close();
+            try (Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP)) {
+                String requete = "SELECT pseudo FROM scores WHERE pseudo = '" + pseudo + "'";
+                
+                Statement stmt = con.createStatement();
+                ResultSet res = stmt.executeQuery(requete);
+                
+                if (res.next()) {
+                    con.close();
+                    return true;
+                }
+            }
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(BDD.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return false;
+    }
+    
+    /**
+     * Vérifie si le nouveau résultat est meilleur que celui déjà enregistré.
+     * Si la tuile maximale est plus grande, le résultat est meilleur, sinon on
+     * regarde le nombre de coups et le score.
+     * @param pseudo
+     * Paramètre de type String
+     * @param tuileMax 
+     * Paramètre de type int
+     * @param score 
+     * Paramètre de type int
+     * @param nbMvts 
+     * Paramètre de type int
+     * @return 
+     * Renvoie true si le résultat est meilleur que celui déjà enregistré.
+     */
+    public boolean meilleurResultat(String pseudo, int score, int tuileMax, int nbMvts) {
+        try {
+            try (Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP)) {
+                String requete = "SELECT * FROM scores WHERE pseudo = '" + pseudo + "'";
+                
+                Statement stmt = con.createStatement();
+                ResultSet res = stmt.executeQuery(requete);
+                
+                int scoreSaved = res.getInt("score");
+                int tuileMaxSaved = res.getInt("tuileMax");
+                int nbMvtsSaved = res.getInt("nbMvts");
+                
+                if (tuileMax > tuileMaxSaved) {
+                    con.close();
+                    return true;
+                } else if (tuileMax == tuileMaxSaved) {
+                    if (nbMvts < nbMvtsSaved) {
+                        con.close();
+                        return true;
+                    } else {
+                        if (score > scoreSaved) {
+                            con.close();
+                            return true;
+                        }
+                    }
+                }
+            }
             return false;
         } catch (SQLException ex) {
             Logger.getLogger(BDD.class.getName()).log(Level.SEVERE, null, ex);
@@ -84,9 +129,7 @@ public class BDD {
     }
     
      /**
-     * Fonction deleteLine
-     * Cette fonction permet de supprimer la ligne concerant un pseudo dans la
-     * BDD.
+     * Supprime la ligne concerant un pseudo dans la BDD.
      * @param pseudo
      * Paramètre de type String
      */
@@ -109,9 +152,7 @@ public class BDD {
     }
     
      /**
-     * Fonction buildDataTableScores
-     * Cette fonction permet de récupérer les données de la BDD et de les mettre
-     * en forme dans un tableView
+     * Récupère les données de la BDD et de les met en forme dans un tableView.
      * @param tableview
      * Paramètre de type TableView
      */

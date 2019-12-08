@@ -22,5 +22,4 @@ public interface Parametres {
     static final int SOLO = 0;
     static final int COOPERATION = 1;
     static final int COMPETITION = 2;
-    static final int X = 0;
 }
