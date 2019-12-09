@@ -22,6 +22,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
     private transient boolean deplacement;
     private int modeJeu = 0;
     private int nbMvts = 0;
+    private transient boolean sauvegardeValidee = false;
     
     private static Grille instance = new Grille();
     
@@ -51,9 +52,9 @@ public class Grille implements Parametres, Serializable, Cloneable {
         return instance;
     }
     
-//    public void setDeplacement(boolean move){
-//        this.deplacement = move;
-//    }
+    public void setSauvegarde(boolean valid){
+        this.sauvegardeValidee = valid;
+    }
     
     // Getter
     public HashSet<Case> getGr() {
@@ -81,6 +82,9 @@ public class Grille implements Parametres, Serializable, Cloneable {
         return instance;
     }
     
+    public boolean getSauvegarde() {
+        return this.sauvegardeValidee;
+    }
     
     // Methodes
     
@@ -150,6 +154,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
         instance.valeurMax = 0;
         instance.score = 0;
         instance.nbMvts = 0;
+        instance.sauvegardeValidee = false;
         instance.grille.clear();
         return instance;
     }
@@ -165,6 +170,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
         instance.valeurMax = 0;
         instance.score = 0;
         instance.nbMvts = 0;
+        instance.sauvegardeValidee = false;
         instance.grille.clear();
         instance.modeJeu = modeJeu;
         return instance;

@@ -60,6 +60,7 @@ public class FXMLSaveDataBaseController implements Initializable {
     public void quit(ActionEvent event) {
         fond.getScene().getWindow().hide();
         documentController.focus();
+        documentController.setSauvegardeValidee(true);
     }
     
     /**
@@ -79,9 +80,9 @@ public class FXMLSaveDataBaseController implements Initializable {
             } else {
                 reachBDD.save(pseudo.getText(), tuileMax, score, nbMvts);
                 fond.getScene().getWindow().hide();
+                documentController.setSauvegardeValidee(true);
             }
-        } else {
-        }
+        } 
     }
     
     /**
@@ -102,11 +103,16 @@ public class FXMLSaveDataBaseController implements Initializable {
         final Button btnOUI = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
         btnOUI.setOnAction( event -> {
             BDD reachBDD = new BDD();
-            if (reachBDD.meilleurResultat(pseudo.getText(), score, tuileMax, nbMvts)) {
-                reachBDD.deleteLine(pseudo.getText());
+            if (reachBDD.nbParticipations(pseudo.getText()) >= 5) {
+                if (reachBDD.meilleurResultat(pseudo.getText(), score, tuileMax, nbMvts)) {
+                    reachBDD.deleteLine(pseudo.getText());
+                    reachBDD.save(pseudo.getText(), tuileMax, score, nbMvts);
+                }
+            } else {
                 reachBDD.save(pseudo.getText(), tuileMax, score, nbMvts);
             }
             alert.close();
+            documentController.setSauvegardeValidee(true);
             fond.getScene().getWindow().hide();
         } );
         

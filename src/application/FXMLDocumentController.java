@@ -611,8 +611,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
         } else {
             if (modelGrille.getModeJeu() == SOLO) {
                 String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
-                if (!resultat.getText().equals(aAfficher)) {
-                    resultat.setText(aAfficher);
+                resultat.setText(aAfficher);
+                if (!modelGrille.getSauvegarde()) {
                     this.fenetreBDD(aAfficher);
                 }
             } else if (modelGrille.getModeJeu() == COMPETITION) {
@@ -645,8 +645,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
         else {
             if (modelGrille.getModeJeu() == SOLO) {
                 String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
-                if (!resultat.getText().equals(aAfficher)) {
-                    resultat.setText(aAfficher);
+                resultat.setText(aAfficher);
+                if (!modelGrille.getSauvegarde()) {
                     this.fenetreBDD(aAfficher);
                 }
             } else if (modelGrille.getModeJeu() == COMPETITION) {
@@ -997,8 +997,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
                         String aAfficher = "Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".";
                         switch (modelGrille.getModeJeu()) {
                             case SOLO:
-                                if (!resultat.getText().equals(aAfficher)) {
-                                    resultat.setText(aAfficher);
+                                resultat.setText(aAfficher);
+                                if (!modelGrille.getSauvegarde()) {
                                     this.fenetreBDD(aAfficher);
                                 }
                                 break;
@@ -1020,12 +1020,12 @@ public class FXMLDocumentController implements Parametres, Initializable {
                     } else {
                         boolean b = modelGrille.nouvelleCase();
                         if (!b) {
-                            modelGrille.defaite();
+//                            modelGrille.defaite();
                             String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
                             switch (modelGrille.getModeJeu()) {
                                 case SOLO:
-                                    if (!resultat.getText().equals(aAfficher)) {
-                                        resultat.setText(aAfficher);
+                                    resultat.setText(aAfficher);
+                                    if (!modelGrille.getSauvegarde()) {
                                         this.fenetreBDD(aAfficher);
                                     }
                                     break;
@@ -1226,6 +1226,10 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 showAlertCloseServeurCompet(true);
             }
         }
+    }
+    
+    public void setSauvegardeValidee(boolean valid) {
+        modelGrille.setSauvegarde(valid);
     }
     
     /**
