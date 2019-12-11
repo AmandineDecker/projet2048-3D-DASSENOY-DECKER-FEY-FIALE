@@ -8,7 +8,7 @@ package model;
 import java.util.ArrayList;
 
 /**
- * Caretaker: garde en mémoire les différents états de la Grille.
+ * Caretaker: Garde en mémoire les différents états de la Grille.
  */
 public class Caretaker {
     

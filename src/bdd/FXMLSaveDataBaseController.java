@@ -64,7 +64,7 @@ public class FXMLSaveDataBaseController implements Initializable {
     }
     
     /**
-     * Valide le pseudo choisi et d'essaye d'enregistrer les résultats 
+     * Valide le pseudo choisi et essaye d'enregistrer les résultats 
      * de la partie.
      * @param event
      * Paramètre de type ActionEvent
@@ -86,7 +86,7 @@ public class FXMLSaveDataBaseController implements Initializable {
     }
     
     /**
-     * Affiche l'alerte demandant si le pseudo entré  est celui du joueur dans 
+     * Affiche l'alerte demandant si le pseudo entré est celui du joueur dans 
      * le cas où ce pseudo existe déjà dans la BDD.
      */
     public void showAlertPseudoExists() {
@@ -127,7 +127,7 @@ public class FXMLSaveDataBaseController implements Initializable {
     
     
     /**
-     * Initialise l'interface graphique avec le bon style et la base de donnée.
+     * Initialise l'interface graphique avec le bon style et la base de données.
      * @param s
      * Paramètre de type Style
      */

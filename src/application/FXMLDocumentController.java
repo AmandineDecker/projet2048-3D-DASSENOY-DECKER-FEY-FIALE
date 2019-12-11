@@ -163,7 +163,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction permet de faire jouer le prochain  coup par l'intelligence
+     * Cette fonction permet de faire jouer le prochain coup par l'intelligence
      * artificielle.
      */
     @FXML
@@ -521,7 +521,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction permet de déplacer les case vers le haut.
+     * Cette fonction permet de déplacer les cases vers le haut.
      */
     @FXML
     private void clicHaut(){
@@ -537,7 +537,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
      /**
-     * Cette fonction permet de déplcer les cases vers la gauche.
+     * Cette fonction permet de déplacer les cases vers la gauche.
      */
     @FXML
     private void clicGauche(){
@@ -663,7 +663,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction renvoie le mode de jeu de la partie en cours
+     * Cette fonction renvoie le mode de jeu de la partie en cours.
      * @return mode de jeu
      */
     public int getModeJeu() {
@@ -671,7 +671,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction permet de placer la case sur la fenêtre graphique sans effet
+     * Cette fonction permet de placer la case sur la fenêtre graphique sans effet.
      * @param c 
      * Paramètre de type Case
      */
@@ -703,7 +703,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction permet d'afficher une case sur la fenêtre graphique avec effet
+     * Cette fonction permet d'afficher une case sur la fenêtre graphique avec effet.
      * @param c 
      * Paramètre de type Case
      */
@@ -738,7 +738,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
 
     /**
-     * Cette fonction permet de faire gisser les cases sur la fenêtre graphique.
+     * Cette fonction permet de faire glisser les cases sur la fenêtre graphique.
      * @param c
      * Paramètre de type Case
      * @return Thread
@@ -1069,7 +1069,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction permet de d'afficher la listes de joueurs.
+     * Cette fonction permet de d'afficher la liste de joueurs.
      * @param liste 
      * Paramètre de type ListeJoueurs
      */
@@ -1152,7 +1152,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     
     /**
      * Cette fonction permet d'alerter le joueur, en mode coopératif, qu'il va 
-     * se déconnecter du serveur et couper la connexion à l'autre joueur .
+     * se déconnecter du serveur et couper la connexion à l'autre joueur.
      * @param s 
      * Paramètre de type Stage
      */
@@ -1233,8 +1233,8 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction permet de modifier la valeur du resultat sur l'interface 
-     * graphique .
+     * Cette fonction permet de modifier la valeur du résultat sur l'interface 
+     * graphique.
      * @param str 
      * Paramètre de type String
      */
@@ -1243,14 +1243,14 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction permet d'afficher une fenêtre en avant sur l'écran
+     * Cette fonction permet d'afficher une fenêtre en avant sur l'écran.
      */
     public void focus() {
         fond.getScene().getWindow().requestFocus();
     }
     
     /**
-     * Cette fonction permet de mettre la grille à jour
+     * Cette fonction permet de mettre la grille à jour.
      * @param gr 
      * Paramètre de type Grille
      */
@@ -1259,7 +1259,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
     }
     
     /**
-     * Cette fonction permet d'afficher des grilles vides sur l'écran
+     * Cette fonction permet d'afficher des grilles vides sur l'écran.
      */
     public void effacerGrille() {
         // On efface les grilles
@@ -1328,7 +1328,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         return dir;
     }
     
-    public int unCoupIATest() throws CloneNotSupportedException{
+ /*   public int unCoupIATest() throws CloneNotSupportedException{
         int dir = 0;
         int[] scoretab = new int[6];
         int scoreMax = modelGrille.getScore();
@@ -1371,7 +1371,7 @@ public class FXMLDocumentController implements Parametres, Initializable {
         System.out.println("IA Test: " + dir);
         return dir;
     }
-    
+    */
      
     //////////////////////////////////////////////////////////////////////
     

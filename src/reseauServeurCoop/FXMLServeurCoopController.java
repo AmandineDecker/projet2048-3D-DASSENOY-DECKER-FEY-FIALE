@@ -170,7 +170,7 @@ public class FXMLServeurCoopController implements Initializable {
     
     
     /**
-     * Initializes the controller class.
+     * Initialise la classe controller.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

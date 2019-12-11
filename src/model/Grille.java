@@ -178,7 +178,7 @@ public class Grille implements Parametres, Serializable, Cloneable {
     
     
     /**
-     * Renvoie la chaîne de caractère correspondant à une ligne d'une sous-grille.
+     * Renvoie la chaîne de caractères correspondant à une ligne d'une sous-grille.
      * @param tab
      * paramètre de type int[].
      * @return 

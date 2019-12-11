@@ -73,7 +73,7 @@ public class FXMLColorPickerController implements Initializable {
     }
     
     /**
-     * Anregistre le style personnalisé et l'applique s'il est en cours 
+     * Enregistre le style personnalisé et l'applique s'il est en cours 
      * d'utilisation.
      * @param event 
      * paramètre de type ActionEvent

@@ -8,7 +8,7 @@ package model;
 import java.io.Serializable;
 
 /**
- * Place et valeurs dans la grille et éventuellement mouvements à faire.
+ * Place les valeurs dans la grille et éventuellement les mouvements à faire.
  */
 public class Case implements Parametres, Serializable, Cloneable {
     

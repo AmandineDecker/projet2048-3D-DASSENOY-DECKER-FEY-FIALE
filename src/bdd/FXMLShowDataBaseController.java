@@ -42,7 +42,7 @@ public class FXMLShowDataBaseController implements Initializable {
     }
     
     /**
-     * Initialise l'interface graphique avec le bon style et la base de donnée.
+     * Initialise l'interface graphique avec le bon style et la base de données.
      * @param url
      * Paramètre de type URL
      * @param rb 

@@ -114,7 +114,7 @@ public class FXMLScoresController implements Initializable {
     }
     
     /**
-     * Initializes the controller class.
+     * Initialise la classe controller.
      * @param url
      * Paramètre de type URL.
      * @param rb
