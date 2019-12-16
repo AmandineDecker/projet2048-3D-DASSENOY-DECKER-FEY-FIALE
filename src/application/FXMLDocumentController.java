@@ -1338,9 +1338,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
             Random r = new Random();
             int d = r.nextInt(100);
             if (d < 1) {
-                dir = INFERIEUR;
-            } else if (d < 11) {
                 dir = SUPERIEUR;
+            } else if (d < 11) {
+                dir = INFERIEUR;
             } else if (d < 35) {
                 dir = BAS;
             } else if (d < 64) {
