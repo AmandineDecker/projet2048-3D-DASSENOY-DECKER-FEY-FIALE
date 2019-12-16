@@ -1333,14 +1333,22 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 dir = k-3;
             }
         }
-        // Si c'est 0, hasard
+        // Si c'est 0, on utilise les fréquences calculées 
         if (dir == 0) {
             Random r = new Random();
-            int d = r.nextInt(3);
-            if (r.nextInt(2) == 0) {
-                dir = d + 1;
+            int d = r.nextInt(100);
+            if (d < 1) {
+                dir = INFERIEUR;
+            } else if (d < 11) {
+                dir = SUPERIEUR;
+            } else if (d < 35) {
+                dir = BAS;
+            } else if (d < 64) {
+                dir = HAUT;
+            } else if (d < 83) {
+                dir = GAUCHE;
             } else {
-                dir = -(d + 1);
+                dir = DROITE;
             }
         }
         return dir;
