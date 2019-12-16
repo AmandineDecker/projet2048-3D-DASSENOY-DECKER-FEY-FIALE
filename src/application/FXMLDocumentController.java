@@ -203,9 +203,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
         if (index < 1){
             backMove.setDisable(true);
         }
-        else if (index >= 1) {
-            backMove.setDisable(false);
-        }
+        //else if (index >= 1) {
+          //  backMove.setDisable(false);
+        //}
 //        System.out.println(modelGrille);
     }
     
@@ -1071,6 +1071,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
                 caretaker.addMemento(originator.saveToMemento());
                 
                 afficheGrille(modelGrille);
+                int index = caretaker.getIndex();
+                caretaker.setIndex(index ++);
+                backMove.setDisable(false);
             } catch (CloneNotSupportedException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
