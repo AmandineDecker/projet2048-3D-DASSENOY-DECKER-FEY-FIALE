@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="style.css" />
+        <title>2048-3D</title>
+    </head>
+    
+    <body>
+        <div id="bloc_page">
+            <header>
+                <div id="titre_principal">
+                    <div id="logo">
+                        <img src="2048.png" alt="Logo 2048" />
+                        <h1>2048-3D</h1>    
+                    </div>
+                </div>
+                
+            </header>
+            
+            <banniere>
+            <!-- <div id="banniere_fond"> -->
+                <div id="banniere_description">
+                    <h1>Bienvenue dans 2048-3D !</h1>
+                    <p> Ce jeu a été développé par Valentine Dassenoy, Amandine Decker, Wanda Fey et Amélie Fiale.</p>
+                </div>
+            <!-- </div> -->
+            </banniere>
+             
+            <section>
+                <article>
+                    <h1>Principe du jeu</h1>
+                    <p>Le but du jeu est de faire glisser les tuiles sur les grilles pour qu'elles fusionnent et ainsi créer une tuile de valeur 2048. </p>
+                    <p>Il y a 3 grilles de tailles 3x3 et il faut imaginer qu'elles sont superposées de manière à former un cube de dimension 3x3x3, la grille à gauche de l'écran représentant la face supérieure du cube et celle de droite la face inférieure. Il y a donc 6 mouvements possibles. Les mouvements Haut, Bas, Gauche et Droite sont des mouvements en 2D, ils font simplement glisser les cases dans la direction choisie jusqu'à ce qu'elles rencontrent un obstacle ou une case de même valeur qu'elles et fusionnent en une case de valeur double. Les mouvements Inférieur et Supérieur sont les mouvements en 3D, ils font glisser les cases d'une grille à l'autre vers la grille inférieure ou supérieure jusqu'à ce qu'elles rencontrent un obstacle ou une case de même valeur qu'elles et fusionnent en une case de valeur double.</p>
+                    <p>Au début du jeu, deux cases de valeur 2 ou 4 apparaissent aléatoirement à l'écran. Après chaque mouvement, une nouvelle case de valeur 2 ou 4 est créée à une position aléatoire.</p>
+                    <p>Lorsqu'une case 2048 est créée, le jeu s'arrête et est gagné. Lorsqu'il ne reste plus de place pour qu'une case apparaisse ou lorsqu'il n'y a plus de déplacement possible, le jeu s'arrête et est perdu.</p>
+                    <p></p>
+                    <p>A la fin du jeu, vous pouvez enregistrer votre score en renseignant un pseudo. Vous pouvez enregistrer jusqu'à cinq parties avec le même pseudo, au-delà, la partie avec le moins bon résultat sera supprimée.</p>
+
+                    <h1>Jeu multijoueur en coopération</h1>
+                    <p>Le mode coopératif permet à deux joueurs de faire une partie ensemble en partageant une grille, un joueur doit donc créer la partie et l’autre la rejoindre.</p>
+                    <p>Pour créer la partie, utilisez le menu Mutlijoueur > Mode coopératif > Créer une partie. Le serveur se lance automatiquement, il est possible de l’arrêter en cliquant sur un bouton sur sa fenêtre graphique. La fenêtre client s’ouvre, les données de connexion au serveur sont déjà remplies, il ne vous reste qu’à renseigner un pseudo et à rejoindre le serveur en cliquant sur le bouton.</p>
+                    <p>Pour rejoindre la partie, utilisez le menu Mutlijoueur > Mode coopératif > Rejoindre une partie, il faut alors remplir les données de connexion au serveur (l’adresse IP et l’hôte). C’est le joueur qui a créé la partie qui doit vous fournir ces données, elles sont visibles sur la fenêtre du serveur et ce sont celles qui ont été automatiquement renseignées sur le fenêtre du client. Il faut ensuite ajouter un pseudo et cliquer sur le bouton pour rejoindre le serveur.</p>
+                    <p>Le premier joueur à rejoindre la partie est nommé administrateur et a accès au bouton start dès que l’autre joueur est connecté. En cliquant sur ce bouton, une partie est lancée et c’est lui qui a la main pour le premier coup. Après chaque coup, la main passe à l’autre joueur jusqu’à la fin de la partie. </p>
+
+                    <h1>Jeu multijoueur en compétition</h1>
+                    <p>Le mode compétitif permet à n’importe quel nombre de joueurs de faire une partie les uns contre les autres. Leurs scores sont affichés en temps réel chez chaque joueur et le but est de faire le meilleur résultat possible en un temps minimum.</p>
+                    <p>Pour créer la partie, utilisez le menu Mutlijoueur > Mode compétitif > Créer une partie. Le serveur se lance automatiquement, il est possible de l’arrêter en cliquant sur un bouton sur sa fenêtre graphique. La fenêtre client s’ouvre, les données de connexion au serveur sont déjà remplies, il ne vous reste qu’à renseigner un pseudo et à rejoindre le serveur en cliquant sur le bouton.</p>
+                    <p>Pour rejoindre la partie, utilisez le menu Mutlijoueur > Mode compétitif > Rejoindre une partie, il faut alors remplir les données de connexion au serveur (l’adresse IP et l’hôte). C’est le joueur qui a créé la partie qui doit vous fournir ces données, elles sont visibles sur la fenêtre du serveur et ce sont celles qui ont été automatiquement renseignées sur le fenêtre du client. Il faut ensuite ajouter un pseudo et cliquer sur le bouton pour rejoindre le serveur.</p>
+                    <p>Le premier joueur à rejoindre la partie est nommé administrateur et peut lancer une partie chez tous les joueurs actuellement connectés en appuyant sur Start. </p>
+                </article>
+            </section>
+        </div>
+    </body>
+</html>
+

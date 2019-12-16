@@ -98,7 +98,7 @@
             </Menu>
           <Menu id="menuAide" fx:id="menuAide" mnemonicParsing="false" text="Aide">
             <items>
-              <MenuItem id="aPropos" fx:id="aPropos" mnemonicParsing="false" text="A propos" />
+              <MenuItem id="aPropos" fx:id="aPropos" mnemonicParsing="false" onAction="#launchAide" text="Comment jouer" />
             </items>
           </Menu>
         </menus>

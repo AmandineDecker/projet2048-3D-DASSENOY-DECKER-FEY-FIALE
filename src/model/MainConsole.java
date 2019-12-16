@@ -122,15 +122,6 @@ public class MainConsole implements Parametres {
     public static void main(String[] args) {
         // TODO code application logic here
         
-//        Scanner sc = new Scanner(System.in);
-//        System.out.println("Lancer le main 1 ou 2 ?");
-//        String s = sc.nextLine().toLowerCase();
-//        if (s.equals("1")) {
-//            MainInterface.main(args);
-//        } else {
-//            System.out.println("console");
-//        }
-        
         System.out.println("Bonjour! Bienvenue dans 2048-3D. Voulez-vous ouvrir l'interface graphique ?");
         Scanner sc = new Scanner(System.in);
         boolean start = false;

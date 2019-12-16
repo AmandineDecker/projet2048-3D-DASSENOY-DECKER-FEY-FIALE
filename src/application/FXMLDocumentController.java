@@ -10,6 +10,7 @@ import bdd.FXMLShowDataBaseController;
 import reseauServeurCompet.FXMLServeurCompetController;
 import reseauClientCompet.FXMLClientCompetController;
 import css.Style;
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -518,6 +519,20 @@ public class FXMLDocumentController implements Parametres, Initializable {
         stage.setTitle("Fenetre de personnalisation");
         stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
+    }
+    
+    /**
+     *
+     * Cette fonction permet d'accéder à la notice du jeu.
+     */
+    @FXML
+    private void launchAide() {
+        try {
+            File htmlFile = new File("data/HTML/aPropos.html");
+            Desktop.getDesktop().browse(htmlFile.toURI());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     /**
