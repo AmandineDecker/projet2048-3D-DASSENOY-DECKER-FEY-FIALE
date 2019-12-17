@@ -225,6 +225,9 @@ public class FXMLDocumentController implements Parametres, Initializable {
             clientCompetController.gare.update(joueur);
             clientCompetController.gare.share();
         }
+        if (index >= 1) {
+            backMove.setDisable(false);
+        }
         afficheGrille(modelGrille);
 //        System.out.println(modelGrille);
     }
