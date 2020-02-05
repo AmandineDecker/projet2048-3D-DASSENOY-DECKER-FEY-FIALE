@@ -91,12 +91,14 @@ public class BDD {
         int nbParticipations = 0;
         try {
             try (Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP)) {
-                String requete = "SELECT COUNT(*) FROM scores WHERE pseudo = '" + pseudo + "'";
+                String requete = "SELECT COUNT(*) AS count FROM scores WHERE pseudo = '" + pseudo + "'";
                 
                 Statement stmt = con.createStatement();
                 ResultSet res = stmt.executeQuery(requete);
                 
-                nbParticipations = res.getInt("COUNT(*)");
+                if (res.next()) {
+                    nbParticipations = res.getInt("count");
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(BDD.class.getName()).log(Level.SEVERE, null, ex);
@@ -128,9 +130,15 @@ public class BDD {
                 Statement stmt = con.createStatement();
                 ResultSet res = stmt.executeQuery(requete);
                 
-                int scoreSaved = res.getInt("score");
-                int tuileMaxSaved = res.getInt("tuileMax");
-                int nbMvtsSaved = res.getInt("nbMvts");
+                int scoreSaved = 0;
+                int tuileMaxSaved = 0;
+                int nbMvtsSaved = 0;
+                
+                if (res.next()) {
+                    scoreSaved = res.getInt("score");
+                    tuileMaxSaved = res.getInt("tuileMax");
+                    nbMvtsSaved = res.getInt("nbMvts");
+                }
                 
                 int resuSaved = scoreSaved - 2*nbMvtsSaved;
                 
@@ -160,14 +168,12 @@ public class BDD {
     public void deleteLine(String pseudo) {
         try {
             try (Connection con = DriverManager.getConnection(URL, UTILISATEUR, MDP)) {
-                String requete = "DELETE FROM scores WHERE pseudo = '" + pseudo + "' AND score - 2*nbMvts = (SELECT MIN(score - 2*nbMvts) FROM scores WHERE pseudo = '" + pseudo + "')";
+                String requete = "DELETE FROM `scores` WHERE `pseudo` = '" + pseudo + "' AND ((`score` - 2*`nbMvts`) = (SELECT MIN(`score` - 2*`nbMvts`) FROM scores WHERE pseudo = '" + pseudo + "'))";
                 
                 Statement stmt = con.createStatement();
-                ResultSet res = stmt.executeQuery(requete);
+                stmt.executeUpdate(requete);
                 
-                if (res.next()) {
-                    con.close();
-                }
+                con.close();
             }
         } catch (SQLException ex) {
             Logger.getLogger(BDD.class.getName()).log(Level.SEVERE, null, ex);

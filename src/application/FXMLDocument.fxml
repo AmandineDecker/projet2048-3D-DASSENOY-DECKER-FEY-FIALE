@@ -94,6 +94,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="ENTER" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator></MenuItem>
+                  <MenuItem fx:id="jouerFinIA" disable="true" mnemonicParsing="false" onAction="#finirJeuIA" text="Finir la partie" />
               </items>
             </Menu>
           <Menu id="menuAide" fx:id="menuAide" mnemonicParsing="false" text="Aide">

@@ -169,12 +169,111 @@ public class FXMLDocumentController implements Parametres, Initializable {
      */
     @FXML
     private void jouerUnCoupIA() throws CloneNotSupportedException{
-        int dir = unCoupIA();
+        IntelligenceArtificielle ia = new IntelligenceArtificielle(modelGrille, caretaker, originator);
+        int dir = ia.unCoupIA();
 //        System.out.println("IA joue dans la direction " + dir);
 //        System.out.println("IA Test jouerait dans la direction " + unCoupIATest());
         if (!modelGrille.partieFinie()){
             modelGrille.fige();
             joue(dir);
+        }
+    }
+    
+    @FXML
+    private void finirJeuIA() {
+        IntelligenceArtificielle ia = new IntelligenceArtificielle(modelGrille, caretaker, originator);
+        while (!modelGrille.partieFinie()) {
+            try {
+                ia.start();
+                System.out.println("stop");
+                if (modelGrille.getValeurMax()>=OBJECTIF){
+                    String aAfficher = "Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".";
+                    switch (modelGrille.getModeJeu()) {
+                        case SOLO:
+                            resultat.setText(aAfficher);
+                            if (!modelGrille.getSauvegarde()) {
+                                this.fenetreBDD(aAfficher);
+                            }
+                            break;
+                        case COMPETITION:
+                            this.joueur.setFini(true);
+                            this.joueur.stopTemps();
+                            resultat.setText(aAfficher);
+                            break;
+                        case COOPERATION:
+                            resultat.setText(aAfficher);
+                            clientCoopController.gare.updateGrille(modelGrille);
+                            clientCoopController.gare.share();
+                            clientCoopController.gare.shareInfos("PartieFinie");
+                            clientCoopController.gare.donnerMain();
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    boolean b = modelGrille.nouvelleCase();
+                    if (!b) {
+                        String aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
+                        switch (modelGrille.getModeJeu()) {
+                            case SOLO:
+                                resultat.setText(aAfficher);
+                                if (!modelGrille.getSauvegarde()) {
+                                    this.fenetreBDD(aAfficher);
+                                }
+                                break;
+                            case COMPETITION:
+                                resultat.setText(aAfficher);
+                                this.joueur.setFini(true);
+                                this.joueur.stopTemps();
+                                break;
+                            case COOPERATION:
+                                clientCoopController.gare.updateGrille(modelGrille);
+                                clientCoopController.gare.share();
+                                resultat.setText(aAfficher);
+                                clientCoopController.gare.shareInfos("PartieFinie");
+                                clientCoopController.gare.donnerMain();
+                                break;
+                            default:
+                                break;
+                        }
+                    } else if (modelGrille.getModeJeu() == COOPERATION) {
+                        resultat.setText("A l'autre joueur");
+                        clientCoopController.gare.updateGrille(modelGrille);
+                        clientCoopController.gare.share();
+                        clientCoopController.gare.donnerMain();
+                    }
+                }
+                originator.set(modelGrille.clone());
+                caretaker.addMemento(originator.saveToMemento());
+                
+                afficheGrille(modelGrille);
+                int index = caretaker.getIndex();
+                caretaker.setIndex(index ++);
+                backMove.setDisable(false);
+            } catch (CloneNotSupportedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        if (modelGrille.getModeJeu() == SOLO) {
+            String aAfficher;
+            if (modelGrille.getValeurMax() == OBJECTIF) {
+                aAfficher = "Bravo ! Vous avez atteint " + modelGrille.getValeurMax() + "\nVotre score est " + modelGrille.getScore() + ".";
+            } else {
+                aAfficher = "La partie est finie. Votre score est " + modelGrille.getScore() + ".";
+            }
+            resultat.setText(aAfficher);
+            if (!modelGrille.getSauvegarde()) {
+                this.fenetreBDD(aAfficher);
+            }
+        } else if (modelGrille.getModeJeu() == COMPETITION) {
+            if (!this.joueur.getFini()){
+                this.joueur.setFini(true);
+                this.joueur.stopTemps();
+                this.joueur.setScore(modelGrille.getScore());
+                this.joueur.setTuileMax(modelGrille.getValeurMax());
+                clientCompetController.gare.update(joueur);
+                clientCompetController.gare.share();
+            }
         }
     }
     
@@ -203,10 +302,6 @@ public class FXMLDocumentController implements Parametres, Initializable {
         if (index < 1){
             backMove.setDisable(true);
         }
-        //else if (index >= 1) {
-          //  backMove.setDisable(false);
-        //}
-//        System.out.println(modelGrille);
     }
     
     /**
@@ -1306,56 +1401,56 @@ public class FXMLDocumentController implements Parametres, Initializable {
         stage.setY(150);
     }
     
-    /**
-     * Cette fonction permet de déterminer le coup qui donne le meilleur score.
-     * @return int
-     * La direction la plus avantageuse.
-     * @throws java.lang.CloneNotSupportedException
-     * Si le clonage échoue.
-     */
-    public int unCoupIA() throws CloneNotSupportedException{
-        int dir = 0;
-        int[] scoretab = new int[3];
-        int scoreMax = modelGrille.getScore();
-        int index = caretaker.getIndex();
-        modelGrille.initialiserDeplacement(INFERIEUR);
-        scoretab[0] = modelGrille.getScore();
-        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
-        caretaker.setIndex(index);
-        modelGrille.initialiserDeplacement(GAUCHE);
-        scoretab[1] = modelGrille.getScore();
-        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
-        caretaker.setIndex(index);
-        modelGrille.initialiserDeplacement(BAS);
-        scoretab[2] = modelGrille.getScore();
-        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
-        caretaker.setIndex(index);
-        for (int k=0; k<3 ;k++){
-            if (scoretab[k]>scoreMax){
-                scoreMax = scoretab[k];
-                dir = k-3;
-            }
-        }
-        // Si c'est 0, on utilise les fréquences calculées 
-        if (dir == 0) {
-            Random r = new Random();
-            int d = r.nextInt(100);
-            if (d < 1) {
-                dir = SUPERIEUR;
-            } else if (d < 11) {
-                dir = INFERIEUR;
-            } else if (d < 35) {
-                dir = BAS;
-            } else if (d < 64) {
-                dir = HAUT;
-            } else if (d < 83) {
-                dir = GAUCHE;
-            } else {
-                dir = DROITE;
-            }
-        }
-        return dir;
-    }
+//    /**
+//     * Cette fonction permet de déterminer le coup qui donne le meilleur score.
+//     * @return int
+//     * La direction la plus avantageuse.
+//     * @throws java.lang.CloneNotSupportedException
+//     * Si le clonage échoue.
+//     */
+//    public int unCoupIA() throws CloneNotSupportedException{
+//        int dir = 0;
+//        int[] scoretab = new int[3];
+//        int scoreMax = modelGrille.getScore();
+//        int index = caretaker.getIndex();
+//        modelGrille.initialiserDeplacement(INFERIEUR);
+//        scoretab[0] = modelGrille.getScore();
+//        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+//        caretaker.setIndex(index);
+//        modelGrille.initialiserDeplacement(GAUCHE);
+//        scoretab[1] = modelGrille.getScore();
+//        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+//        caretaker.setIndex(index);
+//        modelGrille.initialiserDeplacement(BAS);
+//        scoretab[2] = modelGrille.getScore();
+//        Grille.setInstance(originator.restoreFromMemento(caretaker.getMemento(index)));
+//        caretaker.setIndex(index);
+//        for (int k=0; k<3 ;k++){
+//            if (scoretab[k]>scoreMax){
+//                scoreMax = scoretab[k];
+//                dir = k-3;
+//            }
+//        }
+//        // Si c'est 0, on utilise les fréquences calculées 
+//        if (dir == 0) {
+//            Random r = new Random();
+//            int d = r.nextInt(100);
+//            if (d < 1) {
+//                dir = SUPERIEUR;
+//            } else if (d < 11) {
+//                dir = INFERIEUR;
+//            } else if (d < 35) {
+//                dir = BAS;
+//            } else if (d < 64) {
+//                dir = HAUT;
+//            } else if (d < 83) {
+//                dir = GAUCHE;
+//            } else {
+//                dir = DROITE;
+//            }
+//        }
+//        return dir;
+//    }
     
  /*   public int unCoupIATest() throws CloneNotSupportedException{
         int dir = 0;
